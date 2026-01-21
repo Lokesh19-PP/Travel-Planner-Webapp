@@ -1,0 +1,185 @@
+/* =============================
+   HERO BACKGROUND
+============================= */
+.hero-bg {
+    background: linear-gradient(rgba(79,70,229,0.8), rgba(79,70,229,0.8)),
+                url("../images/hero.jpg") center/cover no-repeat;
+}
+
+/* =============================
+   NAVIGATION
+============================= */
+.nav-link {
+    color: #374151;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+.nav-link:hover {
+    color: #4f46e5;
+}
+
+/* =============================
+   BUTTONS
+============================= */
+.btn {
+    background: linear-gradient(90deg, #38bdf8, #a855f7);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 25px rgba(168,85,247,0.4);
+}
+
+/* =============================
+   SECTIONS
+============================= */
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, #38bdf8, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 2rem;
+}
+
+/* =============================
+   CARDS
+============================= */
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+.card img {
+    border-radius: 12px;
+    height: 220px;
+    object-fit: cover;
+}
+
+/* =============================
+   FEATURES / GLASS EFFECT
+============================= */
+.feature-card {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(12px);
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+.feature-card:hover {
+    transform: scale(1.05);
+}
+
+.glass {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(14px);
+    border-radius: 16px;
+    padding: 3rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15),
+                inset 0 0 20px rgba(255,255,255,0.05);
+}
+.glass h2 {
+    font-size: 2.5rem;
+    letter-spacing: 0.05em;
+    background: linear-gradient(90deg, #36d5d5, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+.glass p {
+    color: #748de2;
+    font-size: 1.15rem;
+}
+
+/* =============================
+   TESTIMONIALS
+============================= */
+.testimonial {
+    background: rgba(255,255,255,0.2);
+    padding: 2rem;
+    border-radius: 16px;
+    font-style: italic;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* =============================
+   CTA / FOOTER
+============================= */
+.cta-section {
+    background: linear-gradient(90deg, #4f46e5, #6366f1);
+    color: white;
+    text-align: center;
+    padding: 6rem 1rem;
+}
+
+/* =============================
+   ANIMATIONS
+============================= */
+.fade-in { animation: fadeIn 1s ease forwards; }
+.fade-in-delay { animation: fadeIn 1.5s ease forwards; }
+.fade-in-delay2 { animation: fadeIn 2s ease forwards; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s ease;
+}
+.scroll-reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =============================
+   FLOATING ELEMENTS
+============================= */
+.float {
+    filter: drop-shadow(0 0 12px rgba(56,189,248,0.6));
+    animation: floatPlane 3s ease-in-out infinite;
+}
+@keyframes floatPlane {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+    100% { transform: translateY(0); }
+}
+
+/* =============================
+   RESPONSIVE
+============================= */
+@media (max-width: 768px) {
+    nav div {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .card img {
+        height: 200px;
+    }
+
+    .glass {
+        padding: 2rem;
+    }
+}

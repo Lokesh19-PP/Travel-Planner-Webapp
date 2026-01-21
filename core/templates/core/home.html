@@ -1,0 +1,137 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Home - Travel Planner{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero-bg text-white">
+    <div class="max-w-7xl mx-auto px-6 py-32 text-center">
+        <h1 class="text-5xl md:text-6xl font-extrabold fade-in">
+            Plan Your Dream Trip
+        </h1>
+        <p class="text-xl mt-6 fade-in-delay">
+            Discover destinations, build itineraries, and travel smarter.
+        </p>
+
+        <div class="mt-10 flex justify-center fade-in-delay2">
+            <input id="search" name="search" type="text"
+                placeholder="Search destinations..."
+                class="w-full max-w-md px-4 py-3 rounded-l-md text-gray-700">
+            <button class="btn rounded-r-md">Search</button>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="max-w-7xl mx-auto px-6 py-24">
+    <h2 class="section-title">Why Choose Us?</h2>
+    <div class="grid md:grid-cols-4 gap-8 mt-12">
+        <div class="feature-card">🌍 Explore Destinations</div>
+        <div class="feature-card">🧭 Smart Itineraries</div>
+        <div class="feature-card">⭐ Reviews & Ratings</div>
+        <div class="feature-card">💼 Travel Planning</div>
+    </div>
+</section>
+
+<!-- DESTINATIONS -->
+<section class="bg-gray-100 py-24">
+    <div class="max-w-7xl mx-auto px-6">
+        <h2 class="section-title">Popular Destinations</h2>
+
+        <div class="grid md:grid-cols-3 gap-10 mt-12">
+            <div class="card">
+                <img src="{% static 'images/paris.jpg' %}">
+                <h3>Paris</h3>
+                <p>France • $1500</p>
+            </div>
+            <div class="card">
+                <img src="{% static 'images/bali.jpg' %}">
+                <h3>Bali</h3>
+                <p>Indonesia • $1200</p>
+            </div>
+            <div class="card">
+                <img src="{% static 'images/tokyo.jpg' %}">
+                <h3>Tokyo</h3>
+                <p>Japan • $1800</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Hero Section -->
+
+<!-- NEW SCROLL SECTION (place here) -->
+<img src="{% static 'images/plane.png' %}" class="w-16 mx-auto float">
+
+<section class="max-w-7xl mx-auto px-6 py-24 scroll-reveal">
+    <div class="glass text-center">
+        <h2 class="text-3xl font-extrabold">Smart Travel Planning</h2>
+        <p class="mt-4 text-lg">
+            AI-powered recommendations, custom itineraries, and seamless planning.
+        </p>
+    </div>
+</section>
+
+<!-- Destinations Section -->
+
+
+<section class="bg-white py-24 scroll-reveal">
+    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-10 text-center">
+        <div>
+            <h3 class="text-4xl font-extrabold text-indigo-600">10K+</h3>
+            <p class="mt-2">Happy Travelers</p>
+        </div>
+        <div>
+            <h3 class="text-4xl font-extrabold text-indigo-600">120+</h3>
+            <p class="mt-2">Destinations</p>
+        </div>
+        <div>
+            <h3 class="text-4xl font-extrabold text-indigo-600">500+</h3>
+            <p class="mt-2">Trips Planned</p>
+        </div>
+        <div>
+            <h3 class="text-4xl font-extrabold text-indigo-600">4.9★</h3>
+            <p class="mt-2">Average Rating</p>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="max-w-7xl mx-auto px-6 py-24">
+    <h2 class="section-title">What Travelers Say</h2>
+    <div class="grid md:grid-cols-3 gap-8 mt-12">
+        <div class="testimonial">“Best travel planning app ever!”</div>
+        <div class="testimonial">“Helped me organize my entire trip.”</div>
+        <div class="testimonial">“Clean UI and easy to use.”</div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <h2>Start Planning Today</h2>
+    <p>Create your free account and explore the world.</p>
+    <button class="btn mt-6">Get Started</button>
+</section>
+
+<script>
+const reveals = document.querySelectorAll(".scroll-reveal");
+
+const revealOnScroll = () => {
+    reveals.forEach(el => {
+        const windowHeight = window.innerHeight;
+        const elementTop = el.getBoundingClientRect().top;
+        const revealPoint = 100;
+
+        if (elementTop < windowHeight - revealPoint) {
+            el.classList.add("active");
+        }
+    });
+};
+
+window.addEventListener("scroll", revealOnScroll);
+revealOnScroll();
+</script>
+
+
+{% endblock %}
