@@ -15,11 +15,15 @@
         </p>
 
         <div class="mt-10 flex justify-center fade-in-delay2">
-            <input id="search" name="search" type="text"
-                placeholder="Search destinations..."
-                class="w-full max-w-md px-4 py-3 rounded-l-md text-gray-700">
-            <button class="btn rounded-r-md">Search</button>
+            <form method="GET" class="flex w-full max-w-md">
+                <input id="search" name="search" type="text"
+                    placeholder="Search destinations..."
+                    value="{{ query }}"
+                    class="w-full px-4 py-3 rounded-l-md text-gray-700 focus:outline-none">
+                <button type="submit" class="btn rounded-r-md">Search</button>
+            </form>
         </div>
+
     </div>
 </section>
 
