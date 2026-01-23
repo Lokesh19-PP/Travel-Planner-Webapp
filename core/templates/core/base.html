@@ -19,19 +19,30 @@
 <!-- Navbar -->
 <nav class="fixed top-0 w-full bg-white shadow z-50">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+        <!-- Logo -->
         <div class="flex items-center gap-2">
             <img src="{% static 'images/logo.png' %}" class="h-10" alt="Logo">
             <span class="text-xl font-bold text-indigo-600">TravelPlanner</span>
         </div>
+
+        <!-- Links -->
         <div class="space-x-6 hidden md:block">
-            <a href="#" class="nav-link">Home</a>
+            <a href="{% url 'home' %}" class="nav-link">Home</a>
             <a href="#" class="nav-link">Destinations</a>
             <a href="#" class="nav-link">My Trips</a>
             <a href="#" class="nav-link">About</a>
-            <a href="#" class="nav-link">Login</a>
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="nav-link text-red-600">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="nav-link">Login</a>
+            {% endif %}
         </div>
+
     </div>
 </nav>
+
 
 <!-- Page Content -->
 <main class="pt-24">
