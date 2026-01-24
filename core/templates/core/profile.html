@@ -1,0 +1,14 @@
+{% extends 'core/base.html' %}
+{% block title %}Profile - Travel Planner{% endblock %}
+
+{% block content %}
+<section class="max-w-3xl mx-auto px-6 py-24">
+    <div class="glass p-8 text-center">
+        <h2 class="text-3xl font-extrabold mb-6">Your Profile</h2>
+        <p class="text-lg mb-2"><strong>Username:</strong> {{ user.username }}</p>
+        <p class="text-lg mb-2"><strong>Email:</strong> {{ user.email }}</p>
+        <p class="text-lg mb-2"><strong>Joined:</strong> {{ user.date_joined|date:"F j, Y" }}</p>
+        <a href="{% url 'logout' %}" class="btn mt-4">Logout</a>
+    </div>
+</section>
+{% endblock %}
