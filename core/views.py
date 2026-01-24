@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
@@ -63,3 +64,8 @@ def signup_view(request):
         return redirect("login")
 
     return render(request, "core/signup.html")
+
+@login_required(login_url='login')
+def profile_view(request):
+    user = request.user
+    return render(request, 'core/profile.html', {'user': user})
