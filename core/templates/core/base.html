@@ -29,14 +29,13 @@
         <!-- Links -->
         <div class="space-x-6 hidden md:block">
             <a href="{% url 'home' %}" class="nav-link">Home</a>
-            <a href="#" class="nav-link">Destinations</a>
-            <a href="#" class="nav-link">My Trips</a>
-            <a href="#" class="nav-link">About</a>
-
+            <a href="{% url 'destinations' %}" class="nav-link">Destinations</a>
+            <a href="{% url 'profile' %}" class="nav-link">
+            {% if user.is_authenticated %}Profile{% else %}Login{% endif %}
+            </a>
             {% if user.is_authenticated %}
-                <a href="{% url 'logout' %}" class="nav-link text-red-600">Logout</a>
+                <a href="{% url 'logout' %}" class="nav-link">Logout</a>
             {% else %}
-                <a href="{% url 'login' %}" class="nav-link">Login</a>
                 <a href="{% url 'signup' %}" class="nav-link">Signup</a>
             {% endif %}
         </div>
