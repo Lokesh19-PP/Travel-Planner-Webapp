@@ -69,3 +69,9 @@ def signup_view(request):
 def profile_view(request):
     user = request.user
     return render(request, 'core/profile.html', {'user': user})
+
+def destination_list(request):
+    destinations = Destination.objects.all()
+    return render(request, 'core/destination_list.html', {
+    'destinations': destinations
+    })
