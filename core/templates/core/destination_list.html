@@ -1,42 +1,22 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Destinations</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100">
+{% extends "core/base.html" %}
 
-<div class="max-w-7xl mx-auto px-4 py-10">
-    <h1 class="text-3xl font-bold mb-8 text-center">Explore Destinations 🌍</h1>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {% for destination in destinations %}
-        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
-            
-            {% if destination.image %}
-            <img src="{{ destination.image.url }}" class="h-48 w-full object-cover">
-            {% endif %}
-
-            <div class="p-4">
-                <h2 class="text-xl font-semibold">{{ destination.name }}</h2>
-                <p class="text-sm text-gray-500">{{ destination.country }}</p>
-
-                <p class="mt-2 text-gray-700 text-sm">
-                    {{ destination.description|truncatewords:20 }}
-                </p>
-
-                <span class="inline-block mt-3 text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
-                    {{ destination.price_level }}
-                </span>
+{% block content %}
+<section class="bg-gray-100 py-24">
+    <div class="max-w-7xl mx-auto px-6">
+        <h2 class="section-title">Popular Destinations</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-12">
+            {% for destination in destinations %}
+            <div class="card hover:shadow-xl transition transform hover:-translate-y-1">
+                <img src="{{ destination.image.url }}" alt="{{ destination.name }}" class="w-full h-48 object-cover rounded-t-md">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold mb-2">{{ destination.name }}</h3>
+                    <p class="text-gray-600 mb-2">{{ destination.country }} | Price Level: {{ destination.price_level }}</p>
+                    <p class="text-sm text-gray-500 mb-4">{{ destination.tag }}</p>
+                    <a href="{% url 'destination_detail' destination.slug %}" class="btn w-full">View Details</a>
+                </div>
             </div>
+            {% endfor %}
         </div>
-        {% empty %}
-        <p>No destinations available.</p>
-        {% endfor %}
     </div>
-</div>
-
-</body>
-</html>
+</section>
+{% endblock %}

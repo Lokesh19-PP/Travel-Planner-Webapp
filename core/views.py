@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from .models import Destination
+from django.shortcuts import get_object_or_404
 
 def home(request):
     query = request.GET.get('search', '')  # Get search term from URL
@@ -70,8 +71,12 @@ def profile_view(request):
     user = request.user
     return render(request, 'core/profile.html', {'user': user})
 
+def destination_detail(request, slug):
+    destination = get_object_or_404(Destination, slug=slug)
+    return render(request, 'core/destination_detail.html', {
+    'destination': destination
+    })
+
 def destination_list(request):
     destinations = Destination.objects.all()
-    return render(request, 'core/destination_list.html', {
-    'destinations': destinations
-    })
+    return render(request, 'core/destination_list.html', {'destinations': destinations})
