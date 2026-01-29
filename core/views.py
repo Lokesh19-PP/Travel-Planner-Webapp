@@ -78,5 +78,9 @@ def destination_detail(request, slug):
     })
 
 def destination_list(request):
-    destinations = Destination.objects.all()
+    query = request.GET.get('q')
+    if query:
+        destinations = Destination.objects.filter(name__icontains=query)
+    else:
+        destinations = Destination.objects.all()
     return render(request, 'core/destination_list.html', {'destinations': destinations})
