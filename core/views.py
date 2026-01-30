@@ -77,12 +77,20 @@ def destination_detail(request, slug):
     'destination': destination
     })
 
+from django.shortcuts import render
+from .models import Destination
+
 def destination_list(request):
     destinations = Destination.objects.all()
 
+    # Filters
     country = request.GET.get('country')
     price = request.GET.get('price')
     rating = request.GET.get('rating')
+    query = request.GET.get('search')  # search from home page
+
+    if query:
+        destinations = destinations.filter(name__icontains=query)
 
     if country and country != 'All':
         destinations = destinations.filter(country__iexact=country)
@@ -103,5 +111,6 @@ def destination_list(request):
         'selected_country': country,
         'selected_price': price,
         'selected_rating': rating,
+        'query': query,
     }
     return render(request, 'core/destination_list.html', context)
