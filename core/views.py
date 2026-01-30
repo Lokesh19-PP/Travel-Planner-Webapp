@@ -12,7 +12,7 @@ def home(request):
     if query:
         destinations = Destination.objects.filter(name__icontains=query)
     else:
-        destinations = Destination.objects.all()
+        destinations = Destination.objects.all()[:3]
     return render(request, 'core/home.html', {'destinations': destinations, 'query': query})
 
 def login_view(request):
