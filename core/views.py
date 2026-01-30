@@ -79,23 +79,25 @@ def destination_detail(request, slug):
 
 def destination_list(request):
     destinations = Destination.objects.all()
-    
-    # Filters
-    country = request.GET.get('country')
-    price_range = request.GET.get('price_range')
-    tag = request.GET.get('tag')
+
+    # Get filters from query params
+    country = request.GET.get('country', '')
+    price_range = request.GET.get('price_range', '')
 
     if country:
         destinations = destinations.filter(country__icontains=country)
     if price_range:
         destinations = destinations.filter(price_range=price_range)
-    if tag:
-        destinations = destinations.filter(tag__icontains=tag)
-    
+
+    # Get unique values for filter dropdowns
+    countries = Destination.objects.values_list('country', flat=True).distinct()
+    price_ranges = Destination.objects.values_list('price_range', flat=True).distinct()
+
     context = {
         'destinations': destinations,
-        'selected_country': country or '',
-        'selected_price': price_range or '',
-        'selected_tag': tag or '',
+        'selected_country': country,
+        'selected_price': price_range,
+        'countries': countries,
+        'price_ranges': price_ranges,
     }
     return render(request, 'core/destination_list.html', context)

@@ -1,6 +1,30 @@
 {% extends "core/base.html" %}
 
 {% block content %}
+
+<!-- Filter Section -->
+<div class="max-w-7xl mx-auto px-6 mb-8 flex flex-wrap gap-4 items-center">
+    <form method="GET" class="flex flex-wrap gap-2 items-center">
+        <select name="country" class="px-3 py-2 rounded border">
+            <option value="">All Countries</option>
+            {% for c in countries %}
+                <option value="{{ c }}" {% if c == selected_country %}selected{% endif %}>{{ c }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="price_range" class="px-3 py-2 rounded border">
+            <option value="">All Price Ranges</option>
+            {% for p in price_ranges %}
+                <option value="{{ p }}" {% if p == selected_price %}selected{% endif %}>{{ p }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" class="btn">Filter</button>
+        <a href="{% url 'destination_list' %}" class="btn bg-gray-300 text-black">Clear</a>
+    </form>
+</div>
+
+
 <section class="bg-gray-100 py-24">
     <div class="max-w-7xl mx-auto px-6">
         <h2 class="section-title">Popular Destinations</h2>
