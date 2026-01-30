@@ -78,9 +78,24 @@ def destination_detail(request, slug):
     })
 
 def destination_list(request):
-    query = request.GET.get('q')
-    if query:
-        destinations = Destination.objects.filter(name__icontains=query)
-    else:
-        destinations = Destination.objects.all()
-    return render(request, 'core/destination_list.html', {'destinations': destinations})
+    destinations = Destination.objects.all()
+    
+    # Filters
+    country = request.GET.get('country')
+    price_range = request.GET.get('price_range')
+    tag = request.GET.get('tag')
+
+    if country:
+        destinations = destinations.filter(country__icontains=country)
+    if price_range:
+        destinations = destinations.filter(price_range=price_range)
+    if tag:
+        destinations = destinations.filter(tag__icontains=tag)
+    
+    context = {
+        'destinations': destinations,
+        'selected_country': country or '',
+        'selected_price': price_range or '',
+        'selected_tag': tag or '',
+    }
+    return render(request, 'core/destination_list.html', context)

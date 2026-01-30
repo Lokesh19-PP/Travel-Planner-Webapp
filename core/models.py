@@ -9,6 +9,7 @@ class Destination(models.Model):
     price_range = models.CharField(max_length=50)
     rating = models.DecimalField(max_digits=2, decimal_places=1)
     slug = models.SlugField(unique=True, blank=True, null=True)  # new field for URL
+    tag = models.CharField(max_length=50, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
