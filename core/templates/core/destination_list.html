@@ -49,6 +49,7 @@
           <p class="text-gray-600 mb-2">{{ destination.country }} | {{ destination.price_range }} | ⭐ {{ destination.rating }}</p>
           <p class="text-sm text-gray-500 mb-4">{{ destination.description|truncatewords:15 }}</p>
           <a href="{% url 'destination_detail' destination.slug %}" class="btn w-full">View Details</a>
+          <a href="{% url 'itinerary_create' %}?destination={{ destination.id }}" class="btn mt-2 w-full">Add to Itinerary</a>
         </div>
       </div>
       {% endfor %}

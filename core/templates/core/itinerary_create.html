@@ -1,24 +1,35 @@
 {% extends "core/base.html" %}
 {% block content %}
 <section class="bg-gray-50 py-24">
-    <div class="max-w-7xl mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center mb-12">My Itineraries</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            {% for itinerary in itineraries %}
-            <div class="card hover:shadow-xl transition transform hover:-translate-y-1 p-4 bg-white rounded-lg">
-                <h3 class="text-xl font-bold mb-2">{{ itinerary.name }}</h3>
-                <p class="text-gray-600 mb-2">From: {{ itinerary.start_date }} | To: {{ itinerary.end_date }}</p>
-                <p class="text-gray-500 mb-4">{{ itinerary.destinations.all|join:", " }}</p>
-                <a href="{% url 'itinerary_detail' itinerary.pk %}" class="btn w-full mb-2">View Details</a>
-                <form action="{% url 'itinerary_delete' itinerary.pk %}" method="POST">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-red w-full">Delete</button>
-                </form>
-            </div>
-            {% empty %}
-            <p class="text-center text-gray-600">No itineraries found. <a href="{% url 'itinerary_create' %}" class="text-blue-500">Create one</a></p>
-            {% endfor %}
+  <div class="max-w-7xl mx-auto px-6">
+    <h2 class="text-3xl font-bold text-center mb-12">Create Itinerary</h2>
+
+    <form method="POST" action="">
+        {% csrf_token %}
+        
+        <div class="mb-4">
+            {{ form.name.label_tag }}
+            {{ form.name }}
         </div>
-    </div>
+
+        <div class="mb-4">
+            {{ form.start_date.label_tag }}
+            {{ form.start_date }}
+        </div>
+
+        <div class="mb-4">
+            {{ form.end_date.label_tag }}
+            {{ form.end_date }}
+        </div>
+
+        <div class="mb-4">
+            <p class="font-bold mb-2">Select Destinations:</p>
+            {{ form.destinations }}
+        </div>
+
+        <button type="submit" class="btn w-full">Create Itinerary</button>
+    </form>
+  </div>
 </section>
+
 {% endblock %}

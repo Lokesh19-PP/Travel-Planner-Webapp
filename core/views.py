@@ -129,10 +129,12 @@ def itinerary_detail(request, pk):
 @login_required
 def itinerary_create(request):
     initial_data = {}
-    destination_id = request.GET.get('destination')  # get from URL
-
+    destination_id = request.GET.get('destination')
     if destination_id:
-        initial_data['destinations'] = [destination_id]
+        try:
+            initial_data['destinations'] = Destination.objects.filter(id=destination_id)
+        except Destination.DoesNotExist:
+            pass
 
     if request.method == 'POST':
         form = ItineraryForm(request.POST)
@@ -146,6 +148,7 @@ def itinerary_create(request):
         form = ItineraryForm(initial=initial_data)
 
     return render(request, 'core/itinerary_create.html', {'form': form})
+
 
 
 @login_required
