@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<h2 class="text-3xl font-bold mb-6">Create Itinerary</h2>
+<form method="POST">
+    {% csrf_token %}
+    <div class="mb-4">
+        <label>Name</label>
+        <input type="text" name="name" class="input" required>
+    </div>
+    <div class="mb-4">
+        <label>Start Date</label>
+        <input type="date" name="start_date" class="input">
+    </div>
+    <div class="mb-4">
+        <label>End Date</label>
+        <input type="date" name="end_date" class="input">
+    </div>
+    <div class="mb-4">
+        <label>Destinations</label>
+        <select name="destinations" multiple class="input">
+            {% for destination in destinations %}
+            <option value="{{ destination.pk }}">{{ destination.name }} ({{ destination.country }})</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn">Create Itinerary</button>
+</form>
+{% endblock %}
