@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from .models import Destination
+from .models import Itinerary, Destination
 from django.shortcuts import get_object_or_404
 
 def home(request):
@@ -114,3 +114,34 @@ def destination_list(request):
         'query': query,
     }
     return render(request, 'core/destination_list.html', context)
+
+@login_required
+def itinerary_list(request):
+    itineraries = Itinerary.objects.filter(user=request.user)
+    return render(request, 'core/itinerary_list.html', {'itineraries': itineraries})
+
+@login_required
+def itinerary_detail(request, pk):
+    itinerary = get_object_or_404(Itinerary, pk=pk, user=request.user)
+    return render(request, 'core/itinerary_detail.html', {'itinerary': itinerary})
+
+@login_required
+def itinerary_create(request):
+    destinations = Destination.objects.all()
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        selected_destinations = request.POST.getlist('destinations')
+
+        itinerary = Itinerary.objects.create(
+            user=request.user,
+            name=name,
+            start_date=start_date or None,
+            end_date=end_date or None
+        )
+        itinerary.destinations.set(selected_destinations)
+        itinerary.save()
+        return redirect('itinerary_list')
+
+    return render(request, 'core/itinerary_create.html', {'destinations': destinations})
