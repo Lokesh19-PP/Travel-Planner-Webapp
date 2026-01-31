@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<h2 class="text-3xl font-bold mb-6">My Itineraries</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    {% for itinerary in itineraries %}
+    <div class="card p-4 shadow hover:shadow-lg transition">
+        <h3 class="text-xl font-bold">{{ itinerary.name }}</h3>
+        <p>{{ itinerary.start_date }} - {{ itinerary.end_date }}</p>
+        <p>{{ itinerary.destinations.count }} destinations</p>
+        <a href="{% url 'itinerary_detail' itinerary.pk %}" class="btn mt-2 w-full">View</a>
+    </div>
+    {% endfor %}
+</div>
+<a href="{% url 'itinerary_create' %}" class="btn mt-6">Create New Itinerary</a>
+{% endblock %}
