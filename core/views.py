@@ -139,3 +139,11 @@ def itinerary_create(request):
     else:
         form = ItineraryForm()
     return render(request, 'core/itinerary_create.html', {'form': form})
+
+@login_required
+def itinerary_delete(request, pk):
+    itinerary = get_object_or_404(Itinerary, pk=pk, user=request.user)
+    if request.method == 'POST':
+        itinerary.delete()
+        return redirect('itinerary_list')
+    return render(request, 'core/itinerary_confirm_delete.html', {'itinerary': itinerary})
