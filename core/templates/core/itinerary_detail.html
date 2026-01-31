@@ -1,15 +1,18 @@
-{% extends 'core/base.html' %}
+{% extends "core/base.html" %}
 {% block content %}
-<h2 class="text-3xl font-bold mb-6">{{ itinerary.name }}</h2>
-<p class="mb-4">Dates: {{ itinerary.start_date }} - {{ itinerary.end_date }}</p>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-    {% for destination in itinerary.destinations.all %}
-    <div class="card p-4 shadow hover:shadow-lg transition">
-        <img src="{{ destination.image.url }}" alt="{{ destination.name }}" class="w-full h-48 object-cover rounded-md mb-2">
-        <h3 class="text-xl font-bold">{{ destination.name }}</h3>
-        <p>{{ destination.country }} | {{ destination.price_range }}</p>
+<section class="bg-gray-50 py-24">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="card p-6 bg-white shadow-lg rounded-lg">
+            <h1 class="text-3xl font-bold mb-4">{{ itinerary.name }}</h1>
+            <p class="text-gray-600 mb-2">Start: {{ itinerary.start_date }} | End: {{ itinerary.end_date }}</p>
+            <h3 class="text-xl font-bold mb-2">Destinations:</h3>
+            <ul class="list-disc list-inside mb-4">
+                {% for dest in itinerary.destinations.all %}
+                <li>{{ dest.name }} ({{ dest.country }})</li>
+                {% endfor %}
+            </ul>
+            <a href="{% url 'itinerary_list' %}" class="btn w-full">Back to Itineraries</a>
+        </div>
     </div>
-    {% endfor %}
-</div>
-<a href="{% url 'itinerary_list' %}" class="btn mt-6">Back to My Itineraries</a>
+</section>
 {% endblock %}

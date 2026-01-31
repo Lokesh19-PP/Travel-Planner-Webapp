@@ -2,14 +2,23 @@
 {% block content %}
 <section class="bg-gray-100 py-24">
     <div class="max-w-4xl mx-auto px-6">
-        <div class="card p-6 bg-white shadow-lg rounded-lg">
+        <div class="card p-6 bg-white shadow-lg rounded-lg flex flex-col items-center">
+            <!-- Destination Image -->
             <img src="{{ destination.image.url }}" alt="{{ destination.name }}"
-                class="w-full max-w-4xl mx-auto rounded-lg object-cover"
-                style="height: 400px;">
-            <h1 class="text-3xl font-bold mb-2">{{ destination.name }}</h1>
-            <p class="text-gray-600 mb-2">{{ destination.country }} | Price: {{ destination.price_range }}</p>
-            <p class="text-yellow-500 mb-2">⭐ Rating: {{ destination.rating }}</p>
-            <p class="text-gray-700 mt-4">{{ destination.description }}</p>
+                class="w-full rounded-lg object-cover mb-6"
+                style="height: 450px; max-height: 80vh;">
+
+            <!-- Destination Info -->
+            <h1 class="text-3xl font-bold mb-2 text-center">{{ destination.name }}</h1>
+            <p class="text-gray-600 mb-2 text-center">{{ destination.country }} | Price: {{ destination.price_range }}</p>
+            <p class="text-yellow-500 mb-2 text-center">⭐ Rating: {{ destination.rating }}</p>
+            <p class="text-gray-700 mt-4 text-center">{{ destination.description }}</p>
+
+            <!-- Add to Itinerary Button -->
+            <a href="{% url 'itinerary_create' %}?destination={{ destination.id }}"
+            class="btn mt-6 w-full md:w-1/2 text-center">
+            Add to Itinerary
+            </a>
         </div>
     </div>
 </section>

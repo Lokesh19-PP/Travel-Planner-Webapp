@@ -128,17 +128,25 @@ def itinerary_detail(request, pk):
 
 @login_required
 def itinerary_create(request):
+    initial_data = {}
+    destination_id = request.GET.get('destination')  # get from URL
+
+    if destination_id:
+        initial_data['destinations'] = [destination_id]
+
     if request.method == 'POST':
         form = ItineraryForm(request.POST)
         if form.is_valid():
             itinerary = form.save(commit=False)
             itinerary.user = request.user
             itinerary.save()
-            form.save_m2m()  # Save destinations
+            form.save_m2m()
             return redirect('itinerary_list')
     else:
-        form = ItineraryForm()
+        form = ItineraryForm(initial=initial_data)
+
     return render(request, 'core/itinerary_create.html', {'form': form})
+
 
 @login_required
 def itinerary_delete(request, pk):
