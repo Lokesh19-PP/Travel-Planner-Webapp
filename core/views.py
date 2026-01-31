@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from .models import Itinerary, Destination
 from django.shortcuts import get_object_or_404
+from .forms import ItineraryForm
 
 def home(request):
     query = request.GET.get('search', '')  # Get search term from URL
@@ -127,21 +128,14 @@ def itinerary_detail(request, pk):
 
 @login_required
 def itinerary_create(request):
-    destinations = Destination.objects.all()
     if request.method == 'POST':
-        name = request.POST.get('name')
-        start_date = request.POST.get('start_date')
-        end_date = request.POST.get('end_date')
-        selected_destinations = request.POST.getlist('destinations')
-
-        itinerary = Itinerary.objects.create(
-            user=request.user,
-            name=name,
-            start_date=start_date or None,
-            end_date=end_date or None
-        )
-        itinerary.destinations.set(selected_destinations)
-        itinerary.save()
-        return redirect('itinerary_list')
-
-    return render(request, 'core/itinerary_create.html', {'destinations': destinations})
+        form = ItineraryForm(request.POST)
+        if form.is_valid():
+            itinerary = form.save(commit=False)
+            itinerary.user = request.user
+            itinerary.save()
+            form.save_m2m()  # Save destinations
+            return redirect('itinerary_list')
+    else:
+        form = ItineraryForm()
+    return render(request, 'core/itinerary_create.html', {'form': form})
