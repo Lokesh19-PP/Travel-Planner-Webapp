@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="max-w-3xl mx-auto py-12 text-center">
+    <h2 class="text-3xl font-bold mb-6">Delete Itinerary</h2>
+    <p>Are you sure you want to delete "{{ itinerary.name }}"?</p>
+    <form method="POST" class="mt-4">
+        {% csrf_token %}
+        <button type="submit" class="btn bg-red-600 hover:bg-red-700 w-32">Yes, Delete</button>
+        <a href="{% url 'itinerary_list' %}" class="btn w-32 ml-4">Cancel</a>
+    </form>
+</div>
+{% endblock %}
