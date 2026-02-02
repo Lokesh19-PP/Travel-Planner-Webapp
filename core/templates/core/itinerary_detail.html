@@ -1,17 +1,26 @@
-{% extends "core/base.html" %}
+{% extends 'core/base.html' %}
 {% block content %}
 <section class="bg-gray-50 py-24">
     <div class="max-w-4xl mx-auto px-6">
-        <div class="card p-6 bg-white shadow-lg rounded-lg">
-            <h1 class="text-3xl font-bold mb-4">{{ itinerary.name }}</h1>
-            <p class="text-gray-600 mb-2">Start: {{ itinerary.start_date }} | End: {{ itinerary.end_date }}</p>
-            <h3 class="text-xl font-bold mb-2">Destinations:</h3>
-            <ul class="list-disc list-inside mb-4">
-                {% for dest in itinerary.destinations.all %}
-                <li>{{ dest.name }} ({{ dest.country }})</li>
-                {% endfor %}
-            </ul>
-            <a href="{% url 'itinerary_list' %}" class="btn w-full">Back to Itineraries</a>
+        <h2 class="text-3xl font-bold mb-6">{{ itinerary.name }}</h2>
+        <p class="text-gray-600 mb-4">From {{ itinerary.start_date }} to {{ itinerary.end_date }}</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {% for dest in itinerary.destinations.all %}
+            <div class="card bg-white shadow rounded-lg overflow-hidden">
+                <img src="{{ dest.image.url }}" alt="{{ dest.name }}" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-bold mb-2">{{ dest.name }}</h3>
+                    <p class="text-gray-600 mb-1">{{ dest.country }} | {{ dest.price_range }}</p>
+                    <p class="text-yellow-500 mb-1">⭐ {{ dest.rating }}</p>
+                    <p class="text-gray-700 text-sm">{{ dest.description|truncatewords:20 }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="mt-6">
+            <a href="{% url 'itinerary_list' %}" class="btn">Back to My Itineraries</a>
         </div>
     </div>
 </section>

@@ -1,21 +1,38 @@
 {% extends 'core/base.html' %}
 {% block content %}
-<h2 class="text-3xl font-bold mb-6">My Itineraries</h2>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-    {% for itinerary in itineraries %}
-    <div class="card p-4 shadow hover:shadow-lg transition">
-        <h3 class="text-xl font-bold">{{ itinerary.name }}</h3>
-        <p>{{ itinerary.start_date }} - {{ itinerary.end_date }}</p>
-        <p>{{ itinerary.destinations.count }} destinations</p>
-        <a href="{% url 'itinerary_detail' itinerary.pk %}" class="btn mt-2 w-full">View</a>
-    </div>
-    {% endfor %}
-    <!-- itinerary_list.html -->
-    {% if not itineraries %}
-        <p class="text-center text-gray-600">No itineraries created yet.</p>
-        <a href="{% url 'itinerary_create' %}" class="btn mt-4 w-full">Create Itinerary</a>
-    {% endif %}
+<section class="bg-gray-50 py-24">
+    <div class="max-w-7xl mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-12">My Itineraries</h2>
 
-</div>
-<a href="{% url 'itinerary_create' %}" class="btn mt-6">Create New Itinerary</a>
+        {% if itineraries %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            {% for itinerary in itineraries %}
+            <div class="card p-4 bg-white rounded-lg shadow hover:shadow-lg transition">
+                <h3 class="text-xl font-bold mb-2">{{ itinerary.name }}</h3>
+                <p class="text-gray-600 mb-2">From: {{ itinerary.start_date }} | To: {{ itinerary.end_date }}</p>
+                <div class="grid grid-cols-2 gap-2 mb-4">
+                    {% for dest in itinerary.destinations.all %}
+                    <div>
+                        <img src="{{ dest.image.url }}" alt="{{ dest.name }}" class="w-full h-24 object-cover rounded-md">
+                        <p class="text-sm text-gray-500 text-center mt-1">{{ dest.name }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                <a href="{% url 'itinerary_detail' itinerary.pk %}" class="btn w-full mb-2">View Details</a>
+                <form action="{% url 'itinerary_delete' itinerary.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-red w-full">Delete</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-center text-gray-600">No itineraries found. <a href="{% url 'itinerary_create' %}" class="text-blue-500">Create one</a></p>
+        {% endif %}
+
+        <div class="text-center mt-8">
+            <a href="{% url 'itinerary_create' %}" class="btn w-64">Create New Itinerary</a>
+        </div>
+    </div>
+</section>
 {% endblock %}
