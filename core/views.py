@@ -125,29 +125,41 @@ def itinerary_list(request):
 def itinerary_detail(request, pk):
     itinerary = get_object_or_404(Itinerary, pk=pk, user=request.user)
     return render(request, 'core/itinerary_detail.html', {'itinerary': itinerary})
-
 @login_required
 def itinerary_create(request):
-    initial_data = {}
     destination_id = request.GET.get('destination')
+    destination = None
     if destination_id:
-        try:
-            initial_data['destinations'] = Destination.objects.filter(id=destination_id)
-        except Destination.DoesNotExist:
-            pass
+        destination = get_object_or_404(Destination, id=destination_id)
+
+    user_itineraries = Itinerary.objects.filter(user=request.user)
 
     if request.method == 'POST':
-        form = ItineraryForm(request.POST)
-        if form.is_valid():
-            itinerary = form.save(commit=False)
-            itinerary.user = request.user
-            itinerary.save()
-            form.save_m2m()
+        form_type = request.POST.get('form_type')
+        if form_type == 'add_existing':
+            itinerary_id = request.POST.get('itinerary')
+            itinerary = get_object_or_404(Itinerary, id=itinerary_id, user=request.user)
+            if destination:
+                itinerary.destinations.add(destination)
+                messages.success(request, f'"{destination.name}" added to "{itinerary.name}"')
             return redirect('itinerary_list')
+        else:
+            form = ItineraryForm(request.POST)
+            if form.is_valid():
+                itinerary = form.save(commit=False)
+                itinerary.user = request.user
+                itinerary.save()
+                form.save_m2m()
+                messages.success(request, f'Itinerary "{itinerary.name}" created successfully!')
+                return redirect('itinerary_list')
     else:
-        form = ItineraryForm(initial=initial_data)
+        form = ItineraryForm(initial={'destinations': [destination]} if destination else None)
 
-    return render(request, 'core/itinerary_create.html', {'form': form})
+    return render(request, 'core/itinerary_create.html', {
+        'form': form,
+        'destination': destination,
+        'user_itineraries': user_itineraries
+    })
 
 
 
