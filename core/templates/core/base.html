@@ -30,6 +30,9 @@
         <div class="space-x-6 hidden md:block">
             <a href="{% url 'home' %}" class="nav-link">Home</a>
             <a href="{% url 'destination_list' %}" class="nav-link">Destinations</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'itinerary_list' %}" class="nav-link">My Itineraries</a>
+            {% endif %}
             <a href="{% url 'profile' %}" class="nav-link">
             {% if user.is_authenticated %}Profile{% else %}Login{% endif %}
             </a>
