@@ -2,13 +2,54 @@
 {% block title %}Profile - Travel Planner{% endblock %}
 
 {% block content %}
-<section class="max-w-3xl mx-auto px-6 py-24">
-    <div class="glass p-8 text-center">
-        <h2 class="text-3xl font-extrabold mb-6">Your Profile</h2>
-        <p class="text-lg mb-2"><strong>Username:</strong> {{ user.username }}</p>
-        <p class="text-lg mb-2"><strong>Email:</strong> {{ user.email }}</p>
-        <p class="text-lg mb-2"><strong>Joined:</strong> {{ user.date_joined|date:"F j, Y" }}</p>
-        <a href="{% url 'logout' %}" class="btn mt-4">Logout</a>
+<section class="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 flex items-center justify-center px-6 py-24">
+
+    <div class="max-w-md w-full bg-white rounded-3xl shadow-2xl overflow-hidden">
+
+        <!-- Header -->
+        <div class="bg-indigo-600 p-10 text-center text-white">
+            <div class="text-6xl mb-4">🧳</div>
+            <h2 class="text-3xl font-extrabold">{{ user.username }}</h2>
+            <p class="text-indigo-100 mt-1">Traveler Profile</p>
+        </div>
+
+        <!-- Info Section -->
+        <div class="p-8 space-y-6">
+
+            <div class="flex items-center gap-3">
+                <div class="text-2xl">📧</div>
+                <div>
+                    <p class="text-gray-500 font-medium">Email</p>
+                    <p class="text-gray-800 font-semibold">{{ user.email }}</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="text-2xl">📅</div>
+                <div>
+                    <p class="text-gray-500 font-medium">Joined On</p>
+                    <p class="text-gray-800 font-semibold">{{ user.date_joined|date:"F j, Y" }}</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="text-2xl">✈️</div>
+                <div>
+                    <p class="text-gray-500 font-medium">Trips Planned</p>
+                    <p class="text-gray-800 font-semibold">{{ user.itinerary_set.count }}</p>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t pt-6"></div>
+
+            <!-- Logout Button -->
+            <a href="{% url 'logout' %}" 
+               class="btn w-full text-center text-lg bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl">
+               Logout
+            </a>
+
+        </div>
     </div>
 </section>
 {% endblock %}
