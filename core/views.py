@@ -79,8 +79,6 @@ def destination_detail(request, slug):
     'destination': destination
     })
 
-from django.shortcuts import render
-from .models import Destination
 
 def destination_list(request):
     destinations = Destination.objects.all()
@@ -173,8 +171,8 @@ def itinerary_delete(request, pk):
     return render(request, 'core/itinerary_confirm_delete.html', {'itinerary': itinerary})
 
 @login_required
-def add_review(request, destination_id):
-    destination = get_object_or_404(Destination, id=destination_id)
+def add_review(request, slug):
+    destination = get_object_or_404(Destination, slug=slug)
 
     if request.method == 'POST':
         form = ReviewForm(request.POST)
@@ -183,7 +181,7 @@ def add_review(request, destination_id):
             review.user = request.user
             review.destination = destination
             review.save()
-            return redirect('destination_detail', destination.id)
+            return redirect('destination_detail', slug=destination.slug)
     else:
         form = ReviewForm()
 
