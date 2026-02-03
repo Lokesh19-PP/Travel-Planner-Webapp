@@ -30,3 +30,17 @@ class Itinerary(models.Model):
 
     def __str__(self):
         return f"{self.name} by {self.user.username}"
+    
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    destination = models.ForeignKey(
+        'Destination',
+        related_name='reviews',
+        on_delete=models.CASCADE
+    )
+    rating = models.PositiveIntegerField()
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.destination.name} ({self.rating})"
