@@ -75,8 +75,11 @@ def profile_view(request):
 
 def destination_detail(request, slug):
     destination = get_object_or_404(Destination, slug=slug)
+    reviews = destination.reviews.all().order_by('-created_at')
+
     return render(request, 'core/destination_detail.html', {
-    'destination': destination
+        'destination': destination,
+        'reviews': reviews
     })
 
 
