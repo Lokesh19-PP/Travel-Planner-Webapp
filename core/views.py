@@ -7,6 +7,7 @@ from django.shortcuts import render
 from .models import Itinerary, Destination
 from django.shortcuts import get_object_or_404
 from .forms import ItineraryForm
+from .forms import ReviewForm
 
 def home(request):
     query = request.GET.get('search', '')  # Get search term from URL
@@ -170,3 +171,23 @@ def itinerary_delete(request, pk):
         itinerary.delete()
         return redirect('itinerary_list')
     return render(request, 'core/itinerary_confirm_delete.html', {'itinerary': itinerary})
+
+@login_required
+def add_review(request, destination_id):
+    destination = get_object_or_404(Destination, id=destination_id)
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.destination = destination
+            review.save()
+            return redirect('destination_detail', destination.id)
+    else:
+        form = ReviewForm()
+
+    return render(request, 'core/add_review.html', {
+        'form': form,
+        'destination': destination
+    })
