@@ -1,25 +1,87 @@
 {% extends 'core/base.html' %}
 {% block content %}
+
 <section class="bg-gray-100 py-24">
-    <div class="max-w-4xl mx-auto px-6">
-        <div class="card p-6 bg-white shadow-lg rounded-lg flex flex-col items-center">
-            <!-- Destination Image -->
-            <img src="{{ destination.image.url }}" alt="{{ destination.name }}"
-                class="w-full rounded-lg object-cover mb-6"
-                style="height: 450px; max-height: 80vh;">
+    <div class="max-w-5xl mx-auto px-6">
 
-            <!-- Destination Info -->
-            <h1 class="text-3xl font-bold mb-2 text-center">{{ destination.name }}</h1>
-            <p class="text-gray-600 mb-2 text-center">{{ destination.country }} | Price: {{ destination.price_range }}</p>
-            <p class="text-yellow-500 mb-2 text-center">⭐ Rating: {{ destination.rating }}</p>
-            <p class="text-gray-700 mt-4 text-center">{{ destination.description }}</p>
+        <!-- Main Card -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
 
-            <!-- Add to Itinerary Button -->
-            <a href="{% url 'itinerary_create' %}?destination={{ destination.id }}"
-            class="btn mt-6 w-full md:w-1/2 text-center">
-            Add to Itinerary
-            </a>
+            <!-- Image -->
+            <div class="relative">
+                <img src="{{ destination.image.url }}"
+                     alt="{{ destination.name }}"
+                     class="w-full h-[450px] object-cover">
+                <div class="absolute bottom-4 left-4 bg-white/90 px-4 py-2 rounded-xl shadow">
+                    🌍 {{ destination.country }}
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="p-8">
+
+                <!-- Title -->
+                <h1 class="text-3xl md:text-4xl font-extrabold text-center mb-3">
+                    {{ destination.name }}
+                </h1>
+
+                <!-- Meta Info -->
+                <div class="flex flex-wrap justify-center gap-4 text-sm mb-6">
+                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full">
+                        💰 {{ destination.price_range }}
+                    </span>
+                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full">
+                        ⭐ {{ destination.rating }} / 5
+                    </span>
+                </div>
+
+                <!-- Description -->
+                <p class="text-gray-700 text-center leading-relaxed max-w-3xl mx-auto">
+                    {{ destination.description }}
+                </p>
+
+                <!-- Actions -->
+                <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="{% url 'itinerary_create' %}?destination={{ destination.id }}"
+                       class="btn bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-xl text-center">
+                        ➕ Add to Itinerary
+                    </a>
+
+                    <a href="{% url 'add_review' destination.id %}"
+                       class="btn bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-3 rounded-xl text-center">
+                        ✍️ Write a Review
+                    </a>
+                </div>
+            </div>
         </div>
+
+        <!-- Reviews Section -->
+        <div class="mt-16">
+            <h2 class="text-2xl font-bold mb-6 text-center">⭐ Traveler Reviews</h2>
+
+            {% if reviews %}
+                <div class="space-y-4 max-w-3xl mx-auto">
+                    {% for review in reviews %}
+                    <div class="bg-white p-5 rounded-xl shadow flex flex-col gap-1">
+                        <div class="flex justify-between items-center">
+                            <span class="font-semibold">👤 {{ review.user.username }}</span>
+                            <span class="text-yellow-500">⭐ {{ review.rating }}/5</span>
+                        </div>
+                        <p class="text-gray-700">{{ review.comment }}</p>
+                        <p class="text-xs text-gray-400">
+                            🕒 {{ review.created_at|date:"M d, Y" }}
+                        </p>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-center text-gray-500 mt-6">
+                    No reviews yet. Be the first to share your experience ✨
+                </p>
+            {% endif %}
+        </div>
+
     </div>
 </section>
+
 {% endblock %}
