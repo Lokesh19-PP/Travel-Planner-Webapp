@@ -1,5 +1,6 @@
 from django import forms
 from .models import Itinerary, Destination
+from .models import Review
 
 class ItineraryForm(forms.ModelForm):
     destinations = forms.ModelMultipleChoiceField(
@@ -14,4 +15,19 @@ class ItineraryForm(forms.ModelForm):
         widgets = {
             'start_date': forms.DateInput(attrs={'type': 'date'}),
             'end_date': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['rating', 'comment']
+        widgets = {
+            'rating': forms.NumberInput(attrs={
+                'min': 1, 'max': 5,
+                'class': 'border rounded px-3 py-2 w-full'
+            }),
+            'comment': forms.Textarea(attrs={
+                'rows': 4,
+                'class': 'border rounded px-3 py-2 w-full'
+            }),
         }
