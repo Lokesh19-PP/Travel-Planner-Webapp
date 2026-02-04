@@ -8,6 +8,7 @@ from .models import Itinerary, Destination
 from django.shortcuts import get_object_or_404
 from .forms import ItineraryForm
 from .forms import ReviewForm
+from django.db import models
 
 def home(request):
     query = request.GET.get('search', '')  # Get search term from URL
@@ -77,10 +78,18 @@ def destination_detail(request, slug):
     destination = get_object_or_404(Destination, slug=slug)
     reviews = destination.reviews.all().order_by('-created_at')
 
+    # Calculate average rating
+    if reviews.exists():
+        average_rating = round(reviews.aggregate(avg_rating=models.Avg('rating'))['avg_rating'], 1)
+    else:
+        average_rating = None
+
     return render(request, 'core/destination_detail.html', {
         'destination': destination,
-        'reviews': reviews
+        'reviews': reviews,
+        'average_rating': average_rating,
     })
+
 
 
 def destination_list(request):
