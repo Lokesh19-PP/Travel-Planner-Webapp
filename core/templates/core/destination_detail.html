@@ -66,8 +66,16 @@
                     <div class="bg-white p-5 rounded-xl shadow flex flex-col gap-1">
                         <div class="flex justify-between items-center">
                             <span class="font-semibold">👤 {{ review.user.username }}</span>
-                            <span class="text-yellow-500">⭐ {{ review.rating }}/5</span>
-                        </div>
+                            <span class="text-yellow-500">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= review.rating %}
+                                        ⭐
+                                    {% else %}
+                                        ☆
+                                    {% endif %}
+                                {% endfor %}
+                            </span>
+                       </div>
                         <p class="text-gray-700">{{ review.comment }}</p>
                         <p class="text-xs text-gray-400">
                             🕒 {{ review.created_at|date:"M d, Y" }}
@@ -81,7 +89,6 @@
                 </p>
             {% endif %}
         </div>
-
     </div>
 </section>
 
