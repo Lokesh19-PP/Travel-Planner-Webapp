@@ -174,8 +174,8 @@ def itinerary_delete(request, pk):
     return render(request, 'core/itinerary_confirm_delete.html', {'itinerary': itinerary})
 
 @login_required
-def add_review(request, slug):
-    destination = get_object_or_404(Destination, slug=slug)
+def add_review(request, destination_id):
+    destination = get_object_or_404(Destination, id=destination_id)
 
     if request.method == 'POST':
         form = ReviewForm(request.POST)
@@ -184,7 +184,10 @@ def add_review(request, slug):
             review.user = request.user
             review.destination = destination
             review.save()
+            messages.success(request, "Your review has been submitted!")
             return redirect('destination_detail', slug=destination.slug)
+        else:
+            messages.error(request, "Please correct the errors below.")
     else:
         form = ReviewForm()
 
