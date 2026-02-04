@@ -46,7 +46,7 @@
         <img src="{{ destination.image.url }}" alt="{{ destination.name }}" class="w-full h-64 object-cover rounded-t-md">
         <div class="p-4">
           <h3 class="text-xl font-bold mb-2">{{ destination.name }}</h3>
-          <p class="text-gray-600 mb-2">{{ destination.country }} | {{ destination.price_range }} | ⭐ {{ destination.rating }}</p>
+          <p class="text-gray-600 mb-2">{{ destination.country }} | {{ destination.price_range }}</p>
           <p class="text-sm text-gray-500 mb-4">{{ destination.description|truncatewords:15 }}</p>
           <a href="{% url 'destination_detail' destination.slug %}" class="btn w-full">View Details</a>
           <a href="{% url 'itinerary_create' %}?destination={{ destination.id }}" class="btn mt-2 w-full">Add to Itinerary</a>
