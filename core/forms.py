@@ -22,12 +22,18 @@ class ReviewForm(forms.ModelForm):
         model = Review
         fields = ['rating', 'comment']
         widgets = {
-            'rating': forms.NumberInput(attrs={
-                'min': 1, 'max': 5,
-                'class': 'border rounded px-3 py-2 w-full'
-            }),
-            'comment': forms.Textarea(attrs={
-                'rows': 4,
-                'class': 'border rounded px-3 py-2 w-full'
-            }),
+            'rating': forms.NumberInput(attrs={'min': 1, 'max': 5, 'class': 'border rounded px-2 py-1'}),
+            'comment': forms.Textarea(attrs={'rows': 4, 'class': 'border rounded px-2 py-1'}),
         }
+
+    def clean_rating(self):
+        rating = self.cleaned_data.get('rating')
+        if rating < 1 or rating > 5:
+            raise forms.ValidationError("Rating must be between 1 and 5 stars.")
+        return rating
+
+    def clean_comment(self):
+        comment = self.cleaned_data.get('comment')
+        if not comment or comment.strip() == "":
+            raise forms.ValidationError("Comment cannot be empty.")
+        return comment
