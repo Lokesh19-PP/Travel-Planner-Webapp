@@ -30,8 +30,15 @@
                     <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full">
                         💰 {{ destination.price_range }}
                     </span>
-                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full">
-                        ⭐ {{ destination.rating }} / 5
+                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full flex items-center">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= average_rating|floatformat:0 %}
+                            <span>⭐</span>
+                            {% else %}
+                                <span>☆</span>
+                            {% endif %}
+                        {% endfor %}
+                        <span class="ml-2 text-black font-medium">({{ average_rating }})</span>
                     </span>
                 </div>
 

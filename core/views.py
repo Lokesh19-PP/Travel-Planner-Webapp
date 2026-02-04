@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404
 from .forms import ItineraryForm
 from .forms import ReviewForm
 from django.db import models
+from django.db.models import Avg
 
 def home(request):
     query = request.GET.get('search', '')  # Get search term from URL
@@ -80,15 +81,16 @@ def destination_detail(request, slug):
 
     # Calculate average rating
     if reviews.exists():
-        average_rating = round(reviews.aggregate(avg_rating=models.Avg('rating'))['avg_rating'], 1)
+        average_rating = round(reviews.aggregate(avg_rating=Avg('rating'))['avg_rating'], 1)
     else:
-        average_rating = None
+        average_rating = 0  # Use 0 instead of None for easier star rendering
 
     return render(request, 'core/destination_detail.html', {
         'destination': destination,
         'reviews': reviews,
         'average_rating': average_rating,
     })
+
 
 
 
