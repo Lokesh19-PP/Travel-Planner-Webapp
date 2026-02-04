@@ -1,14 +1,36 @@
-{% extends 'core/base.html' %}
+{% extends "core/base.html" %}
 {% block content %}
-<section class="max-w-xl mx-auto py-20 px-6">
-    <h2 class="text-2xl font-bold mb-6 text-center">
-        Review {{ destination.name }}
-    </h2>
+<section class="max-w-3xl mx-auto py-24 px-6">
+    <div class="bg-white rounded-2xl shadow-lg p-8">
+        <h2 class="text-2xl font-bold mb-4">Write a Review for "{{ destination.name }}"</h2>
 
-    <form method="POST" class="bg-white p-6 rounded-xl shadow">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn w-full mt-4">Submit Review</button>
-    </form>
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+            <div class="text-red-600 font-semibold">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <div>
+                {{ form.rating.label_tag }}
+                {{ form.rating }}
+                {% for error in form.rating.errors %}
+                <p class="text-red-600 text-sm">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div>
+                {{ form.comment.label_tag }}
+                {{ form.comment }}
+                {% for error in form.comment.errors %}
+                <p class="text-red-600 text-sm">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="btn bg-yellow-500 hover:bg-yellow-600 text-white w-full py-2 rounded-lg">
+                Submit Review
+            </button>
+        </form>
+    </div>
 </section>
 {% endblock %}
