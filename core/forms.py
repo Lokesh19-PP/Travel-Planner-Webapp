@@ -18,14 +18,27 @@ class ItineraryForm(forms.ModelForm):
         }
 
 class ReviewForm(forms.ModelForm):
+    # Replace numeric input with star-based radio buttons
+    rating = forms.IntegerField(
+        min_value=1,
+        max_value=5,
+        widget=forms.RadioSelect(
+            choices=[(i, '⭐' * i) for i in range(1, 6)]
+        )
+    )
+
     class Meta:
         model = Review
         fields = ['rating', 'comment']
         widgets = {
-            'rating': forms.NumberInput(attrs={'min': 1, 'max': 5, 'class': 'border rounded px-2 py-1'}),
-            'comment': forms.Textarea(attrs={'rows': 4, 'class': 'border rounded px-2 py-1'}),
+            'comment': forms.Textarea(attrs={
+                'rows': 4,
+                'class': 'border rounded px-2 py-1',
+                'placeholder': 'Write your review...'
+            }),
         }
 
+    # Keep the validation
     def clean_rating(self):
         rating = self.cleaned_data.get('rating')
         if rating < 1 or rating > 5:
