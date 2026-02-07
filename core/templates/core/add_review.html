@@ -1,12 +1,14 @@
 {% extends "core/base.html" %}
 {% block content %}
 <section class="max-w-3xl mx-auto py-24 px-6">
-    <div class="bg-white rounded-2xl shadow-lg p-8">
-        <h2 class="text-2xl font-bold mb-4">Write a Review for "{{ destination.name }}"</h2>
+    <div class="glass p-8 rounded-2xl shadow-lg">
+        <h2 class="text-2xl md:text-3xl font-extrabold mb-6 text-center bg-gradient-to-r from-teal-400 to-purple-500 bg-clip-text text-transparent">
+            Write a Review for "{{ destination.name }}"
+        </h2>
 
-        <form method="POST" class="space-y-4">
+        <form method="POST" class="space-y-6">
             {% csrf_token %}
-            
+
             {% if form.non_field_errors %}
             <div class="text-red-600 font-semibold">{{ form.non_field_errors }}</div>
             {% endif %}
@@ -27,7 +29,7 @@
                 {% endfor %}
             </div>
 
-            <button type="submit" class="btn bg-yellow-500 hover:bg-yellow-600 text-white w-full py-2 rounded-lg">
+            <button type="submit" class="btn bg-yellow-400 hover:bg-yellow-500 text-white w-full py-3 rounded-full font-semibold">
                 Submit Review
             </button>
         </form>
