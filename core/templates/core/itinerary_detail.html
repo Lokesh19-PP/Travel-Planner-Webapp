@@ -1,26 +1,49 @@
 {% extends 'core/base.html' %}
 {% block content %}
 <section class="bg-gray-50 py-24">
-    <div class="max-w-4xl mx-auto px-6">
-        <h2 class="text-3xl font-bold mb-6">{{ itinerary.name }}</h2>
-        <p class="text-gray-600 mb-4">From {{ itinerary.start_date }} to {{ itinerary.end_date }}</p>
+    <div class="max-w-5xl mx-auto px-6">
+        <!-- Itinerary Header -->
+        <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-2">{{ itinerary.name }}</h2>
+        <p class="text-gray-600 text-center mb-8">
+            From {{ itinerary.start_date }} to {{ itinerary.end_date }}
+        </p>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <!-- Destinations Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {% for dest in itinerary.destinations.all %}
-            <div class="card bg-white shadow rounded-lg overflow-hidden">
-                <img src="{{ dest.image.url }}" alt="{{ dest.name }}" class="w-full h-48 object-cover">
-                <div class="p-4">
-                    <h3 class="text-xl font-bold mb-2">{{ dest.name }}</h3>
-                    <p class="text-gray-600 mb-1">{{ dest.country }} | {{ dest.price_range }}</p>
-                    <p class="text-yellow-500 mb-1">⭐ {{ dest.rating }}</p>
-                    <p class="text-gray-700 text-sm">{{ dest.description|truncatewords:20 }}</p>
+            <div class="card rounded-2xl shadow-xl overflow-hidden transition hover:-translate-y-2 hover:shadow-2xl">
+                <div class="relative">
+                    <img src="{{ dest.image.url }}" alt="{{ dest.name }}" class="w-full h-56 object-cover">
+                    <div class="absolute bottom-4 left-4 bg-white/90 px-3 py-1 rounded-full shadow">
+                        🌍 {{ dest.country }}
+                    </div>
+                </div>
+                <div class="p-4 flex flex-col">
+                    <h3 class="text-xl font-bold mb-1">{{ dest.name }}</h3>
+                    <p class="text-gray-600 mb-1">{{ dest.price_range }}</p>
+                    <p class="text-yellow-500 mb-2">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= dest.rating %}
+                                ⭐
+                            {% else %}
+                                ☆
+                            {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p class="text-gray-700 text-sm mb-4">{{ dest.description|truncatewords:20 }}</p>
+                    <a href="{% url 'destination_detail' dest.slug %}" class="btn bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-xl text-center">
+                        View Destination
+                    </a>
                 </div>
             </div>
             {% endfor %}
         </div>
 
-        <div class="mt-6">
-            <a href="{% url 'itinerary_list' %}" class="btn">Back to My Itineraries</a>
+        <!-- Back Button -->
+        <div class="mt-10 text-center">
+            <a href="{% url 'itinerary_list' %}" class="btn bg-gray-600 hover:bg-gray-700 text-white px-8 py-2 rounded-xl">
+                Back to My Itineraries
+            </a>
         </div>
     </div>
 </section>
