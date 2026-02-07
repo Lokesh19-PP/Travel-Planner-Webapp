@@ -6,25 +6,25 @@
 
     <div class="max-w-md w-full bg-white rounded-3xl shadow-2xl overflow-hidden">
 
-        <!-- Header -->
-        <div class="bg-indigo-600 p-10 text-center text-white">
-            <div class="text-6xl mb-4">🧳</div>
-            <h2 class="text-3xl font-extrabold">{{ user.username }}</h2>
+        <!-- Header with circular avatar-style icon -->
+        <div class="bg-indigo-600 flex flex-col items-center justify-center p-12">
+            <div class="w-24 h-24 flex items-center justify-center bg-indigo-400 rounded-full text-5xl mb-4 shadow-lg">🧳</div>
+            <h2 class="text-3xl font-extrabold text-white">{{ user.username }}</h2>
             <p class="text-indigo-100 mt-1">Traveler Profile</p>
         </div>
 
         <!-- Info Section -->
         <div class="p-8 space-y-6">
 
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-4">
                 <div class="text-2xl">📧</div>
                 <div>
                     <p class="text-gray-500 font-medium">Email</p>
-                    <p class="text-gray-800 font-semibold">{{ user.email }}</p>
+                    <p class="text-gray-800 font-semibold break-words">{{ user.email }}</p>
                 </div>
             </div>
 
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-4">
                 <div class="text-2xl">📅</div>
                 <div>
                     <p class="text-gray-500 font-medium">Joined On</p>
@@ -32,7 +32,7 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-4">
                 <div class="text-2xl">✈️</div>
                 <div>
                     <p class="text-gray-500 font-medium">Trips Planned</p>
@@ -45,7 +45,7 @@
 
             <!-- Logout Button -->
             <a href="{% url 'logout' %}" 
-               class="btn w-full text-center text-lg bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl">
+               class="btn w-full text-center text-lg bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl transition-transform transform hover:-translate-y-1 shadow-md">
                Logout
             </a>
 
