@@ -4,8 +4,8 @@
 <section class="bg-gray-100 py-24">
     <div class="max-w-5xl mx-auto px-6">
 
-        <!-- Main Card -->
-        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <!-- Main Card with Glass Effect -->
+        <div class="glass rounded-2xl shadow-xl overflow-hidden">
 
             <!-- Image -->
             <div class="relative">
@@ -21,7 +21,7 @@
             <div class="p-8">
 
                 <!-- Title -->
-                <h1 class="text-3xl md:text-4xl font-extrabold text-center mb-3">
+                <h1 class="text-3xl md:text-4xl font-extrabold text-center mb-3 bg-gradient-to-r from-teal-400 to-purple-500 bg-clip-text text-transparent">
                     {{ destination.name }}
                 </h1>
 
@@ -35,7 +35,7 @@
                             {% if forloop.counter <= average_rating|floatformat:0 %}
                             <span>⭐</span>
                             {% else %}
-                                <span>☆</span>
+                            <span>☆</span>
                             {% endif %}
                         {% endfor %}
                         <span class="ml-2 text-black font-medium">({{ average_rating }})</span>
@@ -50,27 +50,28 @@
                 <!-- Actions -->
                 <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
                     <a href="{% url 'itinerary_create' %}?destination={{ destination.id }}"
-                       class="btn bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-xl text-center">
+                       class="btn bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-full text-center">
                         ➕ Add to Itinerary
                     </a>
 
                     <a href="{% url 'add_review' destination.slug %}"
-                        class="btn bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-3 rounded-xl text-center">
+                       class="btn bg-yellow-400 hover:bg-yellow-500 text-white px-8 py-3 rounded-full text-center">
                         ✍️ Write a Review
                     </a>
-
                 </div>
             </div>
         </div>
 
         <!-- Reviews Section -->
         <div class="mt-16">
-            <h2 class="text-2xl font-bold mb-6 text-center">⭐ Traveler Reviews</h2>
+            <h2 class="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+                ⭐ Traveler Reviews
+            </h2>
 
             {% if reviews %}
                 <div class="space-y-4 max-w-3xl mx-auto">
                     {% for review in reviews %}
-                    <div class="bg-white p-5 rounded-xl shadow flex flex-col gap-1">
+                    <div class="glass p-5 rounded-xl shadow flex flex-col gap-2">
                         <div class="flex justify-between items-center">
                             <span class="font-semibold">👤 {{ review.user.username }}</span>
                             <span class="text-yellow-500">
