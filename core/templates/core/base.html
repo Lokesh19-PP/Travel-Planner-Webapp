@@ -4,7 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Travel Planner{% endblock %}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- Fonts (Windows-friendly stack) -->
+    <style>
+        body {
+            font-family: "Segoe UI", "Tenor Sans", Arial, sans-serif;
+        }
+        h1, h2, h3, h4 {
+            font-family: "Segoe UI Semibold", "Segoe UI", Arial, sans-serif;
+        }
+    </style>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Tailwind CSS -->
@@ -14,27 +24,29 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-[#f6f7f9] text-[#2e3440]">
 
 <!-- Navbar -->
-<nav class="fixed top-0 w-full bg-white shadow z-50">
+<nav class="fixed top-0 w-full bg-[#eef1f4]/90 backdrop-blur shadow-sm z-50">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
         <!-- Logo -->
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-3">
             <img src="{% static 'images/logo.png' %}" class="h-10" alt="Logo">
-            <span class="text-xl font-bold text-indigo-600">TravelPlanner</span>
+            <span class="text-xl font-semibold tracking-wide text-[#2e3440]">
+                TravelPlanner
+            </span>
         </div>
 
         <!-- Links -->
-        <div class="space-x-6 hidden md:block">
+        <div class="space-x-8 hidden md:block">
             <a href="{% url 'home' %}" class="nav-link">Home</a>
             <a href="{% url 'destination_list' %}" class="nav-link">Destinations</a>
             {% if user.is_authenticated %}
                 <a href="{% url 'itinerary_list' %}" class="nav-link">My Itineraries</a>
             {% endif %}
             <a href="{% url 'profile' %}" class="nav-link">
-            {% if user.is_authenticated %}Profile{% else %}Login{% endif %}
+                {% if user.is_authenticated %}Profile{% else %}Login{% endif %}
             </a>
             {% if user.is_authenticated %}
                 <a href="{% url 'logout' %}" class="nav-link">Logout</a>
@@ -46,34 +58,38 @@
     </div>
 </nav>
 
-
 <!-- Page Content -->
-<main class="pt-24">
+<main class="pt-28">
     {% block content %}{% endblock %}
 </main>
 
 <!-- Footer -->
-<footer class="bg-gray-900 text-gray-300 mt-20">
-    <div class="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-3 gap-8">
+<footer class="bg-[#2e3440] text-[#d8dee9] mt-24">
+    <div class="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-10">
         <div>
-            <h3 class="font-bold text-white mb-3">TravelPlanner</h3>
-            <p class="text-sm">Plan trips, explore destinations, and save memories.</p>
+            <h3 class="font-semibold text-white mb-3">TravelPlanner</h3>
+            <p class="text-sm leading-relaxed">
+                Plan trips, explore destinations, and save memories.
+            </p>
         </div>
+
         <div>
-            <h3 class="font-bold text-white mb-3">Quick Links</h3>
+            <h3 class="font-semibold text-white mb-3">Quick Links</h3>
             <ul class="space-y-2 text-sm">
-                <li>Home</li>
-                <li>Destinations</li>
-                <li>My Trips</li>
-                <li>Contact</li>
+                <li class="hover:text-white transition">Home</li>
+                <li class="hover:text-white transition">Destinations</li>
+                <li class="hover:text-white transition">My Trips</li>
+                <li class="hover:text-white transition">Contact</li>
             </ul>
         </div>
+
         <div>
-            <h3 class="font-bold text-white mb-3">Follow Us</h3>
+            <h3 class="font-semibold text-white mb-3">Follow Us</h3>
             <p class="text-sm">Instagram • Twitter • Facebook</p>
         </div>
     </div>
-    <div class="text-center py-4 text-sm border-t border-gray-700">
+
+    <div class="text-center py-4 text-xs border-t border-white/10">
         © 2026 Travel Planner. All rights reserved.
     </div>
 </footer>
