@@ -30,7 +30,7 @@ html {
     animation: float 4s ease-in-out infinite;
 }
 
-/* Floating cards in features/stats/testimonials */
+/* Floating cards */
 .float-card {
     animation: float 4s ease-in-out infinite;
 }
@@ -53,21 +53,21 @@ html {
 
 <!-- HERO SECTION -->
 <section class="hero-bg text-white relative">
-    <div class="max-w-7xl mx-auto px-6 py-32 text-center relative z-10">
-        <h1 class="text-5xl md:text-6xl font-extrabold drop-shadow-lg fade-in">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-6 py-20 md:py-32 text-center relative z-10">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold drop-shadow-lg fade-in">
             Plan Your Dream Trip
         </h1>
-        <p class="text-xl mt-6 fade-in-delay drop-shadow-md">
+        <p class="text-base sm:text-lg md:text-xl mt-4 md:mt-6 fade-in-delay drop-shadow-md">
             Discover destinations, build itineraries, and travel smarter.
         </p>
 
-        <div class="mt-10 flex justify-center fade-in-delay2">
-            <form method="GET" action="{% url 'destination_list' %}" class="flex w-full max-w-md backdrop-blur bg-white/30 rounded-full shadow-lg">
+        <div class="mt-6 sm:mt-8 flex justify-center fade-in-delay2">
+            <form method="GET" action="{% url 'destination_list' %}" class="flex w-full max-w-md sm:max-w-lg backdrop-blur bg-white/30 rounded-full shadow-lg overflow-hidden">
                 <input id="search" name="search" type="text"
                     placeholder="Search destinations..."
                     value="{{ query|default:'' }}"
-                    class="w-full px-6 py-3 rounded-l-full text-gray-800 focus:outline-none bg-transparent placeholder-gray-600">
-                <button type="submit" class="btn rounded-r-full px-6 py-3">
+                    class="flex-1 px-4 sm:px-6 py-2 sm:py-3 text-gray-800 focus:outline-none bg-transparent placeholder-gray-600 rounded-l-full">
+                <button type="submit" class="btn rounded-r-full px-4 sm:px-6 py-2 sm:py-3 text-white bg-blue-500 hover:bg-blue-600">
                     Search
                 </button>
             </form>
@@ -76,47 +76,47 @@ html {
 </section>
 
 <!-- FEATURES SECTION -->
-<section class="max-w-7xl mx-auto px-6 py-24">
-    <h2 class="section-title text-3xl font-bold text-center mb-12">Why Choose Us?</h2>
-    <div class="grid md:grid-cols-4 gap-8 mt-12">
-        <div class="feature-card bg-gradient-to-r from-indigo-400 to-purple-500 text-white float-card">
+<section class="max-w-7xl mx-auto px-4 sm:px-6 md:px-6 py-16 md:py-24">
+    <h2 class="section-title text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-12">Why Choose Us?</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mt-8 sm:mt-12">
+        <div class="feature-card bg-gradient-to-r from-indigo-400 to-purple-500 text-white float-card p-6 rounded-lg text-center">
             🌍 Explore Destinations
         </div>
-        <div class="feature-card bg-gradient-to-r from-teal-400 to-indigo-500 text-white float-card">
+        <div class="feature-card bg-gradient-to-r from-teal-400 to-indigo-500 text-white float-card p-6 rounded-lg text-center">
             🧭 Smart Itineraries
         </div>
-        <div class="feature-card bg-gradient-to-r from-yellow-400 to-red-500 text-white float-card">
+        <div class="feature-card bg-gradient-to-r from-yellow-400 to-red-500 text-white float-card p-6 rounded-lg text-center">
             ⭐ Reviews & Ratings
         </div>
-        <div class="feature-card bg-gradient-to-r from-green-400 to-teal-500 text-white float-card">
+        <div class="feature-card bg-gradient-to-r from-green-400 to-teal-500 text-white float-card p-6 rounded-lg text-center">
             💼 Travel Planning
         </div>
     </div>
 </section>
 
 <!-- DESTINATIONS SECTION -->
-<section class="bg-gray-100 py-24">
-    <div class="max-w-7xl mx-auto px-6">
-        <h2 class="section-title text-3xl font-bold text-center mb-12">Popular Destinations</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-12">
+<section class="bg-gray-100 py-16 md:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-6">
+        <h2 class="section-title text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-12">Popular Destinations</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mt-8 sm:mt-12">
             {% for destination in destinations %}
             <div class="card hover:shadow-xl transition transform hover:-translate-y-2 rounded-lg overflow-hidden bg-white scroll-reveal">
                 <div class="relative">
-                    <img src="{{ destination.image.url }}" alt="{{ destination.name }}" class="w-full h-60 object-cover">
+                    <img src="{{ destination.image.url }}" alt="{{ destination.name }}" class="w-full h-48 sm:h-56 md:h-60 object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent rounded-t-lg"></div>
                 </div>
                 <div class="p-4 flex flex-col">
-                    <h3 class="text-xl font-bold mb-2">{{ destination.name }}</h3>
-                    <p class="text-gray-600 mb-2">{{ destination.country }} | {{ destination.price_range }}</p>
-                    <p class="text-sm text-gray-500 mb-4">{{ destination.description|truncatewords:15 }}</p>
+                    <h3 class="text-lg sm:text-xl font-bold mb-1 sm:mb-2">{{ destination.name }}</h3>
+                    <p class="text-gray-600 text-sm sm:text-base mb-1">{{ destination.country }} | {{ destination.price_range }}</p>
+                    <p class="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">{{ destination.description|truncatewords:15 }}</p>
 
                     <div class="flex flex-col gap-2 mt-auto">
                         <a href="{% url 'destination_detail' destination.slug %}" 
-                           class="btn bg-blue-500 hover:bg-blue-600 text-white py-2 rounded text-center">
+                           class="btn bg-blue-500 hover:bg-blue-600 text-white py-2 rounded text-center text-sm sm:text-base">
                            View Details
                         </a>
                         <a href="{% url 'itinerary_create' %}?destination={{ destination.id }}" 
-                           class="btn bg-green-500 hover:bg-green-600 text-white py-2 rounded text-center">
+                           class="btn bg-green-500 hover:bg-green-600 text-white py-2 rounded text-center text-sm sm:text-base">
                            Add to Itinerary
                         </a>
                     </div>
@@ -128,37 +128,37 @@ html {
 </section>
 
 <!-- FLOATING PLANE -->
-<img src="{% static 'images/plane.png' %}" class="w-16 mx-auto float mb-12 float-card">
+<img src="{% static 'images/plane.png' %}" class="w-12 sm:w-16 mx-auto float mb-8 sm:mb-12 float-card">
 
 <!-- STATS SECTION -->
-<section class="bg-white py-24 scroll-reveal">
-    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-10 text-center">
+<section class="bg-white py-16 md:py-24 scroll-reveal">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-6 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-10 text-center">
         <div class="float-card">
-            <h3 class="text-4xl md:text-5xl font-extrabold text-indigo-600 bg-gradient-to-r from-teal-400 to-indigo-500 bg-clip-text text-transparent">10K+</h3>
-            <p class="mt-2 text-gray-600">Happy Travelers</p>
+            <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-indigo-600 bg-gradient-to-r from-teal-400 to-indigo-500 bg-clip-text text-transparent">10K+</h3>
+            <p class="mt-1 sm:mt-2 text-gray-600 text-sm sm:text-base">Happy Travelers</p>
         </div>
         <div class="float-card">
-            <h3 class="text-4xl md:text-5xl font-extrabold text-indigo-600 bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">120+</h3>
-            <p class="mt-2 text-gray-600">Destinations</p>
+            <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-indigo-600 bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">120+</h3>
+            <p class="mt-1 sm:mt-2 text-gray-600 text-sm sm:text-base">Destinations</p>
         </div>
         <div class="float-card">
-            <h3 class="text-4xl md:text-5xl font-extrabold text-indigo-600 bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent">500+</h3>
-            <p class="mt-2 text-gray-600">Trips Planned</p>
+            <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-indigo-600 bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent">500+</h3>
+            <p class="mt-1 sm:mt-2 text-gray-600 text-sm sm:text-base">Trips Planned</p>
         </div>
         <div class="float-card">
-            <h3 class="text-4xl md:text-5xl font-extrabold text-indigo-600 bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent">4.9★</h3>
-            <p class="mt-2 text-gray-600">Average Rating</p>
+            <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-indigo-600 bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent">4.9★</h3>
+            <p class="mt-1 sm:mt-2 text-gray-600 text-sm sm:text-base">Average Rating</p>
         </div>
     </div>
 </section>
 
 <!-- TESTIMONIALS -->
-<section class="max-w-7xl mx-auto px-6 py-24 scroll-reveal">
-    <h2 class="section-title text-3xl font-bold text-center mb-12">What Travelers Say</h2>
-    <div class="grid md:grid-cols-3 gap-8 mt-12">
-        <div class="testimonial float-card">“Best travel planning app ever!”</div>
-        <div class="testimonial float-card">“Helped me organize my entire trip.”</div>
-        <div class="testimonial float-card">“Clean UI and easy to use.”</div>
+<section class="max-w-7xl mx-auto px-4 sm:px-6 md:px-6 py-16 md:py-24 scroll-reveal">
+    <h2 class="section-title text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-12">What Travelers Say</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mt-8 sm:mt-12">
+        <div class="testimonial float-card p-6 bg-white rounded-lg shadow">“Best travel planning app ever!”</div>
+        <div class="testimonial float-card p-6 bg-white rounded-lg shadow">“Helped me organize my entire trip.”</div>
+        <div class="testimonial float-card p-6 bg-white rounded-lg shadow">“Clean UI and easy to use.”</div>
     </div>
 </section>
 
