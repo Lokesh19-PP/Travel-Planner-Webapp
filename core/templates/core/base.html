@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>{% block title %}Travel Planner{% endblock %}</title>
 
-    <!-- Fonts (Windows-friendly stack) -->
+    <!-- Fonts -->
     <style>
         body {
             font-family: "Segoe UI", "Tenor Sans", Arial, sans-serif;
@@ -28,72 +28,99 @@
 
 <!-- Navbar -->
 <nav class="fixed top-0 w-full bg-[#eef1f4]/90 backdrop-blur shadow-sm z-50">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-6 py-4 flex justify-between items-center">
 
         <!-- Logo -->
-        <div class="flex items-center gap-3">
-            <img src="{% static 'images/logo.png' %}" class="h-10" alt="Logo">
-            <span class="text-xl font-semibold tracking-wide text-[#2e3440]">
+        <div class="flex items-center gap-2 sm:gap-3">
+            <img src="{% static 'images/logo.png' %}" class="h-8 sm:h-10" alt="Logo">
+            <span class="text-lg sm:text-xl font-semibold tracking-wide text-[#2e3440]">
                 TravelPlanner
             </span>
         </div>
 
-        <!-- Links -->
-        <div class="space-x-8 hidden md:block">
-            <a href="{% url 'home' %}" class="nav-link">Home</a>
-            <a href="{% url 'destination_list' %}" class="nav-link">Destinations</a>
+        <!-- Desktop Links -->
+        <div class="space-x-4 sm:space-x-6 hidden md:flex items-center">
+            <a href="{% url 'home' %}" class="nav-link text-sm sm:text-base">Home</a>
+            <a href="{% url 'destination_list' %}" class="nav-link text-sm sm:text-base">Destinations</a>
             {% if user.is_authenticated %}
-                <a href="{% url 'itinerary_list' %}" class="nav-link">My Itineraries</a>
+                <a href="{% url 'itinerary_list' %}" class="nav-link text-sm sm:text-base">My Itineraries</a>
             {% endif %}
-            <a href="{% url 'profile' %}" class="nav-link">
+            <a href="{% url 'profile' %}" class="nav-link text-sm sm:text-base">
                 {% if user.is_authenticated %}Profile{% else %}Login{% endif %}
             </a>
             {% if user.is_authenticated %}
-                <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+                <a href="{% url 'logout' %}" class="nav-link text-sm sm:text-base">Logout</a>
             {% else %}
-                <a href="{% url 'signup' %}" class="nav-link">Signup</a>
+                <a href="{% url 'signup' %}" class="nav-link text-sm sm:text-base">Signup</a>
             {% endif %}
         </div>
 
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden">
+            <button id="mobile-menu-button" class="focus:outline-none">
+                <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-[#eef1f4]/90 backdrop-blur px-4 pt-2 pb-4 space-y-2">
+        <a href="{% url 'home' %}" class="block nav-link">Home</a>
+        <a href="{% url 'destination_list' %}" class="block nav-link">Destinations</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'itinerary_list' %}" class="block nav-link">My Itineraries</a>
+        {% endif %}
+        <a href="{% url 'profile' %}" class="block nav-link">
+            {% if user.is_authenticated %}Profile{% else %}Login{% endif %}
+        </a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="block nav-link">Logout</a>
+        {% else %}
+            <a href="{% url 'signup' %}" class="block nav-link">Signup</a>
+        {% endif %}
     </div>
 </nav>
 
 <!-- Page Content -->
-<main class="pt-28">
+<main class="pt-24 md:pt-28">
     {% block content %}{% endblock %}
 </main>
 
 <!-- Footer -->
 <footer class="bg-[#2e3440] text-[#d8dee9] mt-24">
-    <div class="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-6 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         <div>
-            <h3 class="font-semibold text-white mb-3">TravelPlanner</h3>
-            <p class="text-sm leading-relaxed">
+            <h3 class="font-semibold text-white mb-2 sm:mb-3">TravelPlanner</h3>
+            <p class="text-sm sm:text-base leading-relaxed">
                 Plan trips, explore destinations, and save memories.
             </p>
         </div>
 
         <div>
-            <h3 class="font-semibold text-white mb-3">Quick Links</h3>
-            <ul class="space-y-2 text-sm">
-                <li class="hover:text-white transition">Home</li>
-                <li class="hover:text-white transition">Destinations</li>
-                <li class="hover:text-white transition">My Trips</li>
-                <li class="hover:text-white transition">Contact</li>
+            <h3 class="font-semibold text-white mb-2 sm:mb-3">Quick Links</h3>
+            <ul class="space-y-1 sm:space-y-2 text-sm sm:text-base">
+                <li class="hover:text-white transition cursor-pointer">Home</li>
+                <li class="hover:text-white transition cursor-pointer">Destinations</li>
+                <li class="hover:text-white transition cursor-pointer">My Trips</li>
+                <li class="hover:text-white transition cursor-pointer">Contact</li>
             </ul>
         </div>
 
         <div>
-            <h3 class="font-semibold text-white mb-3">Follow Us</h3>
-            <p class="text-sm">Instagram • Twitter • Facebook</p>
+            <h3 class="font-semibold text-white mb-2 sm:mb-3">Follow Us</h3>
+            <p class="text-sm sm:text-base">Instagram • Twitter • Facebook</p>
         </div>
     </div>
 
-    <div class="text-center py-4 text-xs border-t border-white/10">
+    <div class="text-center py-4 text-xs sm:text-sm border-t border-white/10">
         © 2026 Travel Planner. All rights reserved.
     </div>
 </footer>
 
+<!-- Scroll reveal script -->
 <script>
 document.addEventListener("scroll", () => {
     document.querySelectorAll(".scroll-reveal").forEach(el => {
@@ -103,6 +130,13 @@ document.addEventListener("scroll", () => {
             el.classList.add("active");
         }
     });
+});
+
+// Mobile menu toggle
+const menuButton = document.getElementById("mobile-menu-button");
+const mobileMenu = document.getElementById("mobile-menu");
+menuButton.addEventListener("click", () => {
+    mobileMenu.classList.toggle("hidden");
 });
 </script>
 
