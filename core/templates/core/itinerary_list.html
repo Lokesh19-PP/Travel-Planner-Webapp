@@ -1,72 +1,80 @@
 {% extends 'core/base.html' %}
 {% block content %}
-<section class="bg-gray-50 py-24">
-    <div class="max-w-7xl mx-auto px-6">
-        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">My Itineraries</h2>
+<section class="bg-gray-50 py-16 sm:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">
+            My Itineraries
+        </h2>
 
         {% if itineraries %}
-        <div class="grid grid-cols-1 gap-8">
+        <div class="grid grid-cols-1 gap-6 sm:gap-8">
             {% for itinerary in itineraries %}
-            <!-- Full-width Card -->
-            <div class="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition transform hover:-translate-y-2 overflow-hidden">
-                
-                <!-- Itinerary Info -->
+            <div class="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition transform hover:-translate-y-1 overflow-hidden">
+
                 <div class="p-6">
-                    <h3 class="text-2xl font-bold text-indigo-600 mb-2">{{ itinerary.name }}</h3>
-                    <p class="text-gray-600 mb-4">
+
+                    <!-- Itinerary Info -->
+                    <h3 class="text-xl sm:text-2xl font-bold text-indigo-600 mb-1">{{ itinerary.name }}</h3>
+                    <p class="text-gray-600 mb-4 text-sm sm:text-base text-center sm:text-left">
                         From: <span class="font-medium">{{ itinerary.start_date }}</span> | 
                         To: <span class="font-medium">{{ itinerary.end_date }}</span>
                     </p>
 
                     <!-- Destination Images Grid -->
-                    <!-- Destination Images Grid -->
-{% if itinerary.destinations.all %}
-<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-4">
-    {% for dest in itinerary.destinations.all|slice:":8" %}
-    <div class="flex flex-col items-center">
-        <img src="{{ dest.image.url }}" 
-             alt="{{ dest.name }}" 
-             class="w-full h-40 object-cover rounded-lg shadow-sm">  <!-- Increased height -->
-        <p class="text-xs text-gray-500 mt-1 text-center truncate">{{ dest.name }}</p>
-    </div>
-    {% endfor %}
-</div>
-{% else %}
-<p class="text-gray-400 mb-4 text-center">No destinations added yet.</p>
-{% endif %}
-
+                    {% if itinerary.destinations.all %}
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 mb-4">
+                        {% for dest in itinerary.destinations.all|slice:":8" %}
+                        <div class="flex flex-col items-center">
+                            <img src="{{ dest.image.url }}" 
+                                 alt="{{ dest.name }}" 
+                                 class="w-full h-36 sm:h-40 object-cover rounded-lg shadow-sm">
+                            <p class="text-xs sm:text-sm text-gray-500 mt-1 text-center truncate">
+                                {{ dest.name }}
+                            </p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-gray-400 mb-4 text-center text-sm sm:text-base">
+                        No destinations added yet.
+                    </p>
+                    {% endif %}
 
                     <!-- Actions -->
                     <div class="flex flex-col sm:flex-row gap-3">
                         <a href="{% url 'itinerary_detail' itinerary.pk %}" 
-                           class="btn bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg flex-1 text-center">
+                           class="btn bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg flex-1 text-center text-sm sm:text-base">
                             View Details
                         </a>
                         <form action="{% url 'itinerary_delete' itinerary.pk %}" method="POST" class="flex-1">
                             {% csrf_token %}
                             <button type="submit" 
-                                    class="btn bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg w-full">
+                                    class="btn bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg w-full text-sm sm:text-base">
                                 Delete
                             </button>
                         </form>
                     </div>
+
                 </div>
             </div>
             {% endfor %}
         </div>
+
         {% else %}
-        <p class="text-center text-gray-600 mt-6 text-lg">
+        <p class="text-center text-gray-600 mt-6 text-sm sm:text-base">
             No itineraries found. 
             <a href="{% url 'itinerary_create' %}" class="text-indigo-600 font-semibold hover:underline">Create one</a>
         </p>
         {% endif %}
 
-        <div class="text-center mt-12">
+        <div class="text-center mt-8 sm:mt-12">
             <a href="{% url 'itinerary_create' %}" 
-               class="btn bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-xl text-lg">
+               class="btn bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-xl text-sm sm:text-base md:text-lg">
                Create New Itinerary
             </a>
         </div>
+
     </div>
 </section>
 {% endblock %}
