@@ -2,50 +2,50 @@
 {% block title %}Profile - Travel Planner{% endblock %}
 
 {% block content %}
-<section class="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 flex items-center justify-center px-6 py-24">
+<section class="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 flex items-center justify-center px-4 sm:px-6 py-12 sm:py-24">
 
     <div class="max-w-md w-full bg-white rounded-3xl shadow-2xl overflow-hidden">
 
         <!-- Header with circular avatar-style icon -->
-        <div class="bg-indigo-600 flex flex-col items-center justify-center p-12">
-            <div class="w-24 h-24 flex items-center justify-center bg-indigo-400 rounded-full text-5xl mb-4 shadow-lg">🧳</div>
-            <h2 class="text-3xl font-extrabold text-white">{{ user.username }}</h2>
-            <p class="text-indigo-100 mt-1">Traveler Profile</p>
+        <div class="bg-indigo-600 flex flex-col items-center justify-center p-10 sm:p-12">
+            <div class="w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center bg-indigo-400 rounded-full text-4xl sm:text-5xl mb-3 sm:mb-4 shadow-lg">🧳</div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white truncate">{{ user.username }}</h2>
+            <p class="text-indigo-100 mt-1 text-sm sm:text-base">Traveler Profile</p>
         </div>
 
         <!-- Info Section -->
-        <div class="p-8 space-y-6">
+        <div class="p-6 sm:p-8 space-y-4 sm:space-y-6">
 
-            <div class="flex items-center gap-4">
-                <div class="text-2xl">📧</div>
+            <div class="flex items-center gap-3 sm:gap-4">
+                <div class="text-xl sm:text-2xl">📧</div>
                 <div>
-                    <p class="text-gray-500 font-medium">Email</p>
-                    <p class="text-gray-800 font-semibold break-words">{{ user.email }}</p>
+                    <p class="text-gray-500 font-medium text-sm sm:text-base">Email</p>
+                    <p class="text-gray-800 font-semibold break-words text-sm sm:text-base">{{ user.email }}</p>
                 </div>
             </div>
 
-            <div class="flex items-center gap-4">
-                <div class="text-2xl">📅</div>
+            <div class="flex items-center gap-3 sm:gap-4">
+                <div class="text-xl sm:text-2xl">📅</div>
                 <div>
-                    <p class="text-gray-500 font-medium">Joined On</p>
-                    <p class="text-gray-800 font-semibold">{{ user.date_joined|date:"F j, Y" }}</p>
+                    <p class="text-gray-500 font-medium text-sm sm:text-base">Joined On</p>
+                    <p class="text-gray-800 font-semibold text-sm sm:text-base">{{ user.date_joined|date:"F j, Y" }}</p>
                 </div>
             </div>
 
-            <div class="flex items-center gap-4">
-                <div class="text-2xl">✈️</div>
+            <div class="flex items-center gap-3 sm:gap-4">
+                <div class="text-xl sm:text-2xl">✈️</div>
                 <div>
-                    <p class="text-gray-500 font-medium">Trips Planned</p>
-                    <p class="text-gray-800 font-semibold">{{ user.itinerary_set.count }}</p>
+                    <p class="text-gray-500 font-medium text-sm sm:text-base">Trips Planned</p>
+                    <p class="text-gray-800 font-semibold text-sm sm:text-base">{{ user.itinerary_set.count }}</p>
                 </div>
             </div>
 
             <!-- Divider -->
-            <div class="border-t pt-6"></div>
+            <div class="border-t pt-4 sm:pt-6"></div>
 
             <!-- Logout Button -->
             <a href="{% url 'logout' %}" 
-               class="btn w-full text-center text-lg bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl transition-transform transform hover:-translate-y-1 shadow-md">
+               class="btn w-full text-center text-base sm:text-lg bg-red-600 hover:bg-red-700 text-white py-3 sm:py-3.5 rounded-xl transition-transform transform hover:-translate-y-1 shadow-md">
                Logout
             </a>
 
