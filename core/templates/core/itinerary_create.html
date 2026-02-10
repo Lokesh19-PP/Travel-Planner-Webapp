@@ -1,10 +1,10 @@
 {% extends "core/base.html" %}
 {% block content %}
-<section class="bg-gray-50 py-24">
-    <div class="max-w-4xl mx-auto px-6">
-        
+<section class="bg-gray-50 py-16 sm:py-24">
+    <div class="max-w-md sm:max-w-4xl mx-auto px-4 sm:px-6">
+
         <!-- Page Heading -->
-        <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-12">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-8 sm:mb-12">
             {% if destination %}
                 Add <span class="text-indigo-600">"{{ destination.name }}"</span> to Itinerary
             {% else %}
@@ -14,20 +14,20 @@
 
         <!-- Quick Add Existing Itinerary -->
         {% if user_itineraries and destination %}
-        <div class="glass rounded-2xl shadow-xl p-6 mb-10">
-            <h3 class="text-xl font-semibold mb-4 text-gray-800">
+        <div class="glass rounded-2xl shadow-xl p-4 sm:p-6 mb-8 sm:mb-10">
+            <h3 class="text-lg sm:text-xl font-semibold mb-3 text-gray-800">
                 Quick add to existing itinerary
             </h3>
 
-            <form method="POST" class="space-y-4">
+            <form method="POST" class="space-y-3 sm:space-y-4">
                 {% csrf_token %}
                 <input type="hidden" name="form_type" value="add_existing">
 
-                <label class="block text-sm font-medium text-gray-600 mb-2">
+                <label class="block text-sm sm:text-base font-medium text-gray-600 mb-1">
                     Select itinerary
                 </label>
                 <select name="itinerary"
-                        class="w-full border rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        class="w-full border rounded-xl px-3 sm:px-4 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     {% for it in user_itineraries %}
                     <option value="{{ it.id }}">
                         {{ it.name }} ({{ it.start_date }} → {{ it.end_date }})
@@ -36,31 +36,31 @@
                 </select>
 
                 <button type="submit"
-                        class="btn bg-indigo-600 hover:bg-indigo-700 text-white w-full py-2 rounded-xl">
+                        class="btn bg-indigo-600 hover:bg-indigo-700 text-white w-full sm:w-auto py-2 rounded-xl text-sm sm:text-base">
                     Add Destination
                 </button>
             </form>
         </div>
 
-        <div class="text-center text-gray-500 font-medium mb-8">OR</div>
+        <div class="text-center text-gray-500 font-medium mb-6 sm:mb-8">OR</div>
         {% endif %}
 
         <!-- Create New Itinerary -->
-        <div class="glass rounded-2xl shadow-xl p-6">
-            <h3 class="text-xl font-semibold mb-4 text-gray-800">
+        <div class="glass rounded-2xl shadow-xl p-4 sm:p-6">
+            <h3 class="text-lg sm:text-xl font-semibold mb-3 text-gray-800">
                 Create a new itinerary
             </h3>
 
-            <form method="POST" class="space-y-4">
+            <form method="POST" class="space-y-3 sm:space-y-4">
                 {% csrf_token %}
                 <input type="hidden" name="form_type" value="new">
 
-                <div class="space-y-4">
+                <div class="space-y-3 sm:space-y-4">
                     {{ form.as_p }}
                 </div>
 
                 <button type="submit"
-                        class="btn bg-green-600 hover:bg-green-700 text-white w-full mt-6 py-2 rounded-xl">
+                        class="btn bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto mt-4 sm:mt-6 py-2 rounded-xl text-sm sm:text-base">
                     Create Itinerary
                 </button>
             </form>
