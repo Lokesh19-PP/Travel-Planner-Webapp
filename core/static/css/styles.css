@@ -51,11 +51,14 @@ body {
 .btn {
     background: var(--accent-gradient);
     color: white;
-    padding: .75rem .75rem;
+    padding: .75rem 1rem;
     border-radius: 9999px;
     font-weight: 600;
     letter-spacing: 0.03em;
     transition: all 0.3s ease;
+    text-align: center;
+    display: inline-block;
+    width: 100%;
 }
 .btn:hover {
     transform: translateY(-3px);
@@ -67,13 +70,13 @@ body {
 ============================= */
 .section-title {
     text-align: center;
-    font-size: 2.6rem;
+    font-size: 2.2rem;
     font-family: "Segoe UI", Arial, sans-serif;
     font-weight: 700;
     background: var(--primary-gradient);
     background-clip: text;
     color: transparent;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
 }
 
 /* =============================
@@ -82,37 +85,22 @@ body {
 .card {
     background: white;
     border-radius: 18px;
-    padding: 1.6rem;
+    padding: 1rem;
     box-shadow: 0 12px 28px rgba(46,52,64,0.12);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 .card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(46,52,64,0.18);
+    transform: translateY(-6px);
+    box-shadow: 0 18px 36px rgba(46,52,64,0.18);
 }
 .card img {
     border-radius: 14px;
-    height: 220px;
+    width: 100%;
+    height: auto;
+    max-height: 220px;
     object-fit: cover;
-}
-
-/* =============================
-   FEATURES
-============================= */
-.feature-card {
-    background: rgba(255,255,255,0.55);
-    backdrop-filter: blur(14px);
-    padding: 2.2rem;
-    border-radius: 18px;
-    text-align: center;
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: var(--rhino);
-    box-shadow: 0 14px 30px rgba(46,52,64,0.12);
-    transition: transform 0.3s ease;
-}
-.feature-card:hover {
-    transform: translateY(-6px);
 }
 
 /* =============================
@@ -122,7 +110,7 @@ body {
     background: rgba(255,255,255,0.6);
     backdrop-filter: blur(16px);
     border-radius: 20px;
-    padding: 3rem;
+    padding: 2rem;
     box-shadow:
         0 25px 50px rgba(46,52,64,0.2),
         inset 0 0 25px rgba(255,255,255,0.4);
@@ -132,15 +120,16 @@ body {
     transform: translateY(-6px);
 }
 .glass h2 {
-    font-size: 2.4rem;
+    font-size: 2rem;
     font-family: "Segoe UI", Arial, sans-serif;
     background: var(--accent-gradient);
     background-clip: text;
     color: transparent;
+    text-align: center;
 }
 .glass p {
     color: #4a5568;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 /* =============================
@@ -148,7 +137,7 @@ body {
 ============================= */
 .testimonial {
     background: rgba(255,255,255,0.6);
-    padding: 2.2rem;
+    padding: 2rem;
     border-radius: 18px;
     font-style: italic;
     color: #3f4754;
@@ -162,7 +151,7 @@ body {
     background: var(--primary-gradient);
     color: white;
     text-align: center;
-    padding: 6rem 1rem;
+    padding: 4rem 1rem;
 }
 
 /* =============================
@@ -203,18 +192,31 @@ body {
 /* =============================
    RESPONSIVE
 ============================= */
+@media (max-width: 1024px) {
+    .card img {
+        max-height: 200px;
+    }
+    .glass {
+        padding: 1.5rem;
+    }
+    .section-title {
+        font-size: 2rem;
+    }
+}
+
 @media (max-width: 768px) {
     nav div {
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
     }
-
     .card img {
-        height: 200px;
+        height: auto;
     }
-
     .glass {
-        padding: 2rem;
+        padding: 1.2rem;
+    }
+    .section-title {
+        font-size: 1.6rem;
     }
 }
