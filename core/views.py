@@ -11,6 +11,12 @@ from .forms import ReviewForm
 from django.db import models
 from django.db.models import Avg
 
+def custom_404(request, exception):
+    return render(request, 'core/404.html', status=404)
+
+def custom_500(request):
+    return render(request, 'core/500.html', status=500)
+
 def home(request):
     query = request.GET.get('search', '')  # Get search term from URL
     if query:
