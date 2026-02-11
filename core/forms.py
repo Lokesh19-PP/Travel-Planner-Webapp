@@ -1,12 +1,14 @@
 from django import forms
-from .models import Itinerary, Destination
-from .models import Review
+from .models import Itinerary, Destination, Review
+from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 class ItineraryForm(forms.ModelForm):
     destinations = forms.ModelMultipleChoiceField(
         queryset=Destination.objects.all(),
         widget=forms.CheckboxSelectMultiple,
-        required=True
+        required=True,
+        help_text="Select at least one destination for your itinerary."
     )
 
     class Meta:
@@ -17,14 +19,26 @@ class ItineraryForm(forms.ModelForm):
             'end_date': forms.DateInput(attrs={'type': 'date'}),
         }
 
+    # Custom validation for dates
+    def clean(self):
+        cleaned_data = super().clean()
+        start = cleaned_data.get('start_date')
+        end = cleaned_data.get('end_date')
+
+        if start and end:
+            if end < start:
+                raise ValidationError("End date cannot be before start date.")
+            if start < timezone.now().date():
+                raise ValidationError("Start date cannot be in the past.")
+
 class ReviewForm(forms.ModelForm):
-    # Replace numeric input with star-based radio buttons
     rating = forms.IntegerField(
         min_value=1,
         max_value=5,
         widget=forms.RadioSelect(
             choices=[(i, '⭐' * i) for i in range(1, 6)]
-        )
+        ),
+        help_text="Select your rating (1-5 stars)."
     )
 
     class Meta:
@@ -38,7 +52,6 @@ class ReviewForm(forms.ModelForm):
             }),
         }
 
-    # Keep the validation
     def clean_rating(self):
         rating = self.cleaned_data.get('rating')
         if rating < 1 or rating > 5:
