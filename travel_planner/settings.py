@@ -133,3 +133,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_URL = '/login/'    # or reverse_lazy('login')
 LOGIN_REDIRECT_URL = '/'  # after login, redirect here
 LOGOUT_REDIRECT_URL = '/'  # after logout
+
+# urls.py (project-level)
+handler404 = 'core.views.custom_404'
+handler500 = 'core.views.custom_500'
