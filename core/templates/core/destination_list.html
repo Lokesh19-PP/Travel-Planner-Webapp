@@ -5,10 +5,10 @@
 <!-- FILTERS -->
 <section class="bg-gray-100 py-8 sm:py-12">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-    <form method="GET" class="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4">
+    <form id="filter-form" class="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4">
 
       <!-- Country Filter -->
-      <select name="country" 
+      <select name="country" id="country-filter"
               class="border rounded-full px-3 sm:px-4 py-2 text-sm sm:text-base focus:outline-none w-full sm:w-auto">
         <option value="All">All Countries</option>
         {% for c in countries %}
@@ -17,7 +17,7 @@
       </select>
 
       <!-- Price Filter -->
-      <select name="price" 
+      <select name="price" id="price-filter"
               class="border rounded-full px-3 sm:px-4 py-2 text-sm sm:text-base focus:outline-none w-full sm:w-auto">
         <option value="All">All Prices</option>
         {% for p in price_ranges %}
@@ -26,7 +26,7 @@
       </select>
 
       <!-- Rating Filter -->
-      <select name="rating" 
+      <select name="rating" id="rating-filter"
               class="border rounded-full px-3 sm:px-4 py-2 text-sm sm:text-base focus:outline-none w-full sm:w-auto">
         <option value="All">All Ratings</option>
         {% for r in ratings %}
@@ -35,7 +35,7 @@
       </select>
 
       <!-- Filter Button -->
-      <button type="submit" 
+      <button type="button" id="filter-btn"
               class="btn bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-full w-full sm:w-auto text-sm sm:text-base">
         Filter
       </button>
@@ -43,14 +43,13 @@
   </div>
 </section>
 
-
 <!-- DESTINATIONS -->
 <section class="bg-gray-50 py-16 sm:py-20 md:py-24">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-6">
     <h2 class="section-title text-2xl sm:text-3xl md:text-3xl font-bold text-center mb-8 sm:mb-12">
       Popular Destinations
     </h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+    <div id="destinations-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
       {% for destination in destinations %}
       <div class="glass rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
         <div class="relative">
@@ -79,5 +78,35 @@
     </div>
   </div>
 </section>
+
+<!-- AJAX Script -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const filterBtn = document.getElementById('filter-btn');
+    const destinationsGrid = document.getElementById('destinations-grid');
+
+    filterBtn.addEventListener('click', () => {
+        const country = document.getElementById('country-filter').value;
+        const price = document.getElementById('price-filter').value;
+        const rating = document.getElementById('rating-filter').value;
+
+        const params = new URLSearchParams();
+        if (country && country !== 'All') params.append('country', country);
+        if (price && price !== 'All') params.append('price', price);
+        if (rating && rating !== 'All') params.append('rating', rating);
+
+        fetch(`{% url 'destination_list' %}?${params.toString()}`)
+            .then(response => response.text())
+            .then(html => {
+                // Extract only the destinations grid from the returned HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newGrid = doc.getElementById('destinations-grid');
+                destinationsGrid.innerHTML = newGrid.innerHTML;
+            })
+            .catch(err => console.error('Error fetching filtered destinations:', err));
+    });
+});
+</script>
 
 {% endblock %}
