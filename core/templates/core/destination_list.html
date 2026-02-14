@@ -8,42 +8,38 @@
     <form id="filter-form" class="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4">
 
       <!-- Country Filter -->
-      <select name="country" id="country-filter"
-              class="border rounded-full px-3 sm:px-4 py-2 text-sm sm:text-base focus:outline-none w-full sm:w-auto">
+      <select name="country" id="country-filter" class="border rounded-full px-3 sm:px-4 py-2 text-sm sm:text-base focus:outline-none w-full sm:w-auto">
         <option value="All">All Countries</option>
         {% for c in countries %}
-        <option value="{{ c }}" {% if selected_country == c %}selected{% endif %}>{{ c }}</option>
+          <option value="{{ c }}" {% if selected_country == c %}selected{% endif %}>{{ c }}</option>
         {% endfor %}
       </select>
 
       <!-- Price Filter -->
-      <select name="price" id="price-filter"
-              class="border rounded-full px-3 sm:px-4 py-2 text-sm sm:text-base focus:outline-none w-full sm:w-auto">
+      <select name="price" id="price-filter" class="border rounded-full px-3 sm:px-4 py-2 text-sm sm:text-base focus:outline-none w-full sm:w-auto">
         <option value="All">All Prices</option>
         {% for p in price_ranges %}
-        <option value="{{ p }}" {% if selected_price == p %}selected{% endif %}>{{ p }}</option>
+          <option value="{{ p }}" {% if selected_price == p %}selected{% endif %}>{{ p }}</option>
         {% endfor %}
       </select>
 
       <!-- Rating Filter -->
-      <select name="rating" id="rating-filter"
-              class="border rounded-full px-3 sm:px-4 py-2 text-sm sm:text-base focus:outline-none w-full sm:w-auto">
+      <select name="rating" id="rating-filter" class="border rounded-full px-3 sm:px-4 py-2 text-sm sm:text-base focus:outline-none w-full sm:w-auto">
         <option value="All">All Ratings</option>
         {% for r in ratings %}
-        <option value="{{ r }}" {% if selected_rating == r|stringformat:"s" %}selected{% endif %}>{{ r }}+</option>
+          <option value="{{ r }}" {% if selected_rating == r|stringformat:"s" %}selected{% endif %}>{{ r }}+</option>
         {% endfor %}
       </select>
 
       <!-- Filter Button -->
-      <button type="button" id="filter-btn"
-              class="btn bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-full w-full sm:w-auto text-sm sm:text-base">
+      <button type="button" id="filter-btn" class="btn bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-full w-full sm:w-auto text-sm sm:text-base">
         Filter
       </button>
     </form>
   </div>
 </section>
 
-<!-- DESTINATIONS -->
+<!-- DESTINATIONS GRID -->
 <section class="bg-gray-50 py-16 sm:py-20 md:py-24">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-6">
     <h2 class="section-title text-2xl sm:text-3xl md:text-3xl font-bold text-center mb-8 sm:mb-12">
@@ -51,54 +47,53 @@
     </h2>
     <div id="destinations-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
       {% for destination in destinations %}
-      <div class="glass rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
-        <div class="relative">
-          <img src="{{ destination.image.url }}" alt="{{ destination.name }}" class="w-full h-48 sm:h-56 md:h-64 object-cover rounded-t-2xl">
-          <div class="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 bg-white/90 px-2 sm:px-3 py-1 rounded-full shadow text-xs sm:text-sm">
-            🌍 {{ destination.country }}
+        <div class="glass rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+          <div class="relative">
+            <img src="{{ destination.image.url }}" alt="{{ destination.name }}" class="w-full h-48 sm:h-56 md:h-64 object-cover rounded-t-2xl">
+            <div class="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 bg-white/90 px-2 sm:px-3 py-1 rounded-full shadow text-xs sm:text-sm">
+              🌍 {{ destination.country }}
+            </div>
+          </div>
+          <div class="p-3 sm:p-4">
+            <h3 class="text-lg sm:text-xl font-bold mb-1 sm:mb-2 bg-gradient-to-r from-teal-400 to-purple-500 bg-clip-text text-transparent">
+              {{ destination.name }}
+            </h3>
+            <p class="text-gray-600 text-sm sm:text-base mb-1">{{ destination.price_range }}</p>
+            <p class="text-gray-500 text-xs sm:text-sm mb-3">{{ destination.description|truncatewords:15 }}</p>
+            <div class="flex flex-col gap-2">
+              <a href="{% url 'destination_detail' destination.slug %}" class="btn bg-blue-500 hover:bg-blue-600 text-white w-full sm:w-auto rounded-full py-2 sm:py-2 text-sm sm:text-base text-center">
+                View Details
+              </a>
+              <a href="{% url 'itinerary_create' %}?destination={{ destination.id }}" class="btn bg-green-500 hover:bg-green-600 text-white w-full sm:w-auto rounded-full py-2 sm:py-2 text-sm sm:text-base text-center">
+                Add to Itinerary
+              </a>
+            </div>
           </div>
         </div>
-        <div class="p-3 sm:p-4">
-          <h3 class="text-lg sm:text-xl font-bold mb-1 sm:mb-2 bg-gradient-to-r from-teal-400 to-purple-500 bg-clip-text text-transparent">
-            {{ destination.name }}
-          </h3>
-          <p class="text-gray-600 text-sm sm:text-base mb-1">{{ destination.price_range }}</p>
-          <p class="text-gray-500 text-xs sm:text-sm mb-3">{{ destination.description|truncatewords:15 }}</p>
-          <div class="flex flex-col gap-2">
-            <a href="{% url 'destination_detail' destination.slug %}" class="btn bg-blue-500 hover:bg-blue-600 text-white w-full sm:w-auto rounded-full py-2 sm:py-2 text-sm sm:text-base text-center">
-              View Details
-            </a>
-            <a href="{% url 'itinerary_create' %}?destination={{ destination.id }}" class="btn bg-green-500 hover:bg-green-600 text-white w-full sm:w-auto rounded-full py-2 sm:py-2 text-sm sm:text-base text-center">
-              Add to Itinerary
-            </a>
-          </div>
-        </div>
-      </div>
       {% endfor %}
     </div>
   </div>
 </section>
 
-<!-- AJAX Script -->
+<!-- AJAX Filter Script -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const filterBtn = document.getElementById('filter-btn');
     const destinationsGrid = document.getElementById('destinations-grid');
 
     filterBtn.addEventListener('click', () => {
+        const params = new URLSearchParams();
         const country = document.getElementById('country-filter').value;
         const price = document.getElementById('price-filter').value;
         const rating = document.getElementById('rating-filter').value;
 
-        const params = new URLSearchParams();
         if (country && country !== 'All') params.append('country', country);
         if (price && price !== 'All') params.append('price', price);
         if (rating && rating !== 'All') params.append('rating', rating);
 
         fetch(`{% url 'destination_list' %}?${params.toString()}`)
-            .then(response => response.text())
+            .then(res => res.text())
             .then(html => {
-                // Extract only the destinations grid from the returned HTML
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 const newGrid = doc.getElementById('destinations-grid');
