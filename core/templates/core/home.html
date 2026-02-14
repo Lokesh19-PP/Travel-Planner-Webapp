@@ -6,46 +6,25 @@
 
 <style>
 /* Smooth scrolling */
-html {
-    scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
-/* Scroll reveal */
-.scroll-reveal {
-    opacity: 0;
-    transform: translateY(50px);
-    transition: all 0.8s ease-out;
-}
-.scroll-reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-}
+/* Scroll reveal animation */
+.scroll-reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s ease-out; }
+.scroll-reveal.active { opacity: 1; transform: translateY(0); }
 
-/* Floating plane */
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-}
-.float {
-    animation: float 4s ease-in-out infinite;
-}
+/* Floating animation for plane and cards */
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+.float, .float-card { animation: float 4s ease-in-out infinite; }
 
-/* Floating cards */
-.float-card {
-    animation: float 4s ease-in-out infinite;
-}
-
-/* Fade-in for hero text */
+/* Fade-in animation for hero text */
 .fade-in { opacity: 0; animation: fadeIn 1s forwards; }
 .fade-in-delay { opacity: 0; animation: fadeIn 1s 0.3s forwards; }
 .fade-in-delay2 { opacity: 0; animation: fadeIn 1s 0.6s forwards; }
 @keyframes fadeIn { to { opacity: 1; } }
 
-/* Card hover */
-.feature-card, .testimonial {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.feature-card:hover, .testimonial:hover {
+/* Card hover effect */
+.feature-card, .testimonial, .card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.feature-card:hover, .testimonial:hover, .card:hover {
     transform: translateY(-8px) scale(1.05);
     box-shadow: 0 10px 20px rgba(0,0,0,0.15);
 }
@@ -53,20 +32,18 @@ html {
 
 <!-- HERO SECTION -->
 <section class="hero-bg text-white relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-6 py-20 md:py-32 text-center relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-6 py-20 md:py-32 text-center z-10 relative">
         <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold drop-shadow-lg fade-in">
             Plan Your Dream Trip
         </h1>
         <p class="text-base sm:text-lg md:text-xl mt-4 md:mt-6 fade-in-delay drop-shadow-md">
             Discover destinations, build itineraries, and travel smarter.
         </p>
-
         <div class="mt-6 sm:mt-8 flex justify-center fade-in-delay2">
             <form method="GET" action="{% url 'destination_list' %}" class="flex w-full max-w-md sm:max-w-lg backdrop-blur bg-white/30 rounded-full shadow-lg overflow-hidden">
-                <input id="search" name="search" type="text"
-                    placeholder="Search destinations..."
-                    value="{{ query|default:'' }}"
-                    class="flex-1 px-4 sm:px-6 py-2 sm:py-3 text-gray-800 focus:outline-none bg-transparent placeholder-gray-600 rounded-l-full">
+                <input id="search" name="search" type="text" placeholder="Search destinations..."
+                       value="{{ query|default:'' }}"
+                       class="flex-1 px-4 sm:px-6 py-2 sm:py-3 text-gray-800 focus:outline-none bg-transparent placeholder-gray-600 rounded-l-full">
                 <button type="submit" class="btn rounded-r-full px-4 sm:px-6 py-2 sm:py-3 text-white bg-blue-500 hover:bg-blue-600">
                     Search
                 </button>
@@ -79,18 +56,10 @@ html {
 <section class="max-w-7xl mx-auto px-4 sm:px-6 md:px-6 py-16 md:py-24">
     <h2 class="section-title text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-12">Why Choose Us?</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mt-8 sm:mt-12">
-        <div class="feature-card bg-gradient-to-r from-indigo-400 to-purple-500 text-white float-card p-6 rounded-lg text-center">
-            🌍 Explore Destinations
-        </div>
-        <div class="feature-card bg-gradient-to-r from-teal-400 to-indigo-500 text-white float-card p-6 rounded-lg text-center">
-            🧭 Smart Itineraries
-        </div>
-        <div class="feature-card bg-gradient-to-r from-yellow-400 to-red-500 text-white float-card p-6 rounded-lg text-center">
-            ⭐ Reviews & Ratings
-        </div>
-        <div class="feature-card bg-gradient-to-r from-green-400 to-teal-500 text-white float-card p-6 rounded-lg text-center">
-            💼 Travel Planning
-        </div>
+        <div class="feature-card bg-gradient-to-r from-indigo-400 to-purple-500 text-white float-card p-6 rounded-lg text-center">🌍 Explore Destinations</div>
+        <div class="feature-card bg-gradient-to-r from-teal-400 to-indigo-500 text-white float-card p-6 rounded-lg text-center">🧭 Smart Itineraries</div>
+        <div class="feature-card bg-gradient-to-r from-yellow-400 to-red-500 text-white float-card p-6 rounded-lg text-center">⭐ Reviews & Ratings</div>
+        <div class="feature-card bg-gradient-to-r from-green-400 to-teal-500 text-white float-card p-6 rounded-lg text-center">💼 Travel Planning</div>
     </div>
 </section>
 
@@ -109,16 +78,9 @@ html {
                     <h3 class="text-lg sm:text-xl font-bold mb-1 sm:mb-2">{{ destination.name }}</h3>
                     <p class="text-gray-600 text-sm sm:text-base mb-1">{{ destination.country }} | {{ destination.price_range }}</p>
                     <p class="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">{{ destination.description|truncatewords:15 }}</p>
-
                     <div class="flex flex-col gap-2 mt-auto">
-                        <a href="{% url 'destination_detail' destination.slug %}" 
-                           class="btn bg-blue-500 hover:bg-blue-600 text-white py-2 rounded text-center text-sm sm:text-base">
-                           View Details
-                        </a>
-                        <a href="{% url 'itinerary_create' %}?destination={{ destination.id }}" 
-                           class="btn bg-green-500 hover:bg-green-600 text-white py-2 rounded text-center text-sm sm:text-base">
-                           Add to Itinerary
-                        </a>
+                        <a href="{% url 'destination_detail' destination.slug %}" class="btn bg-blue-500 hover:bg-blue-600 text-white py-2 rounded text-center text-sm sm:text-base">View Details</a>
+                        <a href="{% url 'itinerary_create' %}?destination={{ destination.id }}" class="btn bg-green-500 hover:bg-green-600 text-white py-2 rounded text-center text-sm sm:text-base">Add to Itinerary</a>
                     </div>
                 </div>
             </div>
