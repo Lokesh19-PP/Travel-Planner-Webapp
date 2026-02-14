@@ -12,26 +12,19 @@
             {% endif %}
         </h2>
 
-        <!-- Quick Add Existing Itinerary -->
+        <!-- Quick Add to Existing Itinerary -->
         {% if user_itineraries and destination %}
         <div class="glass rounded-2xl shadow-xl p-4 sm:p-6 mb-8 sm:mb-10">
-            <h3 class="text-lg sm:text-xl font-semibold mb-3 text-gray-800">
-                Quick add to existing itinerary
-            </h3>
-
+            <h3 class="text-lg sm:text-xl font-semibold mb-3 text-gray-800">Quick add to existing itinerary</h3>
             <form method="POST" class="space-y-3 sm:space-y-4">
                 {% csrf_token %}
                 <input type="hidden" name="form_type" value="add_existing">
 
-                <label class="block text-sm sm:text-base font-medium text-gray-600 mb-1">
-                    Select itinerary
-                </label>
+                <label class="block text-sm sm:text-base font-medium text-gray-600 mb-1">Select itinerary</label>
                 <select name="itinerary"
                         class="w-full border rounded-xl px-3 sm:px-4 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     {% for it in user_itineraries %}
-                    <option value="{{ it.id }}">
-                        {{ it.name }} ({{ it.start_date }} → {{ it.end_date }})
-                    </option>
+                    <option value="{{ it.id }}">{{ it.name }} ({{ it.start_date }} → {{ it.end_date }})</option>
                     {% endfor %}
                 </select>
 
@@ -47,10 +40,7 @@
 
         <!-- Create New Itinerary -->
         <div class="glass rounded-2xl shadow-xl p-4 sm:p-6">
-            <h3 class="text-lg sm:text-xl font-semibold mb-3 text-gray-800">
-                Create a new itinerary
-            </h3>
-
+            <h3 class="text-lg sm:text-xl font-semibold mb-3 text-gray-800">Create a new itinerary</h3>
             <form method="POST" class="space-y-3 sm:space-y-4">
                 {% csrf_token %}
                 <input type="hidden" name="form_type" value="new">
