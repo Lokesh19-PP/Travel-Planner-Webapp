@@ -49,6 +49,27 @@
                         ✍️ Write a Review
                     </a>
                 </div>
+
+                <!-- Favorite Button -->
+                {% if user.is_authenticated %}
+                <div class="mt-4 text-center">
+                    {% if is_favorite %}
+                        <form method="POST" action="{% url 'remove_favorite' destination.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn bg-red-500 hover:bg-red-600 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-full text-sm sm:text-base">
+                                ❤️ Remove from Favorites
+                            </button>
+                        </form>
+                    {% else %}
+                        <form method="POST" action="{% url 'add_favorite' destination.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn bg-pink-500 hover:bg-pink-600 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-full text-sm sm:text-base">
+                                🤍 Save as Favorite
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+                {% endif %}
             </div>
         </div>
 
