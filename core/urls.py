@@ -16,4 +16,5 @@ urlpatterns = [
     path('destinations/<slug:slug>/review/', views.add_review, name='add_review'),
     path("favorite/add/<int:destination_id>/", views.add_favorite, name="add_favorite"),
     path("favorite/remove/<int:destination_id>/", views.remove_favorite, name="remove_favorite"),
+    path("my-favorites/", views.my_favorites, name="my_favorites"),
 ]
