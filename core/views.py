@@ -203,5 +203,22 @@ def itinerary_delete(request, pk):
 @login_required
 def add_favorite(request, destination_id):
     destination = get_object_or_404(Destination, id=destination_id)
-    Favorite.objects.get_or_create(user=request.user, destination=destination)
-    return redirect('destination_detail', slug=destination.slug)
+
+    Favorite.objects.get_or_create(
+        user=request.user,
+        destination=destination
+    )
+
+    return redirect("destination_detail", slug=destination.slug)
+
+
+@login_required
+def remove_favorite(request, destination_id):
+    destination = get_object_or_404(Destination, id=destination_id)
+
+    Favorite.objects.filter(
+        user=request.user,
+        destination=destination
+    ).delete()
+
+    return redirect("destination_detail", slug=destination.slug)
