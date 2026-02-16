@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Destination
+from .models import Destination, Favorite
 from .models import Itinerary
 from .models import Review
 
@@ -16,3 +16,7 @@ class ItineraryAdmin(admin.ModelAdmin):
     search_fields = ('name', 'user__username')
 
 admin.site.register(Review)
+
+@admin.register(Favorite)
+class FavoriteAdmin(admin.ModelAdmin):
+    list_display = ("user", "destination", "created_at")
