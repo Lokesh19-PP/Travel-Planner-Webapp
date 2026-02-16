@@ -1,36 +1,74 @@
 {% extends "core/base.html" %}
-{% block content %}
+{% block title %}My Favorites{% endblock %}
 
-<div class="container mx-auto py-10">
-    <h2 class="text-3xl font-bold mb-8 text-center">
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-12">
+
+    <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center text-[#2e3440]">
         ❤️ My Favorite Destinations
     </h2>
 
     {% if favorites %}
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {% for favorite in favorites %}
-                <div class="bg-white shadow-lg rounded-xl p-5 hover:shadow-xl transition">
-                    <h3 class="text-xl font-semibold mb-2">
-                        <a href="{% url 'destination_detail' favorite.destination.slug %}">
-                            {{ favorite.destination.name }}
+                <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition overflow-hidden">
+                    <!-- Destination Image -->
+                    <div class="h-48 sm:h-56 w-full overflow-hidden">
+                        {% if favorite.destination.image %}
+                            <img src="{{ favorite.destination.image.url }}" 
+                                 alt="{{ favorite.destination.name }}" 
+                                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                        {% else %}
+                            <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">
+                                No Image
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-4 sm:p-5">
+                        <h3 class="text-xl sm:text-2xl font-semibold mb-2 text-[#2e3440]">
+                            <a href="{% url 'destination_detail' favorite.destination.slug %}" class="hover:text-blue-500 transition">
+                                {{ favorite.destination.name }}
+                            </a>
+                        </h3>
+
+                        <!-- Average Rating -->
+                        {% if favorite.destination.average_rating %}
+                            <div class="flex items-center mb-2">
+                                <span class="text-yellow-400 mr-2">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= favorite.destination.average_rating|floatformat:0 %}
+                                            ★
+                                        {% else %}
+                                            ☆
+                                        {% endif %}
+                                    {% endfor %}
+                                </span>
+                                <span class="text-gray-500 text-sm">
+                                    ({{ favorite.destination.reviews.count }} reviews)
+                                </span>
+                            </div>
+                        {% endif %}
+
+                        <!-- Description -->
+                        <p class="text-gray-600 text-sm sm:text-base mb-4">
+                            {{ favorite.destination.description|truncatewords:25 }}
+                        </p>
+
+                        <!-- View Details Button -->
+                        <a href="{% url 'destination_detail' favorite.destination.slug %}" 
+                           class="bg-gradient-to-r from-pink-500 via-pink-600 to-pink-700 hover:from-pink-600 hover:via-pink-700 hover:to-pink-800 text-white px-5 py-2 sm:py-3 rounded-full font-medium transition text-center">
+                            View Details
                         </a>
-                    </h3>
-
-                    <p class="text-gray-600 text-sm mb-3">
-                        {{ favorite.destination.description|truncatewords:20 }}
-                    </p>
-
-                    <p class="text-xs text-gray-400">
-                        Added on {{ favorite.created_at|date:"M d, Y" }}
-                    </p>
+                    </div>
                 </div>
             {% endfor %}
         </div>
     {% else %}
-        <p class="text-center text-gray-500">
+        <p class="text-center text-gray-500 text-lg mt-10">
             You haven't added any favorites yet.
         </p>
     {% endif %}
 </div>
-
 {% endblock %}
