@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import Itinerary, Destination
+from .models import Itinerary, Destination, Favorite
 from .forms import ItineraryForm, ReviewForm
 from .utils import get_filtered_destinations, get_average_rating
 
@@ -189,3 +189,9 @@ def itinerary_delete(request, pk):
         messages.success(request, f'Itinerary "{itinerary.name}" deleted successfully!')
         return redirect("itinerary_list")
     return render(request, "core/itinerary_confirm_delete.html", {"itinerary": itinerary})
+
+@login_required
+def add_favorite(request, destination_id):
+    destination = get_object_or_404(Destination, id=destination_id)
+    Favorite.objects.get_or_create(user=request.user, destination=destination)
+    return redirect('destination_detail', slug=destination.slug)
