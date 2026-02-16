@@ -105,10 +105,20 @@ def destination_detail(request, slug):
     average_rating = get_average_rating(destination)
     reviews = destination.reviews.all().order_by("-created_at")
 
+    # Check if the user has favorited this destination
+    is_favorite = False
+    if request.user.is_authenticated:
+        is_favorite = Favorite.objects.filter(user=request.user, destination=destination).exists()
+
     return render(
         request,
         "core/destination_detail.html",
-        {"destination": destination, "reviews": reviews, "average_rating": average_rating},
+        {
+            "destination": destination,
+            "reviews": reviews,
+            "average_rating": average_rating,
+            "is_favorite": is_favorite,
+        },
     )
 
 
