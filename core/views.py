@@ -222,3 +222,16 @@ def remove_favorite(request, destination_id):
     ).delete()
 
     return redirect("destination_detail", slug=destination.slug)
+
+@login_required
+def my_favorites(request):
+    favorites = (
+        Favorite.objects
+        .filter(user=request.user)
+        .select_related("destination")
+        .order_by("-created_at")
+    )
+
+    return render(request, "core/my_favorites.html", {
+        "favorites": favorites
+    })
