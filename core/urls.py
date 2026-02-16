@@ -14,5 +14,6 @@ urlpatterns = [
     path('itinerary/add/', views.itinerary_create, name='itinerary_create'),
     path('itinerary/<int:pk>/delete/', views.itinerary_delete, name='itinerary_delete'),
     path('destinations/<slug:slug>/review/', views.add_review, name='add_review'),
-    path('destination/<int:destination_id>/favorite/', views.add_favorite, name='add_favorite'),
+    path("favorite/add/<int:destination_id>/", views.add_favorite, name="add_favorite"),
+    path("favorite/remove/<int:destination_id>/", views.remove_favorite, name="remove_favorite"),
 ]
