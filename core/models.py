@@ -58,27 +58,22 @@ class Favorite(models.Model):
         return f"{self.user.username} - {self.destination.name}"
     
 class ItineraryDay(models.Model):
-    itinerary = models.ForeignKey('Itinerary', on_delete=models.CASCADE, related_name='days')
-    day_number = models.PositiveIntegerField()
-    date = models.DateField()
+    itinerary = models.ForeignKey(Itinerary, on_delete=models.CASCADE, related_name="days")
+    day_number = models.PositiveIntegerField(default=1)  # <-- add default
+    date = models.DateField(null=True, blank=True)
     notes = models.TextField(blank=True)
 
     def save(self, *args, **kwargs):
+        # Auto-calculate day_number based on existing days in this itinerary
         if not self.day_number:
-            self.day_number = self.itinerary.days.count() + 1
-        if not self.date:
-            self.date = self.itinerary.start_date + timezone.timedelta(days=self.day_number - 1)
+            last_day = ItineraryDay.objects.filter(itinerary=self.itinerary).order_by('-day_number').first()
+            self.day_number = last_day.day_number + 1 if last_day else 1
+
+        # Auto-set date based on itinerary start date
+        if self.itinerary.start_date and not self.date:
+            self.date = self.itinerary.start_date + timezone.timedelta(days=self.day_number-1)
+
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.itinerary.title} - Day {self.day_number}"
-
-
-class Activity(models.Model):
-    day = models.ForeignKey(ItineraryDay, on_delete=models.CASCADE, related_name="activities")
-    title = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-    time = models.TimeField(null=True, blank=True)
-
-    def __str__(self):
-        return f"{self.day.itinerary.name} - {self.title}"
+        return f"Day {self.day_number} of {self.itinerary.name}"
