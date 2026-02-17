@@ -3,10 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import Itinerary, Destination, Favorite
+from .models import Itinerary, Destination, Favorite, ItineraryDay
 from .forms import ItineraryForm, ReviewForm
 from .utils import get_filtered_destinations, get_average_rating
-
+from .forms import ItineraryDayForm
 
 # ---------------------------
 # AUTHENTICATION VIEWS
@@ -235,3 +235,16 @@ def my_favorites(request):
     return render(request, "core/my_favorites.html", {
         "favorites": favorites
     })
+
+def add_itinerary_day(request, itinerary_id):
+    itinerary = get_object_or_404(Itinerary, id=itinerary_id)
+    if request.method == 'POST':
+        form = ItineraryDayForm(request.POST)
+        if form.is_valid():
+            day = form.save(commit=False)
+            day.itinerary = itinerary
+            day.save()
+            return redirect('itinerary_detail', itinerary_id=itinerary.id)
+    else:
+        form = ItineraryDayForm()
+    return render(request, 'core/add_itinerary_day.html', {'form': form, 'itinerary': itinerary})
