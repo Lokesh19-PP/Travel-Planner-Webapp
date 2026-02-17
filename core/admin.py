@@ -23,7 +23,8 @@ class FavoriteAdmin(admin.ModelAdmin):
 
 @admin.register(ItineraryDay)
 class ItineraryDayAdmin(admin.ModelAdmin):
-    list_display = ("itinerary", "date", "title")
+    list_display = ('itinerary', 'day_number', 'date')
+    list_filter = ('itinerary',)
 
 @admin.register(Activity)
 class ActivityAdmin(admin.ModelAdmin):
