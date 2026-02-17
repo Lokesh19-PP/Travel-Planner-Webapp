@@ -28,11 +28,11 @@
         {% endif %}
 
         <!-- Existing Days -->
-        {% if itinerary.itineraryday_set.all %}
+        {% if itinerary.days.all %}
         <div class="mb-8">
             <h3 class="text-xl sm:text-2xl font-semibold mb-4">Itinerary Days</h3>
             <div class="space-y-4">
-                {% for day in itinerary.itineraryday_set.all %}
+                {% for day in itinerary.days.all %}
                 <div class="bg-white shadow rounded-xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center">
                     <div>
                         <p class="font-semibold text-gray-800">Day {{ day.day_number }} - {{ day.date }}</p>
