@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 class Destination(models.Model):
     name = models.CharField(max_length=100)
@@ -57,12 +58,20 @@ class Favorite(models.Model):
         return f"{self.user.username} - {self.destination.name}"
     
 class ItineraryDay(models.Model):
-    itinerary = models.ForeignKey(Itinerary, on_delete=models.CASCADE, related_name="days")
-    date = models.DateField(null=True, blank=True)
-    title = models.CharField(max_length=255, blank=True)
+    itinerary = models.ForeignKey('Itinerary', on_delete=models.CASCADE, related_name='days')
+    day_number = models.PositiveIntegerField()
+    date = models.DateField()
+    notes = models.TextField(blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.day_number:
+            self.day_number = self.itinerary.days.count() + 1
+        if not self.date:
+            self.date = self.itinerary.start_date + timezone.timedelta(days=self.day_number - 1)
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.itinerary.name} — Day {self.id} ({self.date})"
+        return f"{self.itinerary.title} - Day {self.day_number}"
 
 
 class Activity(models.Model):
