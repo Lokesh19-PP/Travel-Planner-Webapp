@@ -1,5 +1,6 @@
 from django import forms
 from .models import Itinerary, Destination, Review
+from .models import ItineraryDay
 
 class ItineraryForm(forms.ModelForm):
     destinations = forms.ModelMultipleChoiceField(
@@ -43,3 +44,8 @@ class ReviewForm(forms.ModelForm):
         if not comment or comment.strip() == "":
             raise forms.ValidationError("Comment cannot be empty.")
         return comment
+    
+class ItineraryDayForm(forms.ModelForm):
+    class Meta:
+        model = ItineraryDay
+        fields = ['notes']
