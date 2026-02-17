@@ -10,6 +10,43 @@
             From {{ itinerary.start_date }} to {{ itinerary.end_date }}
         </p>
 
+        <!-- Add Day Section -->
+        {% if user.is_authenticated %}
+        <div class="mb-8 text-center">
+            <button id="show-add-day-form" class="btn bg-yellow-400 hover:bg-yellow-500 text-white py-2 px-4 sm:px-6 rounded-xl text-sm sm:text-base">
+                ➕ Add Day
+            </button>
+
+            <form id="add-day-form" method="POST" action="{% url 'add_day' itinerary.id %}" class="mt-4 hidden bg-white p-4 rounded-xl shadow-md max-w-md mx-auto">
+                {% csrf_token %}
+                <textarea name="notes" placeholder="Enter day notes..." class="w-full border rounded p-2 mb-3 resize-none" rows="3"></textarea>
+                <button type="submit" class="btn bg-pink-500 hover:bg-pink-600 text-white py-2 px-4 rounded-xl w-full sm:w-auto">
+                    Save Day
+                </button>
+            </form>
+        </div>
+        {% endif %}
+
+        <!-- Existing Days -->
+        {% if itinerary.itineraryday_set.all %}
+        <div class="mb-8">
+            <h3 class="text-xl sm:text-2xl font-semibold mb-4">Itinerary Days</h3>
+            <div class="space-y-4">
+                {% for day in itinerary.itineraryday_set.all %}
+                <div class="bg-white shadow rounded-xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                    <div>
+                        <p class="font-semibold text-gray-800">Day {{ day.day_number }} - {{ day.date }}</p>
+                        <p class="text-gray-600 text-sm sm:text-base">{{ day.notes|truncatewords:25 }}</p>
+                    </div>
+                    <div class="mt-2 sm:mt-0">
+                        <!-- Optional: Add Edit/Delete buttons here -->
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
         <!-- Destinations Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {% for dest in itinerary.destinations.all %}
@@ -50,4 +87,12 @@
 
     </div>
 </section>
+
+<!-- Toggle JS for Add Day Form -->
+<script>
+document.getElementById("show-add-day-form")?.addEventListener("click", function() {
+    const form = document.getElementById("add-day-form");
+    form.classList.toggle("hidden");
+});
+</script>
 {% endblock %}
