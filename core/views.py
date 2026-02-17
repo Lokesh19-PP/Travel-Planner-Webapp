@@ -236,15 +236,16 @@ def my_favorites(request):
         "favorites": favorites
     })
 
+@login_required
 def add_itinerary_day(request, itinerary_id):
-    itinerary = get_object_or_404(Itinerary, id=itinerary_id)
+    itinerary = get_object_or_404(Itinerary, id=itinerary_id, user=request.user)
     if request.method == 'POST':
         form = ItineraryDayForm(request.POST)
         if form.is_valid():
             day = form.save(commit=False)
             day.itinerary = itinerary
             day.save()
-            return redirect('itinerary_detail', itinerary_id=itinerary.id)
+            return redirect('itinerary_detail', pk=itinerary.id)  # <- change here
     else:
         form = ItineraryDayForm()
     return render(request, 'core/add_itinerary_day.html', {'form': form, 'itinerary': itinerary})
