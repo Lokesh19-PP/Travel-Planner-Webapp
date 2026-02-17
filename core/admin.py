@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Destination, Favorite
-from .models import Itinerary, Activity
+from .models import Itinerary, Activity,  ItineraryDay
 from .models import Review
 
 @admin.register(Destination)
