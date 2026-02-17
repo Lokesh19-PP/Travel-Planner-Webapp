@@ -49,3 +49,6 @@ class ItineraryDayForm(forms.ModelForm):
     class Meta:
         model = ItineraryDay
         fields = ['notes']
+        widgets = {
+            'notes': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Enter day notes...', 'class': 'w-full border rounded p-2 mb-3 resize-none'}),
+        }
