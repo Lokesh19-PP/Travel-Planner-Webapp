@@ -55,3 +55,21 @@ class Favorite(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.destination.name}"
+    
+class ItineraryDay(models.Model):
+    itinerary = models.ForeignKey(Itinerary, on_delete=models.CASCADE, related_name="days")
+    date = models.DateField(null=True, blank=True)
+    title = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return f"{self.itinerary.name} — Day {self.id} ({self.date})"
+
+
+class Activity(models.Model):
+    day = models.ForeignKey(ItineraryDay, on_delete=models.CASCADE, related_name="activities")
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    time = models.TimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.day.itinerary.name} - {self.title}"
