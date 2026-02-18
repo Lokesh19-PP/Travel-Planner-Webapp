@@ -5,7 +5,9 @@
     <div class="max-w-md sm:max-w-5xl mx-auto px-4 sm:px-6">
 
         <!-- Itinerary Header -->
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-2">{{ itinerary.name }}</h2>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-2">
+            {{ itinerary.name }}
+        </h2>
         <p class="text-gray-600 text-center mb-6 sm:mb-8">
             From {{ itinerary.start_date }} to {{ itinerary.end_date }}
         </p>
@@ -13,14 +15,19 @@
         <!-- Add Day Section -->
         {% if user.is_authenticated %}
         <div class="mb-8 text-center">
-            <button id="show-add-day-form" class="btn bg-yellow-400 hover:bg-yellow-500 text-white py-2 px-4 sm:px-6 rounded-xl text-sm sm:text-base">
+            <button id="show-add-day-form"
+                class="btn bg-yellow-400 hover:bg-yellow-500 text-white py-2 px-4 sm:px-6 rounded-xl text-sm sm:text-base">
                 ➕ Add Day
             </button>
 
-            <form id="add-day-form" method="POST" action="{% url 'add_day' itinerary.id %}" class="mt-4 hidden bg-white p-4 rounded-xl shadow-md max-w-md mx-auto">
+            <form id="add-day-form" method="POST"
+                action="{% url 'add_day' itinerary.id %}"
+                class="mt-4 hidden bg-white p-4 rounded-xl shadow-md max-w-md mx-auto">
                 {% csrf_token %}
-                <textarea name="notes" placeholder="Enter day notes..." class="w-full border rounded p-2 mb-3 resize-none" rows="3"></textarea>
-                <button type="submit" class="btn bg-pink-500 hover:bg-pink-600 text-white py-2 px-4 rounded-xl w-full sm:w-auto">
+                <textarea name="notes" placeholder="Enter day notes..."
+                    class="w-full border rounded p-2 mb-3 resize-none" rows="3"></textarea>
+                <button type="submit"
+                    class="btn bg-pink-500 hover:bg-pink-600 text-white py-2 px-4 rounded-xl w-full sm:w-auto">
                     Save Day
                 </button>
             </form>
@@ -31,56 +38,78 @@
         {% if itinerary.days.all %}
         <div class="mb-8">
             <h3 class="text-xl sm:text-2xl font-semibold mb-4">Itinerary Days</h3>
-            <div class="space-y-4">
+
+            <div class="space-y-6">
                 {% for day in itinerary.days.all %}
-                <div class="bg-white shadow rounded-xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center">
-                    <div>
-                        <p class="font-semibold text-gray-800">Day {{ day.day_number }} - {{ day.date }}</p>
-                        <p class="text-gray-600 text-sm sm:text-base">{{ day.notes|truncatewords:25 }}</p>
+                <div class="bg-white shadow rounded-xl p-4">
+
+                    <!-- Day Info -->
+                    <div class="mb-3">
+                        <p class="font-semibold text-gray-800">
+                            Day {{ day.day_number }} - {{ day.date }}
+                        </p>
+                        <p class="text-gray-600 text-sm sm:text-base">
+                            {{ day.notes }}
+                        </p>
                     </div>
-                    <div class="mt-2 sm:mt-0">
-                        <!-- Optional: Add Edit/Delete buttons here -->
+
+                    <!-- Activities List -->
+                    <div class="ml-4">
+                        <h4 class="font-semibold text-gray-700 mb-2">Activities</h4>
+
+                        {% if day.activities.all %}
+                            <ul class="space-y-2 mb-3">
+                                {% for activity in day.activities.all %}
+                                <li class="border p-2 rounded bg-gray-50">
+                                    <p class="font-medium">
+                                        {{ activity.time }} - {{ activity.title }}
+                                    </p>
+                                    <p class="text-sm text-gray-600">
+                                        {{ activity.description }}
+                                    </p>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-sm text-gray-500 mb-3">
+                                No activities added yet.
+                            </p>
+                        {% endif %}
+
+                        <!-- Add Activity Form -->
+                        {% if user.is_authenticated %}
+                        <form method="POST"
+                            action="{% url 'add_activity' day.id %}"
+                            class="space-y-2">
+                            {% csrf_token %}
+                            <input type="time" name="time"
+                                class="border rounded p-1 w-full" required>
+                            <input type="text" name="title"
+                                placeholder="Activity Title"
+                                class="border rounded p-1 w-full" required>
+                            <textarea name="description"
+                                placeholder="Description"
+                                rows="2"
+                                class="border rounded p-1 w-full"
+                                required></textarea>
+                            <button type="submit"
+                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded">
+                                ➕ Add Activity
+                            </button>
+                        </form>
+                        {% endif %}
                     </div>
+
                 </div>
                 {% endfor %}
             </div>
         </div>
         {% endif %}
 
-        <!-- Destinations Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-            {% for dest in itinerary.destinations.all %}
-            <div class="card rounded-2xl shadow-xl overflow-hidden transition transform hover:-translate-y-1 hover:shadow-2xl">
-                <div class="relative">
-                    <img src="{{ dest.image.url }}" alt="{{ dest.name }}" class="w-full h-52 sm:h-56 object-cover rounded-t-2xl">
-                    <div class="absolute bottom-3 left-3 bg-white/90 px-3 py-1 rounded-full shadow text-xs sm:text-sm">
-                        🌍 {{ dest.country }}
-                    </div>
-                </div>
-                <div class="p-4 flex flex-col">
-                    <h3 class="text-lg sm:text-xl font-bold mb-1">{{ dest.name }}</h3>
-                    <p class="text-gray-600 mb-1 text-sm sm:text-base">{{ dest.price_range }}</p>
-                    <p class="text-yellow-500 mb-2 text-sm sm:text-base">
-                        {% for i in "12345" %}
-                            {% if forloop.counter <= dest.rating %}
-                                ⭐
-                            {% else %}
-                                ☆
-                            {% endif %}
-                        {% endfor %}
-                    </p>
-                    <p class="text-gray-700 text-sm mb-4">{{ dest.description|truncatewords:20 }}</p>
-                    <a href="{% url 'destination_detail' dest.slug %}" class="btn bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-xl text-center text-sm sm:text-base">
-                        View Destination
-                    </a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-
         <!-- Back Button -->
         <div class="mt-8 sm:mt-10 text-center">
-            <a href="{% url 'itinerary_list' %}" class="btn bg-gray-600 hover:bg-gray-700 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-xl text-sm sm:text-base">
+            <a href="{% url 'itinerary_list' %}"
+                class="btn bg-gray-600 hover:bg-gray-700 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-xl text-sm sm:text-base">
                 Back to My Itineraries
             </a>
         </div>
@@ -88,11 +117,11 @@
     </div>
 </section>
 
-<!-- Toggle JS for Add Day Form -->
 <script>
 document.getElementById("show-add-day-form")?.addEventListener("click", function() {
     const form = document.getElementById("add-day-form");
     form.classList.toggle("hidden");
 });
 </script>
+
 {% endblock %}
