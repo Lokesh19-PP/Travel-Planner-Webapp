@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Destination, Favorite
-from .models import Itinerary, ItineraryDay
+from .models import Itinerary, ItineraryDay, Activity
 from .models import Review
 
 @admin.register(Destination)
@@ -25,3 +25,9 @@ class FavoriteAdmin(admin.ModelAdmin):
 class ItineraryDayAdmin(admin.ModelAdmin):
     list_display = ('itinerary', 'day_number', 'date')
     list_filter = ('itinerary',)
+
+@admin.register(Activity)
+class ActivityAdmin(admin.ModelAdmin):
+    list_display = ("day", "title", "time")
+    list_filter = ("day",)
+    search_fields = ("title",)
