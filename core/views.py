@@ -6,8 +6,8 @@ from django.contrib.auth.models import User
 from .models import Itinerary, Destination, Favorite, ItineraryDay
 from .forms import ItineraryForm, ReviewForm
 from .utils import get_filtered_destinations, get_average_rating
-from .forms import ItineraryDayForm
-
+from .forms import ItineraryDayForm, ActivityForm
+from .models import Activity
 # ---------------------------
 # AUTHENTICATION VIEWS
 # ---------------------------
@@ -249,3 +249,17 @@ def add_itinerary_day(request, itinerary_id):
     else:
         form = ItineraryDayForm()
     return render(request, 'core/add_itinerary_day.html', {'form': form, 'itinerary': itinerary})
+
+@login_required
+def add_activity(request, day_id):
+    day = get_object_or_404(ItineraryDay, id=day_id, itinerary__user=request.user)
+    if request.method == "POST":
+        form = ActivityForm(request.POST)
+        if form.is_valid():
+            activity = form.save(commit=False)
+            activity.day = day
+            activity.save()
+            return redirect("itinerary_detail", pk=day.itinerary.id)
+    else:
+        form = ActivityForm()
+    return render(request, "core/add_activity.html", {"form": form, "day": day})
