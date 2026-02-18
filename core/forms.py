@@ -1,5 +1,5 @@
 from django import forms
-from .models import Itinerary, Destination, Review
+from .models import Itinerary, Destination, Review, Activity
 from .models import ItineraryDay
 
 class ItineraryForm(forms.ModelForm):
@@ -51,4 +51,13 @@ class ItineraryDayForm(forms.ModelForm):
         fields = ['notes']
         widgets = {
             'notes': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Enter day notes...', 'class': 'w-full border rounded p-2 mb-3 resize-none'}),
+        }
+
+class ActivityForm(forms.ModelForm):
+    class Meta:
+        model = Activity
+        fields = ["title", "description", "time"]
+        widgets = {
+            "description": forms.Textarea(attrs={"rows": 2}),
+            "time": forms.TimeInput(attrs={"type": "time"}),
         }
