@@ -77,3 +77,12 @@ class ItineraryDay(models.Model):
 
     def __str__(self):
         return f"Day {self.day_number} of {self.itinerary.name}"
+    
+class Activity(models.Model):
+    day = models.ForeignKey(ItineraryDay, on_delete=models.CASCADE, related_name="activities")
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    time = models.TimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.title} ({self.day.itinerary.name} - Day {self.day.day_number})"
