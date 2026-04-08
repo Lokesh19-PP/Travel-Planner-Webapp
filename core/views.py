@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -159,7 +160,19 @@ def add_review(request, slug):
 @login_required
 def itinerary_list(request):
     itineraries = Itinerary.objects.filter(user=request.user)
-    return render(request, "core/itinerary_list.html", {"itineraries": itineraries})
+    query = request.GET.get('search', '')
+    start_date = request.GET.get('start_date', '')
+    
+    if query:
+        itineraries = itineraries.filter(name__icontains=query)
+    if start_date:
+        itineraries = itineraries.filter(start_date__gte=start_date)
+        
+    return render(request, "core/itinerary_list.html", {
+        "itineraries": itineraries,
+        "query": query,
+        "start_date": start_date
+    })
 
 
 @login_required
