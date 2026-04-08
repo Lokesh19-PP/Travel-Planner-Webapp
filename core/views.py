@@ -263,3 +263,26 @@ def add_activity(request, day_id):
     else:
         form = ActivityForm()
     return render(request, "core/add_activity.html", {"form": form, "day": day})
+
+@login_required
+def edit_activity(request, activity_id):
+    activity = get_object_or_404(Activity, id=activity_id, day__itinerary__user=request.user)
+    if request.method == "POST":
+        form = ActivityForm(request.POST, instance=activity)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Activity updated successfully!")
+            return redirect("itinerary_detail", pk=activity.day.itinerary.id)
+    else:
+        form = ActivityForm(instance=activity)
+    return render(request, "core/edit_activity.html", {"form": form, "activity": activity})
+
+@login_required
+def delete_activity(request, activity_id):
+    activity = get_object_or_404(Activity, id=activity_id, day__itinerary__user=request.user)
+    itinerary_id = activity.day.itinerary.id
+    if request.method == "POST":
+        activity.delete()
+        messages.success(request, "Activity deleted successfully!")
+        return redirect("itinerary_detail", pk=itinerary_id)
+    return render(request, "core/delete_activity_confirm.html", {"activity": activity})

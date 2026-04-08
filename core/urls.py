@@ -19,4 +19,6 @@ urlpatterns = [
     path("my-favorites/", views.my_favorites, name="my_favorites"),
     path('itinerary/<int:itinerary_id>/add-day/', views.add_itinerary_day, name='add_day'),
     path("itinerary/day/<int:day_id>/add-activity/", views.add_activity, name="add_activity"),
+    path("activity/<int:activity_id>/edit/", views.edit_activity, name="edit_activity"),
+    path("activity/<int:activity_id>/delete/", views.delete_activity, name="delete_activity"),
 ]
