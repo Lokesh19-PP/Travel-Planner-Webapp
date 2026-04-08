@@ -69,7 +69,7 @@ class ItineraryDay(models.Model):
 
     def save(self, *args, **kwargs):
         # Auto-calculate day_number based on existing days in this itinerary
-        if not self.day_number:
+        if self.pk is None and self.day_number == 1:
             last_day = ItineraryDay.objects.filter(itinerary=self.itinerary).order_by('-day_number').first()
             self.day_number = last_day.day_number + 1 if last_day else 1
 
