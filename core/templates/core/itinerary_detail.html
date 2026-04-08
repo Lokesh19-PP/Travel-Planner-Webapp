@@ -5,21 +5,27 @@
     <div class="max-w-md sm:max-w-5xl mx-auto px-4 sm:px-6">
 
         <!-- Itinerary Header -->
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-2">
-            {{ itinerary.name }}
-        </h2>
-        <p class="text-gray-600 text-center mb-6 sm:mb-8">
-            From {{ itinerary.start_date }} to {{ itinerary.end_date }}
-            <br>
-            <span class="font-bold text-green-700 mt-2 inline-block bg-green-100 px-3 py-1 rounded-full shadow-sm">Total Est. Cost: ${{ itinerary.total_cost|floatformat:2 }}</span>
-        </p>
+        <div class="glass-card p-8 rounded-3xl mb-12 text-center relative overflow-hidden">
+            <!-- Decorative background element -->
+            <div class="absolute -top-24 -right-24 w-48 h-48 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-50 blur-animation"></div>
+            <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl opacity-50 blur-animation"></div>
+            
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-pink-500 relative z-10">
+                {{ itinerary.name }}
+            </h2>
+            <p class="text-gray-600 text-lg relative z-10">
+                <span class="font-medium bg-white/50 px-3 py-1 rounded-full">{{ itinerary.start_date }}</span> to <span class="font-medium bg-white/50 px-3 py-1 rounded-full">{{ itinerary.end_date }}</span>
+                <br>
+                <span class="font-bold text-green-700 mt-4 inline-block bg-green-100 px-4 py-2 rounded-full shadow-sm text-lg">Total Est. Cost: ${{ itinerary.total_cost|floatformat:2 }}</span>
+            </p>
+        </div>
 
         <!-- Add Day Section -->
         {% if user.is_authenticated %}
-        <div class="mb-8 text-center">
+        <div class="mb-12 text-center">
             <button id="show-add-day-form"
-                class="btn bg-yellow-400 hover:bg-yellow-500 text-white py-2 px-4 sm:px-6 rounded-xl text-sm sm:text-base">
-                ➕ Add Day
+                class="btn-glow bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition transform hover:scale-105">
+                ➕ Add New Day
             </button>
 
             <form id="add-day-form" method="POST"
@@ -36,14 +42,19 @@
         </div>
         {% endif %}
 
-        <!-- Existing Days -->
+        <!-- Existing Days Timeline -->
         {% if itinerary.days.all %}
-        <div class="mb-8">
-            <h3 class="text-xl sm:text-2xl font-semibold mb-4">Itinerary Days</h3>
-
-            <div class="space-y-6">
+        <div class="mb-12">
+            <div class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-1 before:bg-gradient-to-b before:from-indigo-500 before:via-purple-500 before:to-pink-500">
                 {% for day in itinerary.days.all %}
-                <div class="bg-white shadow rounded-xl p-4">
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active scroll-reveal">
+                    <!-- Icon -->
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-indigo-500 text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                        <span class="font-bold text-sm">{{ day.day_number }}</span>
+                    </div>
+
+                    <!-- Card -->
+                    <div class="glass-card w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl shadow-lg border-t-4 border-indigo-400">
 
                     <!-- Day Info -->
                     <div class="mb-3 flex justify-between items-start">
@@ -60,14 +71,14 @@
                         </div>
                     </div>
 
-                    <!-- Activities List -->
-                    <div class="ml-4">
-                        <h4 class="font-semibold text-gray-700 mb-2">Activities</h4>
+                        <!-- Activities List -->
+                        <div class="mt-4 bg-white/50 p-4 rounded-xl border border-white/40">
+                            <h4 class="font-bold text-gray-700 mb-3 flex items-center gap-2"><span>📋</span> Activities</h4>
 
-                        {% if day.activities.all %}
-                            <ul class="space-y-2 mb-3">
-                                {% for activity in day.activities.all %}
-                                <li class="border p-3 rounded bg-gray-50 flex justify-between items-start">
+                            {% if day.activities.all %}
+                                <ul class="space-y-3 mb-4">
+                                    {% for activity in day.activities.all %}
+                                    <li class="p-3 rounded-lg bg-white shadow-sm border border-gray-100 flex justify-between items-start hover:shadow-md transition">
                                     <div>
                                         <p class="font-medium text-gray-800">
                                             {{ activity.time|time:"H:i" }} - {{ activity.title }}
@@ -112,13 +123,14 @@
                                 class="border rounded p-1 w-full"
                                 required></textarea>
                             <button type="submit"
-                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded">
-                                ➕ Add Activity
-                            </button>
-                        </form>
-                        {% endif %}
-                    </div>
+                                    class="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold px-4 py-2 rounded-lg w-full transition shadow-sm">
+                                    ➕ Add Activity
+                                </button>
+                            </form>
+                            {% endif %}
+                        </div>
 
+                    </div>
                 </div>
                 {% endfor %}
             </div>
@@ -126,10 +138,10 @@
         {% endif %}
 
         <!-- Back Button -->
-        <div class="mt-8 sm:mt-10 text-center">
+        <div class="mt-12 text-center pb-12">
             <a href="{% url 'itinerary_list' %}"
-                class="btn bg-gray-600 hover:bg-gray-700 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-xl text-sm sm:text-base">
-                Back to My Itineraries
+                class="btn-glow bg-gray-800 hover:bg-gray-900 text-white font-bold px-8 py-4 rounded-full text-lg shadow-xl inline-block transition transform hover:scale-105">
+                ← Back to My Itineraries
             </a>
         </div>
 

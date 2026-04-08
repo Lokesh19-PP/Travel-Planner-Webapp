@@ -2,22 +2,23 @@
 {% block title %}My Favorites{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto px-4 py-12">
+<div class="max-w-7xl mx-auto px-4 py-16 md:py-24">
 
-    <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center text-[#2e3440]">
+    <h2 class="text-4xl sm:text-5xl font-extrabold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-indigo-600 tracking-tight drop-shadow-md">
         ❤️ My Favorite Destinations
     </h2>
 
     {% if favorites %}
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {% for favorite in favorites %}
-                <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition overflow-hidden">
+                <div class="glass-card rounded-[2rem] shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden scroll-reveal group flex flex-col">
                     <!-- Destination Image -->
-                    <div class="h-48 sm:h-56 w-full overflow-hidden">
+                    <div class="h-48 sm:h-56 w-full overflow-hidden relative">
                         {% if favorite.destination.image %}
                             <img src="{{ favorite.destination.image.url }}" 
                                  alt="{{ favorite.destination.name }}" 
-                                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                         {% else %}
                             <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">
                                 No Image
@@ -56,14 +57,14 @@
                             {{ favorite.destination.description|truncatewords:25 }}
                         </p>
 
-                        <div class="flex flex-col sm:flex-row gap-2">
+                        <div class="flex flex-col sm:flex-row gap-3 mt-4">
                             <!-- View Details Button -->
                             <a href="{% url 'destination_detail' favorite.destination.slug %}" 
-                               class="bg-gradient-to-r from-pink-500 via-pink-600 to-pink-700 hover:from-pink-600 hover:via-pink-700 hover:to-pink-800 text-white px-4 py-2 sm:py-3 rounded-full font-medium transition text-center flex-1">
+                               class="btn-glow bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white px-4 py-3 rounded-xl font-bold transition text-center flex-1 shadow-md hover:shadow-lg transform hover:-translate-y-1">
                                 View Details
                             </a>
                             <a href="{% url 'itinerary_create' %}?destination={{ favorite.destination.id }}" 
-                               class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 sm:py-3 rounded-full font-medium transition text-center flex-1">
+                               class="btn-glow bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white px-4 py-3 rounded-xl font-bold transition text-center flex-1 shadow-md hover:shadow-lg transform hover:-translate-y-1">
                                 ➕ Add to Trip
                             </a>
                         </div>

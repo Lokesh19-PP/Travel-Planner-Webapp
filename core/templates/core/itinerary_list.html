@@ -4,19 +4,19 @@
 <section class="bg-gray-50 py-16 sm:py-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-6">
 
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center mb-8 tracking-tight drop-shadow-md text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-pink-500">
             My Itineraries
         </h2>
 
         <!-- Search & Filter Form -->
-        <form method="GET" action="{% url 'itinerary_list' %}" class="max-w-2xl mx-auto mb-8 sm:mb-12 flex flex-col sm:flex-row gap-3 px-2">
-            <input type="text" name="search" value="{{ query }}" placeholder="Search by name..." class="flex-1 border border-gray-300 rounded-lg p-2 sm:p-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-            <input type="date" name="start_date" value="{{ start_date }}" class="border border-gray-300 rounded-lg p-2 sm:p-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-700">
-            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg px-6 py-2 sm:py-3 font-semibold transition">
+        <form method="GET" action="{% url 'itinerary_list' %}" class="max-w-2xl mx-auto mb-12 flex flex-col sm:flex-row gap-3 px-2 glass-card p-3 rounded-2xl">
+            <input type="text" name="search" value="{{ query }}" placeholder="Search by name..." class="flex-1 border-0 rounded-xl p-3 shadow-inner bg-white/50 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            <input type="date" name="start_date" value="{{ start_date }}" class="border-0 rounded-xl p-3 shadow-inner bg-white/50 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-gray-700">
+            <button type="submit" class="btn-glow bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl px-6 py-3 font-semibold transition shadow-md">
                 Search
             </button>
             {% if query or start_date %}
-            <a href="{% url 'itinerary_list' %}" class="bg-gray-400 hover:bg-gray-500 text-white rounded-lg px-6 py-2 sm:py-3 font-semibold transition text-center flex items-center justify-center">
+            <a href="{% url 'itinerary_list' %}" class="bg-gray-400 hover:bg-gray-500 text-white rounded-xl px-6 py-3 font-semibold transition text-center flex items-center justify-center">
                 Clear
             </a>
             {% endif %}
@@ -26,7 +26,7 @@
         <div class="grid grid-cols-1 gap-6 sm:gap-8">
 
             {% for itinerary in itineraries %}
-            <div class="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition transform hover:-translate-y-1 overflow-hidden">
+            <div class="glass-card rounded-3xl scroll-reveal overflow-hidden relative group">
 
                 <div class="p-6">
 
@@ -41,10 +41,10 @@
                     {% if itinerary.destinations.all %}
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 mb-4">
                         {% for dest in itinerary.destinations.all|slice:":8" %}
-                        <div class="flex flex-col items-center">
+                        <div class="flex flex-col items-center group/img">
                             <img src="{{ dest.image.url }}" 
                                  alt="{{ dest.name }}" 
-                                 class="w-full h-36 sm:h-40 object-cover rounded-lg shadow-sm">
+                                 class="w-full h-36 sm:h-40 object-cover rounded-xl shadow-md transition transform group-hover/img:scale-105">
                             <p class="text-xs sm:text-sm text-gray-500 mt-1 text-center truncate">
                                 {{ dest.name }}
                             </p>
@@ -58,15 +58,15 @@
                     {% endif %}
 
                     <!-- Actions -->
-                    <div class="flex flex-col sm:flex-row gap-3">
+                    <div class="flex flex-col sm:flex-row gap-3 mt-6">
                         <a href="{% url 'itinerary_detail' itinerary.pk %}" 
-                           class="btn bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg flex-1 text-center text-sm sm:text-base">
+                           class="btn-glow bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white py-3 rounded-xl flex-1 text-center font-bold shadow-md transition">
                             View Details
                         </a>
-                        <form action="{% url 'itinerary_delete' itinerary.pk %}" method="POST" class="flex-1">
+                        <form action="{% url 'itinerary_delete' itinerary.pk %}" method="POST" class="flex-[0.5]">
                             {% csrf_token %}
                             <button type="submit" 
-                                    class="btn bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg w-full text-sm sm:text-base">
+                                    class="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl w-full font-bold shadow-md transition">
                                 Delete
                             </button>
                         </form>
@@ -86,8 +86,8 @@
 
         <div class="text-center mt-8 sm:mt-12">
             <a href="{% url 'itinerary_create' %}" 
-               class="btn bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-xl text-sm sm:text-base md:text-lg">
-               Create New Itinerary
+               class="btn-glow bg-gradient-to-r from-green-400 to-teal-500 hover:from-green-500 hover:to-teal-600 text-white px-8 py-4 rounded-full text-lg font-bold shadow-xl transition transform hover:scale-105 inline-block">
+               ➕ Create New Itinerary
             </a>
         </div>
 

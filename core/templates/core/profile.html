@@ -2,15 +2,19 @@
 {% block title %}Profile - Travel Planner{% endblock %}
 
 {% block content %}
-<section class="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 flex items-center justify-center px-4 sm:px-6 py-12 sm:py-24">
+<section class="min-h-[85vh] bg-gradient-to-br from-indigo-50 via-white to-pink-50 flex items-center justify-center px-4 sm:px-6 py-12 sm:py-24 relative overflow-hidden">
+    <!-- Decorative Blobs -->
+    <div class="absolute top-0 right-0 w-64 h-64 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+    <div class="absolute bottom-0 left-0 w-64 h-64 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
 
-    <div class="max-w-md w-full bg-white rounded-3xl shadow-2xl overflow-hidden">
+    <div class="max-w-md w-full glass-card border border-white/60 rounded-[2rem] overflow-hidden relative z-10 scroll-reveal pb-4 shadow-xl">
 
-        <!-- Header with avatar-style icon -->
-        <div class="bg-indigo-600 flex flex-col items-center justify-center p-10 sm:p-12">
-            <div class="w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center bg-indigo-400 rounded-full text-4xl sm:text-5xl mb-3 sm:mb-4 shadow-lg">🧳</div>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-white truncate">{{ user.username }}</h2>
-            <p class="text-indigo-100 mt-1 text-sm sm:text-base">Traveler Profile</p>
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 flex flex-col items-center justify-center p-10 sm:p-12 relative overflow-hidden">
+            <div class="absolute inset-0 bg-white/10 backdrop-blur-sm -skew-y-6 origin-top ml-[-20%] w-[140%]"></div>
+            <div class="w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center bg-white rounded-full text-4xl sm:text-5xl mb-3 sm:mb-4 shadow-[0_0_20px_rgba(255,255,255,0.4)] relative z-10">🧳</div>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white truncate relative z-10">{{ user.username }}</h2>
+            <p class="text-indigo-100 mt-1 text-sm sm:text-base relative z-10 font-medium tracking-wide">Traveler Profile</p>
         </div>
 
         <!-- Info Section -->
@@ -61,13 +65,13 @@
 
             <!-- Send Reminders Button -->
             <a href="{% url 'send_reminders' %}" 
-               class="btn w-full text-center text-base sm:text-lg bg-indigo-600 hover:bg-indigo-700 text-white py-3 sm:py-3.5 rounded-xl transition-transform transform hover:-translate-y-1 shadow-md block mb-4">
+               class="btn-glow w-full text-center text-base sm:text-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold py-3 sm:py-4 rounded-xl shadow-lg block mb-4 transition transform hover:scale-[1.02]">
                Send Trip Reminders
             </a>
 
             <!-- Logout Button -->
             <a href="{% url 'logout' %}" 
-               class="btn w-full text-center text-base sm:text-lg bg-red-600 hover:bg-red-700 text-white py-3 sm:py-3.5 rounded-xl transition-transform transform hover:-translate-y-1 shadow-md block">
+               class="btn-glow w-full text-center text-base sm:text-lg bg-gradient-to-r from-red-500 to-pink-600 text-white font-bold py-3 sm:py-4 rounded-xl shadow-lg block transition transform hover:scale-[1.02]">
                Logout
             </a>
 
