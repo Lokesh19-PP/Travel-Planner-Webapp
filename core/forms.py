@@ -56,8 +56,9 @@ class ItineraryDayForm(forms.ModelForm):
 class ActivityForm(forms.ModelForm):
     class Meta:
         model = Activity
-        fields = ["title", "description", "time"]
+        fields = ["title", "description", "time", "cost"]
         widgets = {
             "description": forms.Textarea(attrs={"rows": 2}),
             "time": forms.TimeInput(attrs={"type": "time"}),
+            "cost": forms.NumberInput(attrs={"step": "0.01", "placeholder": "Cost (optional)"}),
         }

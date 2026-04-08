@@ -29,6 +29,10 @@ class Itinerary(models.Model):
     end_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    @property
+    def total_cost(self):
+        return sum(day.total_cost for day in self.days.all())
+
     def __str__(self):
         return f"{self.name} by {self.user.username}"
     
@@ -75,6 +79,10 @@ class ItineraryDay(models.Model):
 
         super().save(*args, **kwargs)
 
+    @property
+    def total_cost(self):
+        return sum(activity.cost or 0 for activity in self.activities.all())
+
     def __str__(self):
         return f"Day {self.day_number} of {self.itinerary.name}"
     
@@ -83,6 +91,7 @@ class Activity(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     time = models.TimeField(null=True, blank=True)
+    cost = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return f"{self.title} ({self.day.itinerary.name} - Day {self.day.day_number})"
