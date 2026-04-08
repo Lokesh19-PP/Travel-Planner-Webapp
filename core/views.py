@@ -7,7 +7,8 @@ from .models import Itinerary, Destination, Favorite, ItineraryDay
 from .forms import ItineraryForm, ReviewForm
 from .utils import get_filtered_destinations, get_average_rating
 from .forms import ItineraryDayForm, ActivityForm
-from .models import Activity
+from .models import Activity, Review
+from django.db.models import Avg
 # ---------------------------
 # AUTHENTICATION VIEWS
 # ---------------------------
@@ -63,7 +64,17 @@ def signup_view(request):
 
 @login_required(login_url="login")
 def profile_view(request):
-    return render(request, "core/profile.html", {"user": request.user})
+    total_trips = request.user.itineraries.count()
+    total_destinations = Destination.objects.filter(itineraries__user=request.user).distinct().count()
+    avg_rating = Review.objects.filter(user=request.user).aggregate(Avg('rating'))['rating__avg'] or 0.0
+
+    context = {
+        "user": request.user,
+        "total_trips": total_trips,
+        "total_destinations": total_destinations,
+        "avg_rating": round(avg_rating, 1)
+    }
+    return render(request, "core/profile.html", context)
 
 
 # ---------------------------
