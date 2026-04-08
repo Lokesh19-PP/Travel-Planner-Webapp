@@ -7,6 +7,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path("signup/", views.signup_view, name="signup"),
     path('profile/', views.profile_view, name='profile'),
+    path('send-reminders/', views.send_reminders, name='send_reminders'),
     path('destinations/', views.destination_list, name='destination_list'),
     path('destinations/<slug:slug>/', views.destination_detail, name='destination_detail'),
     path('itineraries/', views.itinerary_list, name='itinerary_list'),

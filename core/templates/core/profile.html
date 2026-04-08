@@ -59,9 +59,15 @@
             <!-- Divider -->
             <div class="border-t pt-4 sm:pt-6"></div>
 
+            <!-- Send Reminders Button -->
+            <a href="{% url 'send_reminders' %}" 
+               class="btn w-full text-center text-base sm:text-lg bg-indigo-600 hover:bg-indigo-700 text-white py-3 sm:py-3.5 rounded-xl transition-transform transform hover:-translate-y-1 shadow-md block mb-4">
+               Send Trip Reminders
+            </a>
+
             <!-- Logout Button -->
             <a href="{% url 'logout' %}" 
-               class="btn w-full text-center text-base sm:text-lg bg-red-600 hover:bg-red-700 text-white py-3 sm:py-3.5 rounded-xl transition-transform transform hover:-translate-y-1 shadow-md">
+               class="btn w-full text-center text-base sm:text-lg bg-red-600 hover:bg-red-700 text-white py-3 sm:py-3.5 rounded-xl transition-transform transform hover:-translate-y-1 shadow-md block">
                Logout
             </a>
 

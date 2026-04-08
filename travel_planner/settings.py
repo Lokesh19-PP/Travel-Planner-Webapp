@@ -138,3 +138,6 @@ LOGOUT_REDIRECT_URL = '/'  # after logout
 # urls.py (project-level)
 handler404 = 'core.views.custom_404'
 handler500 = 'core.views.custom_500'
+
+# Email Config (Dev)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

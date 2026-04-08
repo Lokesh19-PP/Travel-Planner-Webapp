@@ -10,6 +10,9 @@ from .utils import get_filtered_destinations, get_average_rating
 from .forms import ItineraryDayForm, ActivityForm
 from .models import Activity, Review
 from django.db.models import Avg
+from django.core.mail import send_mail
+from django.utils import timezone
+from datetime import timedelta
 # ---------------------------
 # AUTHENTICATION VIEWS
 # ---------------------------
@@ -76,6 +79,26 @@ def profile_view(request):
         "avg_rating": round(avg_rating, 1)
     }
     return render(request, "core/profile.html", context)
+
+@login_required
+def send_reminders(request):
+    upcoming_itineraries = Itinerary.objects.filter(
+        user=request.user,
+        start_date__gte=timezone.now().date(),
+        start_date__lte=timezone.now().date() + timedelta(days=7)
+    )
+    if upcoming_itineraries.exists():
+        for itinerary in upcoming_itineraries:
+            send_mail(
+                subject=f"Upcoming Trip Reminder: {itinerary.name}",
+                message=f"Hi {request.user.username},\n\nYour trip '{itinerary.name}' is starting on {itinerary.start_date}.\nGet ready!",
+                from_email="noreply@travelplanner.com",
+                recipient_list=[request.user.email],
+            )
+        messages.success(request, f"Sent reminders for {upcoming_itineraries.count()} upcoming trips!")
+    else:
+        messages.info(request, "No trips scheduled in the next 7 days.")
+    return redirect('profile')
 
 
 # ---------------------------
