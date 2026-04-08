@@ -53,9 +53,10 @@ html { scroll-behavior: smooth; }
 
     function HeroSearch() {
         const [isFocused, setIsFocused] = useState(false);
-        const [query, setQuery] = useState("{{ query|default:'' }}");
+        const [query, setQuery] = useState("{{ query|default:''|escapejs }}");
         
         return (
+            {% verbatim %}
             <motion.div 
                initial={{ opacity: 0, y: 30 }}
                animate={{ opacity: 1, y: 0 }}
@@ -64,7 +65,7 @@ html { scroll-behavior: smooth; }
             >
                 <form 
                     method="GET" 
-                    action="{% url 'destination_list' %}" 
+                    action="/destinations/" 
                     className={`flex w-full max-w-md sm:max-w-2xl glass-card rounded-full overflow-hidden p-1 transition-all duration-500 ${isFocused ? 'ring-4 ring-pink-400/50 scale-105 shadow-[0_20px_50px_rgba(236,72,153,0.3)]' : 'scale-100 shadow-xl'}`}
                 >
                     <input 
@@ -88,6 +89,7 @@ html { scroll-behavior: smooth; }
                     </motion.button>
                 </form>
             </motion.div>
+            {% endverbatim %}
         );
     }
 
