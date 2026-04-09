@@ -1,49 +1,58 @@
-{% extends "core/base.html" %}
-{% block title %}Signup | Travel Planner{% endblock %}
+{% extends 'core/base.html' %}
+{% block title %}Join Us | Travel Planner{% endblock %}
 
 {% block content %}
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-pink-50 px-4 sm:px-6 py-12 sm:py-24 relative overflow-hidden">
-    
-    <!-- Decorative Blobs -->
-    <div class="absolute top-0 right-0 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-    <div class="absolute bottom-0 left-0 w-72 h-72 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-
-    <div class="glass-card border border-white/60 rounded-[2rem] shadow-2xl p-8 sm:p-12 w-full max-w-md relative z-10 scroll-reveal">
+<div class="min-h-[70vh] flex items-center justify-center px-4 relative">
+    <div class="glass-card rounded-[3rem] shadow-2xl p-10 md:p-16 w-full max-w-lg relative z-10 scroll-reveal border-white/40">
+        
         <!-- Header -->
-        <div class="text-center mb-8">
-            <div class="text-6xl mb-4 drop-shadow-md">🛫</div>
-            <h2 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-indigo-600 tracking-tight">Create Account</h2>
-            <p class="text-gray-500 mt-2 font-medium">Join Travel Planner and start your journey!</p>
+        <div class="text-center mb-10">
+            <div class="w-20 h-20 bg-pink-50 text-pink-500 rounded-3xl flex items-center justify-center text-4xl mx-auto mb-6 shadow-inner tracking-tighter">🛫</div>
+            <h2 class="text-4xl font-black text-gray-900 tracking-tight">Join the Journey</h2>
+            <p class="text-gray-500 mt-3 font-bold uppercase tracking-widest text-xs">Create your explorer account</p>
         </div>
 
-        <!-- Signup Form -->
-        <form method="POST" class="space-y-4">
+        <!-- Form -->
+        <form method="POST" class="space-y-5">
             {% csrf_token %}
+            
+            <div class="space-y-1">
+                <label class="text-xs font-black text-gray-400 uppercase tracking-widest pl-4">Username</label>
+                <input type="text" name="username" placeholder="Username"
+                    class="w-full px-6 py-4 bg-white/50 border-0 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 font-bold transition text-gray-800 placeholder:text-gray-300 outline-none shadow-inner" required>
+            </div>
 
-            <input type="text" name="username" placeholder="Username"
-                class="w-full px-5 py-4 border-0 bg-white/60 shadow-inner rounded-xl focus:outline-none focus:ring-4 focus:ring-indigo-400 font-medium transition text-gray-700" required>
+            <div class="space-y-1">
+                <label class="text-xs font-black text-gray-400 uppercase tracking-widest pl-4">Email Address</label>
+                <input type="email" name="email" placeholder="explorer@travel.com"
+                    class="w-full px-6 py-4 bg-white/50 border-0 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 font-bold transition text-gray-800 placeholder:text-gray-300 outline-none shadow-inner" required>
+            </div>
 
-            <input type="email" name="email" placeholder="Email"
-                class="w-full px-5 py-4 border-0 bg-white/60 shadow-inner rounded-xl focus:outline-none focus:ring-4 focus:ring-indigo-400 font-medium transition text-gray-700" required>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-1">
+                    <label class="text-xs font-black text-gray-400 uppercase tracking-widest pl-4">Password</label>
+                    <input type="password" name="password1" placeholder="••••••••"
+                        class="w-full px-6 py-4 bg-white/50 border-0 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 font-bold transition text-gray-800 placeholder:text-gray-300 outline-none shadow-inner" required>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-black text-gray-400 uppercase tracking-widest pl-4">Confirm</label>
+                    <input type="password" name="password2" placeholder="••••••••"
+                        class="w-full px-6 py-4 bg-white/50 border-0 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 font-bold transition text-gray-800 placeholder:text-gray-300 outline-none shadow-inner" required>
+                </div>
+            </div>
 
-            <input type="password" name="password1" placeholder="Password"
-                class="w-full px-5 py-4 border-0 bg-white/60 shadow-inner rounded-xl focus:outline-none focus:ring-4 focus:ring-indigo-400 font-medium transition text-gray-700" required>
-
-            <input type="password" name="password2" placeholder="Confirm Password"
-                class="w-full px-5 py-4 border-0 bg-white/60 shadow-inner rounded-xl focus:outline-none focus:ring-4 focus:ring-indigo-400 font-medium transition text-gray-700" required>
-
-            <button type="submit" 
-                    class="btn-glow w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold py-4 rounded-xl mt-4 shadow-xl transition transform hover:scale-[1.02]">
-                Sign Up
+            <button type="submit" class="btn-premium w-full text-white font-black py-5 rounded-2xl mt-6 text-lg shadow-xl shadow-indigo-500/20 active:scale-[0.98] transition">
+                Create Account
             </button>
         </form>
 
-        <!-- Login Link -->
-        <p class="text-center mt-8 text-sm font-medium text-gray-600">
-            Already have an account?
-            <a href="{% url 'login' %}" class="text-indigo-600 font-extrabold hover:underline">Login</a>
-        </p>
+        <!-- Footer -->
+        <div class="text-center mt-12 pt-8 border-t border-gray-100">
+            <p class="text-gray-500 font-bold text-sm">
+                Already an explorer? 
+                <a href="{% url 'login' %}" class="text-indigo-600 hover:underline ml-1">Login here</a>
+            </p>
+        </div>
     </div>
-
 </div>
 {% endblock %}

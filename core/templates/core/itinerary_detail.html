@@ -1,158 +1,145 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<section class="bg-gray-50 py-16 sm:py-24">
-    <div class="max-w-md sm:max-w-5xl mx-auto px-4 sm:px-6">
-
-        <!-- Itinerary Header -->
-        <div class="glass-card p-8 rounded-3xl mb-12 text-center relative overflow-hidden">
-            <!-- Decorative background element -->
-            <div class="absolute -top-24 -right-24 w-48 h-48 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-50 blur-animation"></div>
-            <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl opacity-50 blur-animation"></div>
-            
-            <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-pink-500 relative z-10">
+<section class="max-w-5xl mx-auto px-6 py-12">
+    <!-- Itinerary Header -->
+    <div class="glass-card p-12 rounded-[2.5rem] mb-12 text-center relative overflow-hidden backdrop-blur-3xl">
+        <div class="relative z-10">
+            <span class="bg-indigo-100 text-indigo-600 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-4 inline-block">Travel Itinerary</span>
+            <h2 class="text-4xl md:text-6xl font-black mb-4 tracking-tight text-gray-900">
                 {{ itinerary.name }}
             </h2>
-            <p class="text-gray-600 text-lg relative z-10">
-                <span class="font-medium bg-white/50 px-3 py-1 rounded-full">{{ itinerary.start_date }}</span> to <span class="font-medium bg-white/50 px-3 py-1 rounded-full">{{ itinerary.end_date }}</span>
-                <br>
-                <span class="font-bold text-green-700 mt-4 inline-block bg-green-100 px-4 py-2 rounded-full shadow-sm text-lg">Total Est. Cost: ${{ itinerary.total_cost|floatformat:2 }}</span>
-            </p>
-        </div>
-
-        <!-- Add Day Section -->
-        {% if user.is_authenticated %}
-        <div class="mb-12 text-center">
-            <button id="show-add-day-form"
-                class="btn-glow bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition transform hover:scale-105">
-                ➕ Add New Day
-            </button>
-
-            <form id="add-day-form" method="POST"
-                action="{% url 'add_day' itinerary.id %}"
-                class="mt-4 hidden bg-white p-4 rounded-xl shadow-md max-w-md mx-auto">
-                {% csrf_token %}
-                <textarea name="notes" placeholder="Enter day notes..."
-                    class="w-full border rounded p-2 mb-3 resize-none" rows="3"></textarea>
-                <button type="submit"
-                    class="btn bg-pink-500 hover:bg-pink-600 text-white py-2 px-4 rounded-xl w-full sm:w-auto">
-                    Save Day
-                </button>
-            </form>
-        </div>
-        {% endif %}
-
-        <!-- Existing Days Timeline -->
-        {% if itinerary.days.all %}
-        <div class="mb-12">
-            <div class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-1 before:bg-gradient-to-b before:from-indigo-500 before:via-purple-500 before:to-pink-500">
-                {% for day in itinerary.days.all %}
-                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active scroll-reveal">
-                    <!-- Icon -->
-                    <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-indigo-500 text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
-                        <span class="font-bold text-sm">{{ day.day_number }}</span>
-                    </div>
-
-                    <!-- Card -->
-                    <div class="glass-card w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl shadow-lg border-t-4 border-indigo-400">
-
-                    <!-- Day Info -->
-                    <div class="mb-3 flex justify-between items-start">
-                        <div>
-                            <p class="font-semibold text-gray-800">
-                                Day {{ day.day_number }} - {{ day.date }}
-                            </p>
-                            <p class="text-gray-600 text-sm sm:text-base">
-                                {{ day.notes }}
-                            </p>
-                        </div>
-                        <div class="text-green-700 font-bold bg-green-100 px-3 py-1 rounded shadow-sm text-sm">
-                            ${{ day.total_cost|floatformat:2 }}
-                        </div>
-                    </div>
-
-                        <!-- Activities List -->
-                        <div class="mt-4 bg-white/50 p-4 rounded-xl border border-white/40">
-                            <h4 class="font-bold text-gray-700 mb-3 flex items-center gap-2"><span>📋</span> Activities</h4>
-
-                            {% if day.activities.all %}
-                                <ul class="space-y-3 mb-4">
-                                    {% for activity in day.activities.all %}
-                                    <li class="p-3 rounded-lg bg-white shadow-sm border border-gray-100 flex justify-between items-start hover:shadow-md transition">
-                                    <div>
-                                        <p class="font-medium text-gray-800">
-                                            {{ activity.time|time:"H:i" }} - {{ activity.title }}
-                                            {% if activity.cost %}
-                                            <span class="text-green-600 font-bold ml-2">${{ activity.cost|floatformat:2 }}</span>
-                                            {% endif %}
-                                        </p>
-                                        <p class="text-sm text-gray-600 mt-1">
-                                            {{ activity.description }}
-                                        </p>
-                                    </div>
-                                    <div class="flex flex-col sm:flex-row gap-2 mt-2 sm:mt-0 text-sm">
-                                        <a href="{% url 'edit_activity' activity.id %}" class="text-indigo-600 hover:text-indigo-800 font-semibold px-2 py-1 bg-indigo-50 hover:bg-indigo-100 rounded transition">Edit</a>
-                                        <a href="{% url 'delete_activity' activity.id %}" class="text-red-600 hover:text-red-800 font-semibold px-2 py-1 bg-red-50 hover:bg-red-100 rounded transition">Delete</a>
-                                    </div>
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        {% else %}
-                            <p class="text-sm text-gray-500 mb-3">
-                                No activities added yet.
-                            </p>
-                        {% endif %}
-
-                        <!-- Add Activity Form -->
-                        {% if user.is_authenticated %}
-                        <form method="POST"
-                            action="{% url 'add_activity' day.id %}"
-                            class="space-y-2">
-                            {% csrf_token %}
-                            <input type="time" name="time"
-                                class="border rounded p-1 w-full" required>
-                            <input type="text" name="title"
-                                placeholder="Activity Title"
-                                class="border rounded p-1 w-full" required>
-                            <input type="number" step="0.01" name="cost"
-                                placeholder="Cost ($) Optional"
-                                class="border rounded p-1 w-full">
-                            <textarea name="description"
-                                placeholder="Description"
-                                rows="2"
-                                class="border rounded p-1 w-full"
-                                required></textarea>
-                            <button type="submit"
-                                    class="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold px-4 py-2 rounded-lg w-full transition shadow-sm">
-                                    ➕ Add Activity
-                                </button>
-                            </form>
-                            {% endif %}
-                        </div>
-
-                    </div>
-                </div>
-                {% endfor %}
+            <div class="flex flex-wrap justify-center gap-4 text-gray-500 font-bold">
+                <span class="flex items-center gap-2 bg-white/50 px-4 py-2 rounded-2xl">📅 {{ itinerary.start_date }} — {{ itinerary.end_date }}</span>
+                <span class="flex items-center gap-2 bg-green-50 text-green-600 px-4 py-2 rounded-2xl shadow-sm">💰 Est. Cost: ${{ itinerary.total_cost|floatformat:2 }}</span>
             </div>
         </div>
-        {% endif %}
+        <!-- Decorative blobs -->
+        <div class="absolute -top-24 -right-24 w-64 h-64 bg-pink-400/20 rounded-full blur-[100px]"></div>
+        <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-indigo-400/20 rounded-full blur-[100px]"></div>
+    </div>
 
-        <!-- Back Button -->
-        <div class="mt-12 text-center pb-12">
-            <a href="{% url 'itinerary_list' %}"
-                class="btn-glow bg-gray-800 hover:bg-gray-900 text-white font-bold px-8 py-4 rounded-full text-lg shadow-xl inline-block transition transform hover:scale-105">
-                ← Back to My Itineraries
-            </a>
+    <!-- Actions Section -->
+    {% if user.is_authenticated %}
+    <div class="mb-16 flex flex-col items-center">
+        <button id="show-add-day-form" class="btn-premium px-10 py-4 text-white font-bold rounded-2xl shadow-xl flex items-center gap-2 hover:scale-105 transition">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+            Add New Day
+        </button>
+
+        <form id="add-day-form" method="POST" action="{% url 'add_day' itinerary.id %}" class="mt-8 hidden glass-card p-8 rounded-[2rem] w-full max-w-lg shadow-2xl">
+            {% csrf_token %}
+            <h3 class="text-xl font-bold mb-4 text-gray-800">New Day Notes</h3>
+            <textarea name="notes" placeholder="What's the plan for this day?" class="w-full bg-white/50 border-0 rounded-2xl p-4 mb-4 focus:ring-4 focus:ring-indigo-500/20 transition outline-none h-32" required></textarea>
+            <div class="flex gap-4">
+                <button type="submit" class="flex-1 btn-premium py-4 text-white font-bold rounded-xl shadow-lg">Save Day</button>
+                <button type="button" onclick="document.getElementById('add-day-form').classList.add('hidden')" class="px-6 py-4 bg-gray-100 text-gray-500 font-bold rounded-xl hover:bg-gray-200 transition">Cancel</button>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+
+    <!-- Timeline -->
+    {% if itinerary.days.all %}
+    <div class="relative space-y-12 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-1 before:bg-gradient-to-b before:from-indigo-200 before:via-purple-200 before:to-pink-200">
+        {% for day in itinerary.days.all %}
+        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group scroll-reveal">
+            <!-- Icon -->
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-indigo-600 text-white shadow-xl shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 transition-transform group-hover:scale-125">
+                <span class="font-bold text-sm">{{ day.day_number }}</span>
+            </div>
+
+            <!-- Card -->
+            <div class="glass-card w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-8 rounded-[2rem] shadow-xl group-hover:shadow-2xl transition-all">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-1">Day {{ day.day_number }}</h3>
+                        <p class="text-gray-400 font-bold text-sm uppercase tracking-widest">{{ day.date }}</p>
+                    </div>
+                    <div class="bg-green-100 text-green-600 px-4 py-2 rounded-xl font-black text-sm">
+                        ${{ day.total_cost|floatformat:2 }}
+                    </div>
+                </div>
+                
+                <p class="text-gray-600 leading-relaxed mb-8 italic">"{{ day.notes }}"</p>
+
+                <!-- Activities -->
+                <div class="space-y-4">
+                    <h4 class="text-sm font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                        Daily Activities
+                    </h4>
+                    
+                    {% for activity in day.activities.all %}
+                    <div class="bg-white/40 border border-white/60 p-5 rounded-2xl flex justify-between items-start hover:bg-white/60 transition group/item">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-1">
+                                <span class="text-indigo-600 font-black text-sm">{{ activity.time|time:"H:i" }}</span>
+                                <h5 class="font-bold text-gray-800">{{ activity.title }}</h5>
+                                {% if activity.cost %}
+                                <span class="text-green-600 font-bold text-xs bg-green-50 px-2 py-0.5 rounded cursor-default">${{ activity.cost|floatformat:2 }}</span>
+                                {% endif %}
+                            </div>
+                            <p class="text-sm text-gray-500 leading-relaxed">{{ activity.description }}</p>
+                        </div>
+                        <div class="flex gap-2 opacity-0 group-hover/item:opacity-100 transition">
+                            <a href="{% url 'edit_activity' activity.id %}" class="p-2 text-indigo-500 hover:bg-indigo-50 rounded-lg transition">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-gray-400 text-sm font-medium py-4 text-center border-2 border-dashed border-gray-100 rounded-2xl">No activities planned yet.</p>
+                    {% endfor %}
+
+                    <!-- Add Activity Form -->
+                    <button onclick="this.nextElementSibling.classList.toggle('hidden')" class="w-full py-3 border-2 border-dashed border-indigo-200 text-indigo-500 rounded-2xl text-sm font-bold hover:bg-indigo-50 transition flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                        Add Activity
+                    </button>
+                    <form method="POST" action="{% url 'add_activity' day.id %}" class="hidden p-6 bg-indigo-50/50 rounded-2xl space-y-4 shadow-inner">
+                        {% csrf_token %}
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-1">
+                                <label class="text-xs font-black text-indigo-400 uppercase tracking-widest pl-2">Time</label>
+                                <input type="time" name="time" class="w-full bg-white border-0 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-500 transition outline-none font-bold text-gray-700" required>
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-xs font-black text-indigo-400 uppercase tracking-widest pl-2">Title</label>
+                                <input type="text" name="title" placeholder="e.g. Visit Eiffel Tower" class="w-full bg-white border-0 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-500 transition outline-none font-bold text-gray-700 placeholder:text-gray-300" required>
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-xs font-black text-indigo-400 uppercase tracking-widest pl-2">Cost (Optional)</label>
+                            <input type="number" step="0.01" name="cost" placeholder="0.00" class="w-full bg-white border-0 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-500 transition outline-none font-bold text-gray-700">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-xs font-black text-indigo-400 uppercase tracking-widest pl-2">Description</label>
+                            <textarea name="description" placeholder="Quick notes about the activity..." class="w-full bg-white border-0 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-500 transition outline-none font-medium text-gray-600 h-24" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full btn-premium py-4 text-white font-bold rounded-xl shadow-lg transition transform active:scale-95">Save Activity</button>
+                    </form>
+                </div>
+            </div>
         </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
+    <!-- Footer Actions -->
+    <div class="mt-24 text-center">
+        <a href="{% url 'itinerary_list' %}" class="inline-flex items-center gap-3 text-gray-500 font-bold hover:text-indigo-600 transition">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Back to My Trips
+        </a>
     </div>
 </section>
 
 <script>
-document.getElementById("show-add-day-form")?.addEventListener("click", function() {
-    const form = document.getElementById("add-day-form");
-    form.classList.toggle("hidden");
-});
+    document.getElementById("show-add-day-form")?.addEventListener("click", function() {
+        const form = document.getElementById("add-day-form");
+        form.classList.toggle("hidden");
+        if (!form.classList.contains('hidden')) form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
 </script>
-
 {% endblock %}

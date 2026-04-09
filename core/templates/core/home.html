@@ -1,49 +1,27 @@
 {% extends 'core/base.html' %}
 {% load static %}
-{% block title %}Home - Travel Planner{% endblock %}
+{% block title %}Explore the World - Travel Planner{% endblock %}
 
 {% block content %}
-
-<style>
-/* Smooth scrolling */
-html { scroll-behavior: smooth; }
-
-/* Scroll reveal animation */
-.scroll-reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s ease-out; }
-.scroll-reveal.active { opacity: 1; transform: translateY(0); }
-
-/* Floating animation for plane and cards */
-@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-.float, .float-card { animation: float 4s ease-in-out infinite; }
-
-/* Fade-in animation for hero text */
-.fade-in { opacity: 0; animation: fadeIn 1s forwards; }
-.fade-in-delay { opacity: 0; animation: fadeIn 1s 0.3s forwards; }
-.fade-in-delay2 { opacity: 0; animation: fadeIn 1s 0.6s forwards; }
-@keyframes fadeIn { to { opacity: 1; } }
-
-/* Card hover effect */
-.feature-card, .testimonial, .card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-.feature-card:hover, .testimonial:hover, .card:hover {
-    transform: translateY(-8px) scale(1.05);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-}
-</style>
-
 <!-- HERO SECTION -->
-<section class="hero-bg text-white relative min-h-[85vh] flex items-center justify-center overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-transparent z-0"></div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-6 py-20 md:py-32 text-center z-10 relative w-full">
-        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold drop-shadow-2xl fade-in tracking-tight">
-            Plan Your <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-indigo-400">Dream Trip</span>
+<section class="max-w-7xl mx-auto px-6 pt-10 pb-20 flex flex-col items-center text-center">
+    <div class="relative inline-block mb-6">
+        <span class="bg-indigo-100 text-indigo-600 px-6 py-2 rounded-full text-sm font-bold tracking-widest uppercase mb-4 inline-block">Plan Your Next Adventure</span>
+        <h1 class="text-5xl md:text-8xl font-black tracking-tight text-gray-900 leading-none">
+            Your Dream <br>
+            <span class="text-indigo-600">Travel Planner</span>
         </h1>
-        <p class="text-lg sm:text-xl md:text-2xl mt-6 fade-in-delay drop-shadow-md max-w-2xl mx-auto font-light">
-            Discover breathtaking destinations, build dynamic itineraries, and travel smarter.
-        </p>
-        <!-- React Interactive Hero Search -->
-        <div id="react-hero-search-root"></div>
-        
+        <!-- Decorative shapes -->
+        <div class="absolute -top-10 -left-10 w-24 h-24 bg-pink-400/10 rounded-full blur-2xl"></div>
+        <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-indigo-400/10 rounded-full blur-3xl"></div>
     </div>
+    
+    <p class="text-xl text-gray-500 max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
+        Discover breathtaking destinations, create personalized itineraries, and manage your travel budget all in one place.
+    </p>
+
+    <!-- React Interactive Hero Search -->
+    <div id="react-hero-search-root" class="w-full max-w-2xl"></div>
 </section>
 
 <!-- React Component Scripts -->
@@ -58,35 +36,36 @@ html { scroll-behavior: smooth; }
         return (
             {% verbatim %}
             <motion.div 
-               initial={{ opacity: 0, y: 30 }}
+               initial={{ opacity: 0, y: 20 }}
                animate={{ opacity: 1, y: 0 }}
-               transition={{ duration: 0.8, type: "spring", stiffness: 60, delay: 0.5 }}
-               className="mt-10 sm:mt-12 flex justify-center w-full relative z-10"
+               transition={{ duration: 0.6 }}
+               className="relative"
             >
                 <form 
                     method="GET" 
                     action="/destinations/" 
-                    className={`flex w-full max-w-md sm:max-w-2xl glass-card rounded-full overflow-hidden p-1 transition-all duration-500 ${isFocused ? 'ring-4 ring-pink-400/50 scale-105 shadow-[0_20px_50px_rgba(236,72,153,0.3)]' : 'scale-100 shadow-xl'}`}
+                    className={`flex items-center glass-card rounded-[2rem] p-2 transition-all duration-500 ${isFocused ? 'ring-8 ring-indigo-500/10 shadow-2xl' : 'shadow-xl'}`}
                 >
+                    <div class="pl-6 text-gray-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
                     <input 
                         id="search" 
                         name="search" 
                         type="text" 
-                        placeholder="Where do you want to go?"
+                        placeholder="Where are you going?"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
-                        className="flex-1 px-6 py-3 sm:py-4 text-gray-800 outline-none bg-transparent placeholder-gray-600 w-full text-lg font-medium"
+                        className="flex-1 px-4 py-4 text-gray-800 outline-none bg-transparent placeholder-gray-400 text-lg font-semibold"
                     />
-                    <motion.button 
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                    <button 
                         type="submit" 
-                        className="btn-glow px-8 sm:px-10 py-3 sm:py-4 text-white bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full font-bold shadow-lg"
+                        className="btn-premium px-10 py-4 text-white rounded-[1.5rem] font-bold shadow-lg transition-transform active:scale-95"
                     >
-                        Explore
-                    </motion.button>
+                        Search
+                    </button>
                 </form>
             </motion.div>
             {% endverbatim %}
@@ -98,55 +77,68 @@ html { scroll-behavior: smooth; }
 </script>
 
 <!-- FEATURES SECTION -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 md:px-6 py-20 md:py-28 relative">
-    <h2 class="section-title text-3xl sm:text-4xl font-extrabold text-center mb-12 sm:mb-16 tracking-tight">Why Choose Us?</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-10">
-        <div class="glass-card feature-card text-[#2e3440] p-8 rounded-2xl text-center border-t-4 border-indigo-500">
-            <div class="text-4xl mb-4">🌍</div>
-            <h3 class="font-bold text-xl mb-2">Explore Destinations</h3>
-            <p class="text-gray-500 text-sm">Find hidden gems worldwide.</p>
+<section class="max-w-7xl mx-auto px-6 py-24">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="glass-card p-10 rounded-[2.5rem] group hover:-translate-y-4 transition-all duration-500">
+            <div class="w-16 h-16 bg-indigo-50 text-indigo-500 rounded-2xl flex items-center justify-center text-3xl mb-8 group-hover:scale-110 transition-transform">🌍</div>
+            <h3 class="text-2xl font-bold mb-4">Destinations</h3>
+            <p class="text-gray-500 font-medium">Explore over 500+ hand-picked locations across the globe.</p>
         </div>
-        <div class="glass-card feature-card text-[#2e3440] p-8 rounded-2xl text-center border-t-4 border-teal-500">
-            <div class="text-4xl mb-4">🧭</div>
-            <h3 class="font-bold text-xl mb-2">Smart Itineraries</h3>
-            <p class="text-gray-500 text-sm">Plan day-by-day routines seamlessly.</p>
+        <div class="glass-card p-10 rounded-[2.5rem] group hover:-translate-y-4 transition-all duration-500">
+            <div class="w-16 h-16 bg-pink-50 text-pink-500 rounded-2xl flex items-center justify-center text-3xl mb-8 group-hover:scale-110 transition-transform">🧭</div>
+            <h3 class="text-2xl font-bold mb-4">Itineraries</h3>
+            <p class="text-gray-500 font-medium">Build daily plans with activities, maps, and travel notes.</p>
         </div>
-        <div class="glass-card feature-card text-[#2e3440] p-8 rounded-2xl text-center border-t-4 border-pink-500">
-            <div class="text-4xl mb-4">⭐</div>
-            <h3 class="font-bold text-xl mb-2">Reviews & Ratings</h3>
-            <p class="text-gray-500 text-sm">Real insights from actual travelers.</p>
+        <div class="glass-card p-10 rounded-[2.5rem] group hover:-translate-y-4 transition-all duration-500">
+            <div class="w-16 h-16 bg-purple-50 text-purple-500 rounded-2xl flex items-center justify-center text-3xl mb-8 group-hover:scale-110 transition-transform">⭐</div>
+            <h3 class="text-2xl font-bold mb-4">Reviews</h3>
+            <p class="text-gray-500 font-medium">Read real feedback from fellow travelers and explorers.</p>
         </div>
-        <div class="glass-card feature-card text-[#2e3440] p-8 rounded-2xl text-center border-t-4 border-yellow-500">
-            <div class="text-4xl mb-4">💼</div>
-            <h3 class="font-bold text-xl mb-2">Expense Tracking</h3>
-            <p class="text-gray-500 text-sm">Keep your budget completely under control.</p>
+        <div class="glass-card p-10 rounded-[2.5rem] group hover:-translate-y-4 transition-all duration-500">
+            <div class="w-16 h-16 bg-teal-50 text-teal-500 rounded-2xl flex items-center justify-center text-3xl mb-8 group-hover:scale-110 transition-transform">💼</div>
+            <h3 class="text-2xl font-bold mb-4">Budgets</h3>
+            <p class="text-gray-500 font-medium">Manage your spending and keep track of all travel expenses.</p>
         </div>
     </div>
 </section>
 
-<!-- DESTINATIONS SECTION -->
-<section class="bg-gradient-to-b from-gray-50 to-white py-20 md:py-28">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-6">
-        <h2 class="section-title text-3xl sm:text-4xl font-extrabold text-center mb-12 sm:mb-16 tracking-tight">Popular Destinations</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12 mt-8 sm:mt-12">
+<!-- DESTINATIONS PREVIEW -->
+<section class="py-24 bg-gray-900/5">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="flex justify-between items-end mb-16">
+            <div>
+                <span class="text-indigo-600 font-bold tracking-widest uppercase text-sm">Top Picks</span>
+                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mt-2">Popular <br>Destinations</h2>
+            </div>
+            <a href="{% url 'destination_list' %}" class="flex items-center gap-2 font-bold text-gray-900 hover:text-indigo-600 transition group">
+                Browse all <span class="group-hover:translate-x-2 transition-transform">→</span>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
             {% for destination in destinations %}
-            <div class="glass-card rounded-2xl overflow-hidden scroll-reveal flex flex-col group">
-                <div class="relative overflow-hidden">
-                    <img src="{{ destination.image.url }}" alt="{{ destination.name }}" class="w-full h-56 md:h-64 object-cover transform transition duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
-                    <div class="absolute bottom-4 left-4 text-white">
-                        <h3 class="text-2xl font-bold mb-1 drop-shadow-md">{{ destination.name }}</h3>
-                        <p class="text-sm opacity-90 flex items-center gap-2"><span class="bg-white/30 px-2 py-1 rounded backdrop-blur">{{ destination.country }}</span></p>
+            <div class="scroll-reveal group">
+                <div class="relative rounded-[2.5rem] overflow-hidden shadow-2xl h-[500px]">
+                    <img src="{{ destination.image.url }}" alt="{{ destination.name }}" class="w-full h-full object-cover transition duration-1000 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                    
+                    <div class="absolute top-6 right-6">
+                        <span class="bg-white/20 backdrop-blur-md text-white px-4 py-2 rounded-full text-sm font-bold border border-white/30">
+                            {{ destination.price_range }}
+                        </span>
                     </div>
-                </div>
-                <div class="p-6 flex flex-col flex-grow">
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="text-indigo-600 font-bold bg-indigo-50 px-3 py-1 rounded-full text-sm">{{ destination.price_range }}</span>
-                    </div>
-                    <p class="text-sm text-gray-600 mb-6 flex-grow leading-relaxed">{{ destination.description|truncatewords:20 }}</p>
-                    <div class="flex flex-col gap-3 mt-auto">
-                        <a href="{% url 'destination_detail' destination.slug %}" class="btn-glow bg-gray-900 hover:bg-black text-white px-4 py-3 rounded-xl text-center text-sm font-semibold shadow-md transition">View Details</a>
-                        <a href="{% url 'itinerary_create' %}?destination={{ destination.id }}" class="btn-glow bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white px-4 py-3 rounded-xl text-center text-sm font-semibold shadow-md transition">➕ Add to Itinerary</a>
+
+                    <div class="absolute bottom-8 left-8 right-8">
+                        <span class="text-indigo-400 font-bold uppercase tracking-widest text-xs">{{ destination.country }}</span>
+                        <h3 class="text-3xl font-bold text-white mb-4">{{ destination.name }}</h3>
+                        <p class="text-gray-300 text-sm mb-6 line-clamp-2">{{ destination.description }}</p>
+                        
+                        <div class="flex gap-4">
+                            <a href="{% url 'destination_detail' destination.slug %}" class="flex-1 bg-white text-gray-900 px-6 py-3 rounded-2xl text-center font-bold hover:bg-indigo-600 hover:text-white transition shadow-lg">Details</a>
+                            <a href="{% url 'itinerary_create' %}?destination={{ destination.id }}" class="btn-premium px-6 py-3 rounded-2xl text-white font-bold flex items-center justify-center shadow-lg">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -155,56 +147,50 @@ html { scroll-behavior: smooth; }
     </div>
 </section>
 
-<!-- FLOATING PLANE -->
-<img src="{% static 'images/plane.png' %}" class="w-12 sm:w-16 mx-auto float mb-8 sm:mb-12 float-card">
-
 <!-- STATS SECTION -->
-<section class="bg-white py-16 md:py-24 scroll-reveal">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-6 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-10 text-center">
-        <div class="float-card">
-            <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-indigo-600 bg-gradient-to-r from-teal-400 to-indigo-500 bg-clip-text text-transparent">10K+</h3>
-            <p class="mt-1 sm:mt-2 text-gray-600 text-sm sm:text-base">Happy Travelers</p>
+<section class="max-w-7xl mx-auto px-6 py-24 text-center">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-12">
+        <div class="scroll-reveal">
+            <h3 class="text-5xl font-black text-indigo-600 mb-2">10K+</h3>
+            <p class="text-gray-500 font-bold uppercase tracking-widest text-xs">Active Explorers</p>
         </div>
-        <div class="float-card">
-            <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-indigo-600 bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">120+</h3>
-            <p class="mt-1 sm:mt-2 text-gray-600 text-sm sm:text-base">Destinations</p>
+        <div class="scroll-reveal">
+            <h3 class="text-5xl font-black text-pink-500 mb-2">120+</h3>
+            <p class="text-gray-500 font-bold uppercase tracking-widest text-xs">Global Destinations</p>
         </div>
-        <div class="float-card">
-            <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-indigo-600 bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent">500+</h3>
-            <p class="mt-1 sm:mt-2 text-gray-600 text-sm sm:text-base">Trips Planned</p>
+        <div class="scroll-reveal">
+            <h3 class="text-5xl font-black text-purple-500 mb-2">500+</h3>
+            <p class="text-gray-500 font-bold uppercase tracking-widest text-xs">Trips Planned</p>
         </div>
-        <div class="float-card">
-            <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-indigo-600 bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent">4.9★</h3>
-            <p class="mt-1 sm:mt-2 text-gray-600 text-sm sm:text-base">Average Rating</p>
+        <div class="scroll-reveal">
+            <h3 class="text-5xl font-black text-teal-500 mb-2">4.9★</h3>
+            <p class="text-gray-500 font-bold uppercase tracking-widest text-xs">User Rating</p>
         </div>
     </div>
 </section>
 
-<!-- TESTIMONIALS -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 md:px-6 py-16 md:py-24 scroll-reveal">
-    <h2 class="section-title text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-12">What Travelers Say</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mt-8 sm:mt-12">
-        <div class="testimonial float-card p-6 bg-white rounded-lg shadow">“Best travel planning app ever!”</div>
-        <div class="testimonial float-card p-6 bg-white rounded-lg shadow">“Helped me organize my entire trip.”</div>
-        <div class="testimonial float-card p-6 bg-white rounded-lg shadow">“Clean UI and easy to use.”</div>
+<!-- CTA SECTION -->
+<section class="max-w-7xl mx-auto px-6 pb-24">
+    <div class="bg-indigo-600 rounded-[3rem] p-12 md:p-24 relative overflow-hidden flex flex-col items-center text-center">
+        <!-- Abstract backgrounds -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-pink-500/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/20 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2"></div>
+        
+        <h2 class="text-4xl md:text-6xl font-black text-white mb-8 relative z-10">Ready for your <br>next journey?</h2>
+        <p class="text-xl text-indigo-100 mb-12 max-w-xl relative z-10">Start planning your trip today and join thousands of travelers exploring the world together.</p>
+        
+        <div class="flex flex-col sm:flex-row gap-6 relative z-10 w-full sm:w-auto">
+            {% if not user.is_authenticated %}
+                <a href="{% url 'signup' %}" class="bg-white text-indigo-600 px-10 py-5 rounded-2xl font-black text-lg shadow-2xl hover:bg-gray-100 transition transform hover:scale-105">Get Started Free</a>
+                <a href="{% url 'login' %}" class="border-2 border-white/30 text-white px-10 py-5 rounded-2xl font-black text-lg backdrop-blur hover:bg-white/10 transition">Login</a>
+            {% else %}
+                <a href="{% url 'itinerary_create' %}" class="bg-white text-indigo-600 px-10 py-5 rounded-2xl font-black text-lg shadow-2xl hover:bg-gray-100 transition transform hover:scale-105">Create New Trip</a>
+            {% endif %}
+        </div>
     </div>
 </section>
 
-<script>
-// Scroll reveal animation
-const reveals = document.querySelectorAll(".scroll-reveal");
-const revealOnScroll = () => {
-    reveals.forEach(el => {
-        const windowHeight = window.innerHeight;
-        const elementTop = el.getBoundingClientRect().top;
-        const revealPoint = 100;
-        if (elementTop < windowHeight - revealPoint) {
-            el.classList.add("active");
-        }
-    });
-};
-window.addEventListener("scroll", revealOnScroll);
-revealOnScroll();
+{% endblock %}
 </script>
 
 {% endblock %}

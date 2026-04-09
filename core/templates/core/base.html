@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <title>{% block title %}Travel Planner{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Plan your dream trip with our interactive travel planner. Create itineraries, explore destinations, and more.">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- React & ReactDOM (for dynamic interactive UI components) -->
+    <!-- React & ReactDOM -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -18,182 +19,246 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Custom CSS & Animations -->
     <style>
-        body { font-family: 'Outfit', sans-serif; }
+        :root {
+            --primary: #4f46e5;
+            --secondary: #ec4899;
+            --accent: #8b5cf6;
+            --background: #f8fafc;
+            --text-main: #1e293b;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+            background-color: var(--background);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
         
-        html { scroll-behavior: smooth; }
-        
-        /* Glassmorphism Classes */
+        /* Premium Mesh Gradient Background */
+        .mesh-gradient {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.08) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(20, 184, 166, 0.08) 0px, transparent 50%);
+        }
+
+        /* Enhanced Glassmorphism */
         .glass-card {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease, background 0.4s ease;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
         }
         
-        .glass-card:hover {
-            transform: translateY(-8px) scale(1.01);
-            box-shadow: 0 15px 45px rgba(31, 38, 135, 0.12);
-            background: rgba(255, 255, 255, 0.95);
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
         }
 
-        /* Scroll Reveal Animation */
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .scroll-reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Dynamic Button Shimmer Effect */
-        .btn-glow {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        .btn-glow::after {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.6s ease;
-        }
-        .btn-glow:hover::after {
-            left: 100%;
-        }
-        
-        /* Modern Gradients */
-        .gradient-text {
-            background: linear-gradient(135deg, #4f46e5 0%, #ec4899 100%);
+        /* Typography & Gradients */
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+        /* Buttons & Interactions */
+        .btn-premium {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.4);
+        }
+        .btn-premium::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        .btn-premium:hover::after { left: 100%; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Navigation Links */
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0; height: 2px;
+            bottom: -4px; left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after { width: 100%; }
     </style>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 
-<body class="bg-[#f6f7f9] text-[#2e3440]">
+<body>
+<div class="mesh-gradient"></div>
 
 <!-- Navbar -->
-<nav class="fixed top-0 w-full bg-[#eef1f4]/90 backdrop-blur shadow-sm z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-6 py-4 flex justify-between items-center">
-
-        <!-- Logo -->
-        <div class="flex items-center gap-2 sm:gap-3">
-            <img src="{% static 'images/logo.png' %}" class="h-8 sm:h-10" alt="Logo">
-            <span class="text-lg sm:text-xl font-semibold tracking-wide text-[#2e3440]">TravelPlanner</span>
+<nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl glass-nav rounded-2xl z-50 px-6 py-3 flex justify-between items-center shadow-lg transition-all duration-300" id="navbar">
+    <!-- Logo -->
+    <a href="{% url 'home' %}" class="flex items-center gap-2 group">
+        <div class="w-10 h-10 bg-gradient-to-tr from-indigo-500 to-pink-500 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:rotate-12 transition-transform">
+            <span class="text-xl font-bold">T</span>
         </div>
+        <span class="text-xl font-bold tracking-tight text-gray-800">Travel<span class="text-indigo-600">Planner</span></span>
+    </a>
 
-        <!-- Desktop Links -->
-        <div class="hidden md:flex items-center space-x-4 sm:space-x-6">
-            <a href="{% url 'home' %}" class="nav-link text-sm sm:text-base">Home</a>
-            <a href="{% url 'destination_list' %}" class="nav-link text-sm sm:text-base">Destinations</a>
-            {% if user.is_authenticated %}
-                <a href="{% url 'itinerary_list' %}" class="nav-link text-sm sm:text-base">My Itineraries</a>
-            {% endif %}
-            {% if user.is_authenticated %}
-                <a href="{% url 'my_favorites' %}" class="nav-link text-sm sm:text-base relative">
-                    ❤️ Favorites
+    <!-- Desktop Links -->
+    <div class="hidden md:flex items-center space-x-8">
+        <a href="{% url 'home' %}" class="nav-link font-medium text-gray-600 hover:text-indigo-600">Home</a>
+        <a href="{% url 'destination_list' %}" class="nav-link font-medium text-gray-600 hover:text-indigo-600">Destinations</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'itinerary_list' %}" class="nav-link font-medium text-gray-600 hover:text-indigo-600">My Trips</a>
+            <a href="{% url 'my_favorites' %}" class="nav-link font-medium text-gray-600 hover:text-indigo-600">Favorites</a>
+        {% endif %}
+    </div>
+
+    <!-- Auth Buttons -->
+    <div class="hidden md:flex items-center space-x-4">
+        {% if user.is_authenticated %}
+            <div class="flex items-center gap-4">
+                <a href="{% url 'profile' %}" class="flex items-center gap-2 font-medium text-gray-700 bg-gray-100/50 px-4 py-2 rounded-full hover:bg-gray-100 transition">
+                    <span class="w-8 h-8 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-xs">👤</span>
+                    {{ user.username }}
                 </a>
-            {% endif %}
-            <a href="{% url 'profile' %}" class="nav-link text-sm sm:text-base">
-                {% if user.is_authenticated %}Profile{% else %}Login{% endif %}
-            </a>
-            {% if user.is_authenticated %}
-                <a href="{% url 'logout' %}" class="nav-link text-sm sm:text-base">Logout</a>
-            {% else %}
-                <a href="{% url 'signup' %}" class="nav-link text-sm sm:text-base">Signup</a>
-            {% endif %}
-        </div>
-
-        <!-- Mobile Menu Button -->
-        <div class="md:hidden">
-            <button id="mobile-menu-button" class="focus:outline-none">
-                <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
-        </div>
-    </div>
-
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-[#eef1f4]/90 backdrop-blur px-4 pt-2 pb-4 space-y-2">
-        <a href="{% url 'home' %}" class="block nav-link">Home</a>
-        <a href="{% url 'destination_list' %}" class="block nav-link">Destinations</a>
-        {% if user.is_authenticated %}
-            <a href="{% url 'itinerary_list' %}" class="block nav-link">My Itineraries</a>
-        {% endif %}
-        {% if user.is_authenticated %}
-            <a href="{% url 'my_favorites' %}" class="block nav-link relative">
-                ❤️ Favorites
-            </a>
-        {% endif %}
-        <a href="{% url 'profile' %}" class="block nav-link">{% if user.is_authenticated %}Profile{% else %}Login{% endif %}</a>
-        {% if user.is_authenticated %}
-            <a href="{% url 'logout' %}" class="block nav-link">Logout</a>
+                <a href="{% url 'logout' %}" class="text-sm font-semibold text-gray-500 hover:text-red-500 transition">Logout</a>
+            </div>
         {% else %}
-            <a href="{% url 'signup' %}" class="block nav-link">Signup</a>
+            <a href="{% url 'login' %}" class="font-bold text-gray-600 hover:text-indigo-600 transition">Login</a>
+            <a href="{% url 'signup' %}" class="btn-premium px-6 py-2.5 rounded-xl text-white font-bold shadow-md">Sign Up</a>
         {% endif %}
     </div>
+
+    <!-- Mobile Menu Button -->
+    <button id="mobile-menu-button" class="md:hidden p-2 text-gray-600 hover:text-indigo-600 transition">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+    </button>
 </nav>
 
+<!-- Mobile Menu Overlay -->
+<div id="mobile-menu" class="fixed inset-0 bg-white/95 backdrop-blur-xl z-[60] hidden flex-col items-center justify-center space-y-8 p-6">
+    <button id="close-menu" class="absolute top-6 right-6 text-gray-500 hover:text-red-500"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+    <a href="{% url 'home' %}" class="text-2xl font-bold text-gray-800">Home</a>
+    <a href="{% url 'destination_list' %}" class="text-2xl font-bold text-gray-800">Destinations</a>
+    {% if user.is_authenticated %}
+        <a href="{% url 'itinerary_list' %}" class="text-2xl font-bold text-gray-800">My Trips</a>
+        <a href="{% url 'my_favorites' %}" class="text-2xl font-bold text-gray-800">Favorites</a>
+        <a href="{% url 'profile' %}" class="text-2xl font-bold text-gray-800">Profile</a>
+        <a href="{% url 'logout' %}" class="text-2xl font-bold text-red-500">Logout</a>
+    {% else %}
+        <a href="{% url 'login' %}" class="text-2xl font-bold text-gray-800">Login</a>
+        <a href="{% url 'signup' %}" class="btn-premium px-10 py-4 rounded-2xl text-white font-bold text-xl shadow-xl">Sign Up</a>
+    {% endif %}
+</div>
+
 <!-- Page Content -->
-<main class="pt-24 md:pt-28">
+<main class="pt-32 pb-12">
     {% block content %}{% endblock %}
 </main>
 
 <!-- Footer -->
-<footer class="bg-[#2e3440] text-[#d8dee9] mt-24">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-6 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-        <div>
-            <h3 class="font-semibold text-white mb-2 sm:mb-3">TravelPlanner</h3>
-            <p class="text-sm sm:text-base leading-relaxed">
-                Plan trips, explore destinations, and save memories.
+<footer class="bg-gray-900 text-gray-400 py-16">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+        <div class="col-span-1 md:col-span-2">
+            <div class="flex items-center gap-2 mb-6">
+                <div class="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center text-white font-bold">T</div>
+                <span class="text-2xl font-bold text-white tracking-tight">TravelPlanner</span>
+            </div>
+            <p class="max-w-sm leading-relaxed">
+                Discover your next adventure with our all-in-one travel planning platform. Personalized itineraries, expert destination guides, and seamless organization.
             </p>
         </div>
         <div>
-            <h3 class="font-semibold text-white mb-2 sm:mb-3">Quick Links</h3>
-            <ul class="space-y-1 sm:space-y-2 text-sm sm:text-base">
-                <li class="hover:text-white transition cursor-pointer">Home</li>
-                <li class="hover:text-white transition cursor-pointer">Destinations</li>
-                <li class="hover:text-white transition cursor-pointer">My Trips</li>
-                <li class="hover:text-white transition cursor-pointer">Contact</li>
+            <h4 class="text-white font-bold mb-6">Quick Links</h4>
+            <ul class="space-y-4">
+                <li><a href="{% url 'home' %}" class="hover:text-white transition">Home</a></li>
+                <li><a href="{% url 'destination_list' %}" class="hover:text-white transition">Destinations</a></li>
+                <li><a href="#" class="hover:text-white transition">Reviews</a></li>
             </ul>
         </div>
         <div>
-            <h3 class="font-semibold text-white mb-2 sm:mb-3">Follow Us</h3>
-            <p class="text-sm sm:text-base">Instagram • Twitter • Facebook</p>
+            <h4 class="text-white font-bold mb-6">Support</h4>
+            <ul class="space-y-4">
+                <li><a href="#" class="hover:text-white transition">Contact Us</a></li>
+                <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+                <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
+            </ul>
         </div>
     </div>
-    <div class="text-center py-4 text-xs sm:text-sm border-t border-white/10">
-        © 2026 Travel Planner. All rights reserved.
+    <div class="max-w-7xl mx-auto px-6 pt-12 mt-12 border-t border-gray-800 text-center text-sm">
+        <p>© 2026 TravelPlanner. All rights reserved. Designed for explorers.</p>
     </div>
 </footer>
 
 <!-- Scripts -->
 <script>
-document.addEventListener("scroll", () => {
-    document.querySelectorAll(".scroll-reveal").forEach(el => {
-        if (el.getBoundingClientRect().top < window.innerHeight - 100) {
-            el.classList.add("active");
+    // Navbar Scroll Effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) {
+            navbar.classList.add('shadow-2xl', 'scale-[0.98]', 'top-2');
+        } else {
+            navbar.classList.remove('shadow-2xl', 'scale-[0.98]', 'top-2');
         }
     });
-});
 
-// Mobile menu toggle
-const menuButton = document.getElementById("mobile-menu-button");
-const mobileMenu = document.getElementById("mobile-menu");
-menuButton.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
+    // Mobile Menu Toggle
+    const menuBtn = document.getElementById('mobile-menu-button');
+    const closeBtn = document.getElementById('close-menu');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuBtn.addEventListener('click', () => {
+        mobileMenu.classList.remove('hidden');
+        mobileMenu.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+    });
+
+    closeBtn.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('flex');
+        document.body.style.overflow = 'auto';
+    });
+
+    // Intersection Observer for scroll animations
+    const observerOptions = { threshold: 0.1 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
 </script>
 
 </body>

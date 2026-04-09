@@ -122,6 +122,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'core' / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Added for deployment
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -131,13 +132,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-LOGIN_URL = '/login/'    # or reverse_lazy('login')
-LOGIN_REDIRECT_URL = '/'  # after login, redirect here
-LOGOUT_REDIRECT_URL = '/'  # after logout
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # urls.py (project-level)
 handler404 = 'core.views.custom_404'
 handler500 = 'core.views.custom_500'
 
 # Email Config (Dev)
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
