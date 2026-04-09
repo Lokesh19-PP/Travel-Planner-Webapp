@@ -30,54 +30,45 @@ TravelPlanner is a high-end, interactive web application designed for modern exp
 ## 🚀 Quick Start
 
 ### 1. Clone the Repository
-
 ```bash
-git clone https://github.com/your-username/Travel-Planner-Webapp.git
+git clone https://github.com/Lokesh19-PP/Travel-Planner-Webapp.git
 cd Travel-Planner-Webapp
 ```
 
 ### 2. Set Up Environment Variables
-
 Create a `.env` file from the example:
-
 ```bash
 cp .env.example .env
 ```
-
-_Modify `.env` with your secret keys and local settings._
+*Modify `.env` with your secret keys and local settings.*
 
 ### 3. Install Dependencies
-
 ```bash
 pip install -r requirements.txt
 ```
 
 ### 4. Initialize Database
-
 ```bash
 python manage.py migrate
 ```
 
 ### 5. Generate Demo Data (100+ Destinations & Images)
-
 ```bash
 python manage.py populate_db
 ```
 
 ### 6. Run the Adventure
-
 ```bash
 python manage.py runserver
 ```
-
 Visit `http://127.0.0.1:8000` to start exploring!
 
 ---
 
 ## 📸 Screenshots
 
-|                                  Home Page                                  |                           Destination List                           |                              Itinerary View                               |
-| :-------------------------------------------------------------------------: | :------------------------------------------------------------------: | :-----------------------------------------------------------------------: |
+| Home Page | Destination List | Itinerary View |
+|:---:|:---:|:---:|
 | ![Home](https://via.placeholder.com/400x250?text=Premium+Glassmorphic+Home) | ![List](https://via.placeholder.com/400x250?text=Smart+Filters+Grid) | ![Itinerary](https://via.placeholder.com/400x250?text=Day-by-Day+Planner) |
 
 ---
@@ -90,11 +81,9 @@ Visit `http://127.0.0.1:8000` to start exploring!
 ---
 
 ## 🛡️ License
-
 Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 🤝 Contributing
-
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 Designed with ❤️ for travelers by travelers.
