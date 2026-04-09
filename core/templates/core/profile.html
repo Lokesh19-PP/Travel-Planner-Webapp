@@ -1,80 +1,72 @@
 {% extends 'core/base.html' %}
-{% block title %}Profile - Travel Planner{% endblock %}
+{% block title %}Profile | Travel Planner{% endblock %}
 
 {% block content %}
-<section class="min-h-[85vh] bg-gradient-to-br from-indigo-50 via-white to-pink-50 flex items-center justify-center px-4 sm:px-6 py-12 sm:py-24 relative overflow-hidden">
-    <!-- Decorative Blobs -->
-    <div class="absolute top-0 right-0 w-64 h-64 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-    <div class="absolute bottom-0 left-0 w-64 h-64 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-
-    <div class="max-w-md w-full glass-card border border-white/60 rounded-[2rem] overflow-hidden relative z-10 scroll-reveal pb-4 shadow-xl">
-
-        <!-- Header -->
-        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 flex flex-col items-center justify-center p-10 sm:p-12 relative overflow-hidden">
-            <div class="absolute inset-0 bg-white/10 backdrop-blur-sm -skew-y-6 origin-top ml-[-20%] w-[140%]"></div>
-            <div class="w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center bg-white rounded-full text-4xl sm:text-5xl mb-3 sm:mb-4 shadow-[0_0_20px_rgba(255,255,255,0.4)] relative z-10">🧳</div>
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-white truncate relative z-10">{{ user.username }}</h2>
-            <p class="text-indigo-100 mt-1 text-sm sm:text-base relative z-10 font-medium tracking-wide">Traveler Profile</p>
+<section class="max-w-7xl mx-auto px-6 py-12 flex flex-col items-center">
+    <!-- Profile Card -->
+    <div class="w-full max-w-2xl glass-card rounded-[3rem] shadow-2xl relative overflow-hidden scroll-reveal border-white/40">
+        
+        <!-- Header Banner -->
+        <div class="h-48 bg-gray-900 relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/30 to-purple-500/30"></div>
+            <!-- Decorative circle -->
+            <div class="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-2xl"></div>
         </div>
 
-        <!-- Info Section -->
-        <div class="p-6 sm:p-8 space-y-4 sm:space-y-6">
+        <!-- Content Overlay -->
+        <div class="px-10 pb-12 -mt-16 relative z-10 text-center">
+            <!-- Avatar -->
+            <div class="w-32 h-32 bg-white rounded-[2.5rem] shadow-2xl flex items-center justify-center text-5xl mx-auto mb-6 border-8 border-white">🧳</div>
+            
+            <h2 class="text-4xl font-black text-gray-900 mb-2 truncate">{{ user.username }}</h2>
+            <p class="text-gray-400 font-bold uppercase tracking-widest text-xs mb-10">Verified Explorer</p>
 
-            <div class="flex items-center gap-3 sm:gap-4">
-                <div class="text-xl sm:text-2xl">📧</div>
-                <div>
-                    <p class="text-gray-500 font-medium text-sm sm:text-base">Email</p>
-                    <p class="text-gray-800 font-semibold break-words text-sm sm:text-base">{{ user.email }}</p>
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-3 gap-4 mb-12">
+                <div class="bg-indigo-50 p-6 rounded-[2rem] border border-indigo-100 shadow-inner">
+                    <p class="text-2xl font-black text-indigo-600 mb-1">{{ total_trips }}</p>
+                    <p class="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Trips</p>
+                </div>
+                <div class="bg-pink-50 p-6 rounded-[2rem] border border-pink-100 shadow-inner">
+                    <p class="text-2xl font-black text-pink-600 mb-1">{{ total_destinations }}</p>
+                    <p class="text-[10px] font-black text-pink-400 uppercase tracking-widest">Visited</p>
+                </div>
+                <div class="bg-purple-50 p-6 rounded-[2rem] border border-purple-100 shadow-inner">
+                    <p class="text-2xl font-black text-purple-600 mb-1">{{ avg_rating }}</p>
+                    <p class="text-[10px] font-black text-purple-400 uppercase tracking-widest">Rating</p>
                 </div>
             </div>
 
-            <div class="flex items-center gap-3 sm:gap-4">
-                <div class="text-xl sm:text-2xl">📅</div>
-                <div>
-                    <p class="text-gray-500 font-medium text-sm sm:text-base">Joined On</p>
-                    <p class="text-gray-800 font-semibold text-sm sm:text-base">{{ user.date_joined|date:"F j, Y" }}</p>
+            <!-- Profile Info List -->
+            <div class="space-y-6 text-left max-w-md mx-auto mb-12">
+                <div class="flex items-center gap-6 p-4 rounded-3xl bg-white/40 border border-white/60">
+                    <div class="w-12 h-12 bg-indigo-50 text-indigo-500 rounded-2xl flex items-center justify-center text-xl">📧</div>
+                    <div>
+                        <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Email Address</p>
+                        <p class="text-gray-800 font-bold">{{ user.email }}</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-6 p-4 rounded-3xl bg-white/40 border border-white/60">
+                    <div class="w-12 h-12 bg-teal-50 text-teal-500 rounded-2xl flex items-center justify-center text-xl">📅</div>
+                    <div>
+                        <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Traveler Since</p>
+                        <p class="text-gray-800 font-bold">{{ user.date_joined|date:"F j, Y" }}</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="flex items-center gap-3 sm:gap-4">
-                <div class="text-xl sm:text-2xl">✈️</div>
-                <div>
-                    <p class="text-gray-500 font-medium text-sm sm:text-base">Trips Planned</p>
-                    <p class="text-gray-800 font-semibold text-sm sm:text-base">{{ total_trips }}</p>
-                </div>
+            <!-- Actions -->
+            <div class="flex flex-col gap-4">
+                <a href="{% url 'send_reminders' %}" 
+                   class="btn-premium w-full text-white font-black py-5 rounded-2xl text-lg shadow-xl shadow-indigo-500/20 active:scale-95 transition">
+                   Send Trip Reminders
+                </a>
+                
+                <a href="{% url 'logout' %}" 
+                   class="bg-gray-50 text-gray-400 hover:bg-red-50 hover:text-red-500 font-black py-4 rounded-2xl transition active:scale-95 text-sm uppercase tracking-widest">
+                   Logout Account
+                </a>
             </div>
-
-            <div class="flex items-center gap-3 sm:gap-4">
-                <div class="text-xl sm:text-2xl">🌍</div>
-                <div>
-                    <p class="text-gray-500 font-medium text-sm sm:text-base">Destinations Visited</p>
-                    <p class="text-gray-800 font-semibold text-sm sm:text-base">{{ total_destinations }}</p>
-                </div>
-            </div>
-
-            <div class="flex items-center gap-3 sm:gap-4">
-                <div class="text-xl sm:text-2xl">⭐</div>
-                <div>
-                    <p class="text-gray-500 font-medium text-sm sm:text-base">Average Rating Given</p>
-                    <p class="text-gray-800 font-semibold text-sm sm:text-base">{{ avg_rating }} stars</p>
-                </div>
-            </div>
-
-            <!-- Divider -->
-            <div class="border-t pt-4 sm:pt-6"></div>
-
-            <!-- Send Reminders Button -->
-            <a href="{% url 'send_reminders' %}" 
-               class="btn-glow w-full text-center text-base sm:text-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold py-3 sm:py-4 rounded-xl shadow-lg block mb-4 transition transform hover:scale-[1.02]">
-               Send Trip Reminders
-            </a>
-
-            <!-- Logout Button -->
-            <a href="{% url 'logout' %}" 
-               class="btn-glow w-full text-center text-base sm:text-lg bg-gradient-to-r from-red-500 to-pink-600 text-white font-bold py-3 sm:py-4 rounded-xl shadow-lg block transition transform hover:scale-[1.02]">
-               Logout
-            </a>
-
         </div>
     </div>
 </section>

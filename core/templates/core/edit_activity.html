@@ -1,22 +1,61 @@
 {% extends "core/base.html" %}
+{% block title %}Edit Activity | Travel Planner{% endblock %}
+
 {% block content %}
-
-<div class="max-w-md mx-auto p-6 bg-white rounded-xl shadow-md space-y-4 my-10">
-    <h2 class="text-2xl font-bold text-center">Edit Activity</h2>
-
-    <form method="POST">
-        {% csrf_token %}
-        <div class="space-y-4">
-            {{ form.as_p }}
+<section class="min-h-[70vh] flex items-center justify-center px-4 py-12">
+    <div class="w-full max-w-lg glass-card p-10 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden scroll-reveal border-white/40">
+        
+        <div class="text-center mb-10">
+            <div class="w-16 h-16 bg-indigo-50 text-indigo-500 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4 italic">✏️</div>
+            <h2 class="text-3xl font-black text-gray-900 tracking-tight">Edit Activity</h2>
+            <p class="text-gray-400 font-bold uppercase tracking-widest text-[10px] mt-1">{{ activity.title }}</p>
         </div>
-        <div class="flex gap-4 mt-6">
-            <a href="{% url 'itinerary_detail' activity.day.itinerary.id %}" class="btn bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded-xl w-full text-center">Cancel</a>
-            <button type="submit"
-                class="btn bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-xl w-full text-center">
-                Save Activity
-            </button>
-        </div>
-    </form>
-</div>
 
+        <form method="POST" class="space-y-6 premium-form">
+            {% csrf_token %}
+            
+            <div class="space-y-4">
+                {% for field in form %}
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-4">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <p class="text-red-500 text-[10px] font-bold mt-1 pl-4 italic">{{ field.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 mt-8">
+                <a href="{% url 'itinerary_detail' activity.day.itinerary.id %}" class="flex-1 bg-gray-50 text-gray-400 py-4 rounded-2xl font-black text-center hover:bg-gray-100 transition active:scale-95 text-sm uppercase tracking-widest">Cancel</a>
+                <button type="submit" class="btn-premium flex-[2] text-white font-black py-4 rounded-2xl text-lg shadow-xl shadow-indigo-500/20 active:scale-95 transition">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<style>
+    .premium-form input, 
+    .premium-form textarea, 
+    .premium-form select {
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.5);
+        border: 0;
+        border-radius: 1.25rem;
+        padding: 1rem 1.5rem;
+        font-weight: 700;
+        color: #1f2937;
+        outline: none;
+        box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+    .premium-form input:focus, 
+    .premium-form textarea:focus, 
+    .premium-form select:focus {
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        background-color: white;
+    }
+</style>
 {% endblock %}

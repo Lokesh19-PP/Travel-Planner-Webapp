@@ -1,13 +1,59 @@
 {% extends "core/base.html" %}
+{% block title %}Add Day | Travel Planner{% endblock %}
+
 {% block content %}
-<div class="container mx-auto py-10">
-    <h2 class="text-3xl font-bold mb-6">Add Day to {{ itinerary.title }}</h2>
-    <form method="POST" class="bg-white p-6 rounded-lg shadow-md max-w-md mx-auto">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-md mt-4 w-full">
-            Add Day
-        </button>
-    </form>
-</div>
+<section class="min-h-[60vh] flex items-center justify-center px-4 py-12">
+    <div class="w-full max-w-lg glass-card p-10 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden scroll-reveal border-white/40">
+        
+        <div class="text-center mb-10">
+            <div class="w-16 h-16 bg-indigo-50 text-indigo-500 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4 italic">📅</div>
+            <h2 class="text-3xl font-black text-gray-900 tracking-tight">Expand Journey</h2>
+            <p class="text-gray-400 font-bold uppercase tracking-widest text-[10px] mt-1">Add a new day to {{ itinerary.name }}</p>
+        </div>
+
+        <form method="POST" class="space-y-6 premium-form">
+            {% csrf_token %}
+            
+            <div class="space-y-4">
+                {% for field in form %}
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-4">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <p class="text-red-500 text-[10px] font-bold mt-1 pl-4 italic">{{ field.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="btn-premium w-full text-white font-black py-5 rounded-2xl mt-8 text-lg shadow-xl shadow-indigo-500/20 active:scale-95 transition">
+                Add Day
+            </button>
+            <a href="{% url 'itinerary_detail' itinerary.pk %}" class="block text-center text-gray-400 font-bold text-xs uppercase tracking-widest mt-6 hover:text-indigo-500 transition">Go Back</a>
+        </form>
+    </div>
+</section>
+
+<style>
+    .premium-form input, 
+    .premium-form textarea, 
+    .premium-form select {
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.5);
+        border: 0;
+        border-radius: 1.25rem;
+        padding: 1rem 1.5rem;
+        font-weight: 700;
+        color: #1f2937;
+        outline: none;
+        box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+    .premium-form input:focus, 
+    .premium-form textarea:focus, 
+    .premium-form select:focus {
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        background-color: white;
+    }
+</style>
 {% endblock %}

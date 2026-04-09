@@ -1,108 +1,132 @@
 {% extends 'core/base.html' %}
 {% block content %}
 
-<section class="bg-gray-100 py-16 sm:py-20 md:py-24">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 md:px-6">
-
-        <!-- Destination Card -->
-        <div class="glass-card rounded-[2rem] shadow-2xl overflow-hidden scroll-reveal relative">
-
-            <!-- Image -->
-            <div class="relative overflow-hidden group">
-                <img src="{{ destination.image.url }}" alt="{{ destination.name }}" class="w-full h-80 sm:h-96 md:h-[550px] object-cover transition-transform duration-1000 group-hover:scale-105">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-                <div class="absolute bottom-6 left-6 bg-white/20 backdrop-blur-md px-4 sm:px-6 py-2 rounded-full shadow-lg text-sm sm:text-base text-white font-bold tracking-wide border border-white/30">
-                    🌍 {{ destination.country }}
-                </div>
-            </div>
-
-            <!-- Content -->
-            <div class="p-6 sm:p-8">
-                <!-- Title -->
-                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-center mb-4 text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-pink-500 drop-shadow-sm tracking-tight relative z-10 block">
+<!-- Hero Header -->
+<section class="max-w-7xl mx-auto px-6 pt-10 pb-20">
+    <div class="relative h-[400px] md:h-[600px] rounded-[3rem] overflow-hidden shadow-2xl scroll-reveal">
+        <img src="{{ destination.image.url }}" alt="{{ destination.name }}" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+        
+        <div class="absolute bottom-12 left-12 right-12 flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <div class="max-w-3xl">
+                <span class="text-indigo-400 font-bold tracking-widest uppercase text-xs mb-3 block">{{ destination.country }}</span>
+                <h1 class="text-5xl md:text-8xl font-black text-white tracking-tight leading-none mb-6">
                     {{ destination.name }}
                 </h1>
-
-                <!-- Meta Info -->
-                <div class="flex flex-wrap justify-center gap-3 sm:gap-6 text-sm mb-8">
-                    <span class="bg-gradient-to-r from-green-400 to-emerald-500 text-white shadow-md font-bold px-4 py-1.5 rounded-full">
-                        💰 {{ destination.price_range }}
+                <div class="flex flex-wrap gap-4">
+                    <span class="bg-white/20 backdrop-blur-md text-white border border-white/30 px-6 py-2 rounded-full font-black text-sm uppercase tracking-widest shadow-lg italic">
+                         {{ destination.price_range }}
                     </span>
-                    <span class="bg-gradient-to-r from-yellow-400 to-orange-400 text-white shadow-md font-bold px-4 py-1.5 rounded-full flex items-center">
-                        {% for i in "12345" %}
-                            {% if forloop.counter <= average_rating|floatformat:0 %}⭐{% else %}<span class="opacity-50">⭐</span>{% endif %}
-                        {% endfor %}
-                        <span class="ml-2 font-extrabold">({{ average_rating }})</span>
+                    <span class="bg-indigo-500/80 backdrop-blur-md text-white px-6 py-2 rounded-full font-black text-sm flex items-center gap-2 shadow-lg">
+                        ⭐ {{ average_rating|floatformat:1 }} ({{ reviews.count }} Reviews)
                     </span>
                 </div>
+            </div>
+            
+            {% if user.is_authenticated %}
+            <div class="flex gap-4">
+                {% if is_favorite %}
+                    <form method="POST" action="{% url 'remove_favorite' destination.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="bg-red-500/20 backdrop-blur-md border border-red-500/50 text-red-100 p-5 rounded-3xl hover:bg-red-500 transition shadow-xl active:scale-95 group">
+                            <span class="text-2xl group-hover:scale-125 transition-transform block">❤️</span>
+                        </button>
+                    </form>
+                {% else %}
+                    <form method="POST" action="{% url 'add_favorite' destination.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="bg-white/20 backdrop-blur-md border border-white/30 text-white p-5 rounded-3xl hover:bg-white/40 transition shadow-xl active:scale-95 group">
+                            <span class="text-2xl group-hover:scale-125 transition-transform block">🤍</span>
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
 
-                <!-- Description -->
-                <p class="text-gray-700 text-center leading-relaxed text-base sm:text-lg max-w-2xl mx-auto font-medium">
+<!-- Main content -->
+<section class="max-w-7xl mx-auto px-6 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+        <!-- Left Side: Description & Reviews -->
+        <div class="lg:col-span-2 space-y-20">
+            <div class="scroll-reveal">
+                <h2 class="text-3xl font-black text-gray-900 mb-8 flex items-center gap-4">
+                    <span class="bg-indigo-100 text-indigo-500 w-12 h-12 rounded-2xl flex items-center justify-center text-xl">📝</span>
+                    Overview
+                </h2>
+                <p class="text-xl text-gray-600 leading-[2.2] font-medium italic border-l-8 border-indigo-500 pl-10 py-4 bg-indigo-50/50 rounded-r-3xl">
                     {{ destination.description }}
                 </p>
+            </div>
 
-                <!-- Actions -->
-                <div class="mt-8 sm:mt-12 flex flex-col sm:flex-row justify-center gap-4 sm:gap-6">
-                    <a href="{% url 'itinerary_create' %}?destination={{ destination.id }}" class="btn-glow bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white px-8 py-4 rounded-xl text-center text-base sm:text-lg font-bold shadow-xl transition transform hover:-translate-y-1">
-                        ➕ Add to Itinerary
-                    </a>
-                    <a href="{% url 'add_review' destination.slug %}" class="btn-glow bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white px-8 py-4 rounded-xl text-center text-base sm:text-lg font-bold shadow-xl transition transform hover:-translate-y-1">
-                        ✍️ Write a Review
+            <div class="scroll-reveal">
+                <div class="flex justify-between items-end mb-12">
+                    <div>
+                        <h2 class="text-3xl font-black text-gray-900 mb-2">Experiences</h2>
+                        <p class="text-gray-500 font-bold uppercase tracking-widest text-xs">Stories from our community</p>
+                    </div>
+                    <a href="{% url 'add_review' destination.slug %}" class="bg-gray-900 text-white px-8 py-4 rounded-2xl font-black text-sm hover:bg-black transition shadow-lg inline-flex items-center gap-2">
+                        ✍️ Share Your Story
                     </a>
                 </div>
 
-                <!-- Favorite Button -->
-                {% if user.is_authenticated %}
-                <div class="mt-6 text-center">
-                    {% if is_favorite %}
-                        <form method="POST" action="{% url 'remove_favorite' destination.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn-glow bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-full text-base font-bold shadow-md transition transform hover:scale-105">
-                                ❤️ Remove from Favorites
-                            </button>
-                        </form>
-                    {% else %}
-                        <form method="POST" action="{% url 'add_favorite' destination.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn-glow bg-pink-500 hover:bg-pink-600 text-white px-8 py-3 rounded-full text-base font-bold shadow-md transition transform hover:scale-105">
-                                🤍 Save as Favorite
-                            </button>
-                        </form>
-                    {% endif %}
+                {% if reviews %}
+                <div class="grid grid-cols-1 gap-6">
+                    {% for review in reviews %}
+                    <div class="glass-card p-10 rounded-[2.5rem] shadow-xl hover:shadow-2xl transition hover:-translate-y-2 border-white/40">
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-2xl font-black text-indigo-500">
+                                    {{ review.user.username|make_list|first|upper }}
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-gray-900">{{ review.user.username }}</h4>
+                                    <p class="text-gray-400 font-bold text-xs uppercase tracking-widest">{{ review.created_at|date:"M d, Y" }}</p>
+                                </div>
+                            </div>
+                            <div class="bg-yellow-50 text-yellow-500 px-4 py-2 rounded-xl font-black text-sm border border-yellow-100">
+                                ⭐ {{ review.rating }}
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-lg leading-relaxed italic">"{{ review.comment }}"</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="py-20 text-center glass-card rounded-[3rem] border-dashed border-2 border-gray-200">
+                    <p class="text-gray-400 font-bold text-lg mb-4 italic">No stories yet. Be the first to share! ✨</p>
                 </div>
                 {% endif %}
             </div>
         </div>
 
-        <!-- Reviews Section -->
-        <div class="mt-16 sm:mt-24 scroll-reveal">
-            <h2 class="text-3xl sm:text-4xl font-extrabold mb-8 sm:mb-10 text-center tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500 drop-shadow-md">
-                ⭐ Traveler Reviews
-            </h2>
-
-            {% if reviews %}
-                <div class="space-y-4 max-w-2xl mx-auto">
-                    {% for review in reviews %}
-                        <div class="glass-card p-6 sm:p-8 rounded-[1.5rem] shadow-lg flex flex-col gap-3 transition transform hover:-translate-y-2 hover:shadow-2xl">
-                            <div class="flex justify-between items-center text-sm sm:text-base border-b border-gray-200 pb-2">
-                                <span class="font-bold text-gray-800 tracking-wide">👤 {{ review.user.username }}</span>
-                                <span class="text-yellow-400 font-bold bg-yellow-50 px-2 py-1 rounded-md">
-                                    {% for i in "12345" %}
-                                        {% if forloop.counter <= review.rating %}⭐{% else %}<span class="opacity-30">⭐</span>{% endif %}
-                                    {% endfor %}
-                                </span>
+        <!-- Right Side: Booking Card -->
+        <div class="lg:col-span-1">
+            <div class="sticky top-32">
+                <div class="glass-card p-10 rounded-[3rem] shadow-2xl relative overflow-hidden border-white/60">
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-black text-gray-900 mb-6">Start Planning</h3>
+                        <p class="text-gray-500 mb-10 font-medium">Add this destination to your custom itinerary and build your dream trip today.</p>
+                        
+                        <a href="{% url 'itinerary_create' %}?destination={{ destination.id }}" class="btn-premium w-full py-6 rounded-2xl text-white font-black text-lg text-center shadow-xl shadow-indigo-500/20 active:scale-95 transition flex items-center justify-center gap-3">
+                            ➕ Create Itinerary
+                        </a>
+                        
+                        <div class="mt-8 pt-8 border-t border-gray-100 text-center">
+                            <p class="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">You'll get</p>
+                            <div class="flex justify-center gap-6">
+                                <div title="Daily Schedule" class="w-12 h-12 bg-pink-50 text-pink-500 rounded-xl flex items-center justify-center text-xl">📅</div>
+                                <div title="Cost Tracking" class="w-12 h-12 bg-purple-50 text-purple-500 rounded-xl flex items-center justify-center text-xl">💹</div>
+                                <div title="Activity Notes" class="w-12 h-12 bg-teal-50 text-teal-500 rounded-xl flex items-center justify-center text-xl">📝</div>
                             </div>
-                            <p class="text-gray-700 text-base sm:text-lg italic">"{{ review.comment }}"</p>
-                            <p class="text-xs sm:text-sm text-gray-400 text-right font-medium">🕒 {{ review.created_at|date:"M d, Y" }}</p>
                         </div>
-                    {% endfor %}
+                    </div>
+                    <!-- Abstract blob -->
+                    <div class="absolute -top-20 -right-20 w-40 h-40 bg-indigo-100 rounded-full blur-3xl opacity-50 -z-10"></div>
                 </div>
-            {% else %}
-                <div class="glass-card max-w-lg mx-auto p-8 rounded-[2rem] text-center shadow-lg">
-                    <p class="text-gray-500 text-lg">No reviews yet.</p>
-                    <p class="text-indigo-500 font-bold mt-2">Be the first to share your experience ✨</p>
-                </div>
-            {% endif %}
+            </div>
         </div>
     </div>
 </section>
