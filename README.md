@@ -69,7 +69,7 @@ python manage.py populate_db
 python manage.py runserver
 ```
 
-Visit `http://127.0.0.1:8000` to start exploring!
+Visit `https://travel-planner-webapp.onrender.com` to start exploring!
 
 ---
 
