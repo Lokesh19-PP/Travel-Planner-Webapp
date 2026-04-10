@@ -14,6 +14,16 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')
 
+# CSRF Trusted Origins for Render/Netlify
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.render.com',
+    'https://*.netlify.app',
+]
+# Add custom ones from env if needed
+extra_origins = config('CSRF_TRUSTED_ORIGINS', default='').split(',')
+if extra_origins[0]:
+    CSRF_TRUSTED_ORIGINS.extend(extra_origins)
+
 
 # Application definition
 
